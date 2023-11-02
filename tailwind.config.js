@@ -3,7 +3,15 @@ import colors from "tailwindcss/colors";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./components/**/*.{js,ts,vue}", "./utils/**/*.{js,ts,vue}", "./pages/**/*.{js,ts,vue}", "./app.vue"],
+  content: [
+    "./components/**/*.{js,ts,vue}",
+    "./composables/**/*.{js,ts,vue}",
+    "./layouts/**/*.{js,ts,vue}",
+    "./middleware/**/*.{js,ts,vue}",
+    "./pages/**/*.{js,ts,vue}",
+    "./utils/**/*.{js,ts,vue}",
+    "./app.vue"
+  ],
   darkMode: "class",
   theme: {
     extend: {
