@@ -5,7 +5,7 @@ export default defineNuxtRouteMiddleware((to) => {
   }
 
   // Check if user is logged in
-  const settings = useSettings();
+  const settings = useServerMeta();
 
   if (isNone(settings.apiKey)) {
     return navigateTo("/login?redirect=" + encodeURIComponent(to.fullPath));

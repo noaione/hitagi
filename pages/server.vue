@@ -13,14 +13,30 @@
         :disabled="submitting"
       />
     </div>
+    <div class="flex flex-col server-width" v-if="needApiToken">
+      <label for="api-token" class="text-hitagi-700 dark:text-hitagi-300 font-medium">API Token</label>
+      <input
+        id="api-token"
+        type="text"
+        class="form-input dark:bg-gray-800 border-hitagi-600 focus:border-hitagi-400 focus:ring-hitagi-500 rounded-md mt-1 disabled:cursor-not-allowed disabled:bg-gray-900 disabled:border-hitagi-700 transition"
+        v-model="apiToken"
+        :minlength="1"
+        :required="true"
+        :disabled="submitting"
+      />
+    </div>
     <div class="flex flex-row server-width flex-wrap" v-if="typeof errorValidation === 'string'">
       <span class="mt-2 text-red-700 dark:text-red-300">{{ errorValidation }}</span>
+    </div>
+    <div class="flex flex-row server-width flex-wrap" v-if="typeof errorHTTP === 'string'">
+      <span class="mt-2 text-red-700 dark:text-red-300">{{ errorHTTP }}</span>
     </div>
     <div class="flex flex-row server-width mt-4">
       <button
         :disabled="submitting || typeof errorValidation === 'string'"
+        :data-error="submitting ? 'network' : 'validate'"
         @click="submit"
-        class="group bg-transparent w-full border-2 px-2 py-3 border-hitagi-500 hover:bg-hitagi-700 hover:border-hitagi-700 disabled:bg-hitagi-700 disabled:border-hitagi-700 disabled:animate-pulse disabled:cursor-not-allowed rounded-lg transition"
+        class="group btn-server-submit bg-transparent w-full border-2 px-2 py-3 disabled:cursor-not-allowed rounded-lg transition"
       >
         <span class="text-hitagi-700 dark:text-hitagi-300 group-hover:text-white transition group-disabled:text-white">
           Connect
@@ -34,30 +50,65 @@
 <script setup lang="ts">
 import autoAnimate from "@formkit/auto-animate";
 
+const route = useRoute();
+const router = useRouter();
+const serverMeta = useServerMeta();
+
 const loginForm = ref();
-const settings = useSettings();
-const serverForm = ref();
+const serverForm = ref<string>();
+const apiToken = ref<string>();
 const errorValidation = ref<string>();
+const errorHTTP = ref<string>();
 const submitting = ref(false);
+const needApiToken = ref(false);
 
 async function submit() {
+  if (serverForm.value === undefined) {
+    errorValidation.value = "Server URL is required";
+    return;
+  }
   if (typeof errorValidation.value === "string") {
     return;
   }
+  errorHTTP.value = undefined;
   submitting.value = true;
+
+  const headers = new Headers();
+  if (typeof apiToken.value === "string" && apiToken.value.trim().length > 0) {
+    headers.append("Authorization", `Bearer ${b64encode(apiToken.value.trim())}`);
+  }
 
   try {
     const url = new URL(serverForm.value);
     const response = await $fetch<LRRMiscInfo>(url.origin + "/api/info", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
+      method: "GET"
     });
-    console.log("RESPONSE:", response);
+    if (numStrToInt(response.nofun_mode) === 1) {
+      needApiToken.value = true;
+      return;
+    }
+
+    // set server
+    serverMeta.setApiHost(url.origin);
+    if (typeof apiToken.value === "string" && apiToken.value.trim().length > 0) {
+      serverMeta.setApiKey(apiToken.value.trim());
+    }
+
+    console.info("Assigning server info...");
+    serverMeta.setInfoFromAPI(response);
+
+    // redirect
+    const redirect = route.query.redirect;
+    if (typeof redirect === "string") {
+      console.info("Redirecting to", redirect);
+      router.push(redirect);
+    } else {
+      console.info("Redirecting to homepage...");
+      router.push("/");
+    }
   } catch (e) {
     if (e instanceof Error) {
-      errorValidation.value = `Failed to fetch: ${e.message}`;
+      errorHTTP.value = `Failed to fetch: ${e.message}`;
     }
   } finally {
     submitting.value = false;
@@ -87,7 +138,12 @@ watch(
 
 onMounted(() => {
   autoAnimate(loginForm.value);
-  settings.disposeEvery();
+  needApiToken.value = false;
+  errorValidation.value = undefined;
+  errorHTTP.value = undefined;
+  submitting.value = false;
+  apiToken.value = undefined;
+  serverMeta.defaults();
 });
 
 definePageMeta({
@@ -107,5 +163,17 @@ useSeoMeta({
 <style scoped lang="postcss">
 .server-width {
   @apply w-[90%] md:w-[60%] lg:w-[30%];
+}
+
+.btn-server-submit {
+  @apply border-hitagi-500 hover:bg-hitagi-700 hover:border-hitagi-700 disabled:border-hitagi-700;
+}
+
+.btn-server-submit[data-error="network"] {
+  @apply disabled:animate-pulse disabled:bg-hitagi-700;
+}
+
+.btn-server-submit[data-error="validate"] {
+  @apply disabled:bg-hitagi-700;
 }
 </style>

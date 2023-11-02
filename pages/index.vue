@@ -3,9 +3,6 @@
 </template>
 
 <script setup lang="ts">
-const settings = useSettings();
-settings.defaults();
-
 onMounted(() => {
   useSeoMeta({
     title: "Hitagi",

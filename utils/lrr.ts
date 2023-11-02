@@ -6,7 +6,7 @@ export interface LRRMiscInfo {
   version: string;
   version_name: string;
   version_desc: string;
-  total_pages_read: string;
+  total_pages_read: number;
   has_password: NumberStr;
   debug_mode: NumberStr;
   nofun_mode: NumberStr;

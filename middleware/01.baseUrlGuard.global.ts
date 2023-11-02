@@ -4,9 +4,11 @@ export default defineNuxtRouteMiddleware((to) => {
     return;
   }
   const runtimeConfig = useRuntimeConfig();
+  const serverMeta = useServerMeta();
 
   // Check if BASE_PATH is set
-  const basePath = runtimeConfig?.public?.basePath;
+  const envBasePath = runtimeConfig?.public?.basePath;
+  const basePath = envBasePath ?? serverMeta.host;
   if (typeof basePath !== "string") {
     return navigateTo("/server?redirect=" + encodeURIComponent(to.fullPath));
   }
@@ -15,7 +17,8 @@ export default defineNuxtRouteMiddleware((to) => {
     return navigateTo("/server?redirect=" + encodeURIComponent(to.fullPath));
   }
 
-  const settings = useSettings();
-  settings.host = basePath;
-  return;
+  // if env base path is set, also set it in the settings
+  if (typeof envBasePath === "string" && envBasePath.trim().length > 0) {
+    serverMeta.setApiHost(envBasePath);
+  }
 });
