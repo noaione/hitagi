@@ -33,5 +33,11 @@ export default defineNuxtConfig({
   },
   eslint: {
     lintOnStart: false
+  },
+  app: {
+    layoutTransition: {
+      name: "layout-fade",
+      mode: "out-in"
+    }
   }
 });
