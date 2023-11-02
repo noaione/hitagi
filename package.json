@@ -29,6 +29,8 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.0",
-    "@pinia/nuxt": "^0.5.1"
+    "@pinia/nuxt": "^0.5.1",
+    "vue-virtual-scroll-grid": "^1.11.0",
+    "vue3-carousel": "^0.3.1"
   }
 }
