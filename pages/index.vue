@@ -5,7 +5,7 @@
 <script setup lang="ts">
 onMounted(() => {
   useSeoMeta({
-    title: "Hitagi",
+    title: "Home :: Hitagi",
     ogTitle: "Hitagi",
     description: `A "modern" LANraragi web client`,
     ogDescription: `A "modern" LANraragi web client`,

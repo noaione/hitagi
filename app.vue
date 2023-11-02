@@ -11,6 +11,7 @@ const router = useRouter();
 const serverMeta = useServerMeta();
 const runtimeConfig = useRuntimeConfig();
 
+const isMounted = ref(false);
 const splash = ref(true);
 
 function shutOffSplash() {
@@ -23,7 +24,23 @@ router.afterEach((to) => {
   }
 });
 
+router.beforeEach(() => {
+  if (isMounted.value) {
+    splash.value = false;
+  }
+});
+
 onMounted(() => {
+  useSeoMeta({
+    title: "Hitagi",
+    ogTitle: "Hitagi",
+    description: `A "modern" LANraragi web client`,
+    ogDescription: `A "modern" LANraragi web client`,
+    ogImage: "/hitagi-hero.png",
+    twitterCard: "summary_large_image"
+  });
+
+  isMounted.value = true;
   if (route.fullPath.startsWith("/server")) {
     shutOffSplash();
     return;
@@ -69,14 +86,3 @@ onMounted(() => {
     });
 });
 </script>
-
-<style scoped>
-.fade-enter-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-active {
-  opacity: 0;
-}
-</style>
