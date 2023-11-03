@@ -39,5 +39,14 @@ export default defineNuxtConfig({
       name: "layout-fade",
       mode: "out-in"
     }
+  },
+  imports: {
+    imports: [
+      {
+        name: "default",
+        as: "Grid",
+        from: "vue-virtual-scroll-grid"
+      }
+    ]
   }
 });
