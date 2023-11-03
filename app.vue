@@ -26,7 +26,7 @@ router.afterEach((to) => {
 
 router.beforeEach(() => {
   if (isMounted.value) {
-    splash.value = false;
+    shutOffSplash();
   }
 });
 
@@ -70,8 +70,14 @@ onMounted(() => {
   })
     .then((response) => {
       if (numStrToInt(response.nofun_mode) === 1) {
-        router.push("/server");
-        return;
+        if (isNone(serverMeta.apiKey)) {
+          router.push("/login");
+          return;
+        }
+        if (serverMeta.apiKey?.trim().length === 0) {
+          router.push("/login");
+          return;
+        }
       }
 
       serverMeta.setInfoFromAPI(response);

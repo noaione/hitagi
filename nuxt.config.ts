@@ -1,3 +1,5 @@
+import pkg from "./package.json";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -21,7 +23,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseHost: process.env.BASE_HOST ?? process.env.NUXT_PUBLIC_BASE_HOST ?? undefined
+      baseHost: process.env.BASE_HOST ?? process.env.NUXT_PUBLIC_BASE_HOST ?? undefined,
+      clientVersion: pkg.version
     }
   },
   googleFonts: {
@@ -46,6 +49,10 @@ export default defineNuxtConfig({
         name: "default",
         as: "Grid",
         from: "vue-virtual-scroll-grid"
+      },
+      {
+        name: "FetchError",
+        from: "ofetch"
       }
     ]
   }

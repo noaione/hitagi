@@ -18,4 +18,24 @@ body {
     .font-incosolata {
         font-family: 'Incosolata', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
+
+    .glow-text {
+        text-shadow: 0 0 4px var(--tw-shadow-color);
+    }
+
+    .glow-text-sm {
+        text-shadow: 0 0 2px var(--tw-shadow-color);
+    }
+
+    .glow-text-md {
+        text-shadow: 0 0 6px var(--tw-shadow-color);
+    }
+
+    .glow-text-lg {
+        text-shadow: 0 0 10px var(--tw-shadow-color);
+    }
+
+    .glow-text-xl {
+        text-shadow: 0 0 14px var(--tw-shadow-color);
+    }
 }
