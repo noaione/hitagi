@@ -4,6 +4,7 @@ import colors from "tailwindcss/colors";
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
+    "./assets/**/*.{js,css,scss,html}",
     "./components/**/*.{js,ts,vue}",
     "./composables/**/*.{js,ts,vue}",
     "./layouts/**/*.{js,ts,vue}",
