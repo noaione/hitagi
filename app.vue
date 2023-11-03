@@ -46,7 +46,7 @@ onMounted(() => {
     return;
   }
 
-  const envBasePath = runtimeConfig?.public?.basePath;
+  const envBasePath = runtimeConfig?.public?.baseHost;
   const basePath = envBasePath ?? serverMeta.host;
 
   console.log(basePath);
