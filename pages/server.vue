@@ -1,49 +1,49 @@
 <template>
-  <div class="h-screen flex flex-col items-center justify-center font-incosolata" ref="loginForm">
+  <div class="font-incosolata flex h-screen flex-col items-center justify-center" ref="loginForm">
     <CrabIcon class="text-hitagi-600" />
-    <h1 class="mt-2 text-hitagi-700 dark:text-hitagi-400 font-bold">Hitagi</h1>
+    <h1 class="mt-2 font-bold text-hitagi-700 dark:text-hitagi-400">Hitagi</h1>
     <hr class="server-width my-4 border-hitagi-500" />
-    <div class="flex flex-col server-width">
-      <label for="server" class="text-hitagi-700 dark:text-hitagi-300 font-medium">Server</label>
+    <div class="server-width flex flex-col">
+      <label for="server" class="font-medium text-hitagi-700 dark:text-hitagi-300">Server</label>
       <input
         id="server"
         type="text"
-        class="form-input dark:bg-gray-800 border-hitagi-600 focus:border-hitagi-400 focus:ring-hitagi-500 rounded-md mt-1 disabled:cursor-not-allowed disabled:bg-gray-900 disabled:border-hitagi-700 transition"
+        class="form-input mt-1 rounded-md border-hitagi-600 transition focus:border-hitagi-400 focus:ring-hitagi-500 disabled:cursor-not-allowed disabled:border-hitagi-700 disabled:bg-gray-900 dark:bg-gray-800"
         v-model="serverForm"
         :disabled="submitting"
       />
     </div>
-    <div class="flex flex-col server-width" v-if="needApiToken">
-      <label for="api-token" class="text-hitagi-700 dark:text-hitagi-300 font-medium">API Token</label>
+    <div class="server-width flex flex-col" v-if="needApiToken">
+      <label for="api-token" class="font-medium text-hitagi-700 dark:text-hitagi-300">API Token</label>
       <input
         id="api-token"
         type="text"
-        class="form-input dark:bg-gray-800 border-hitagi-600 focus:border-hitagi-400 focus:ring-hitagi-500 rounded-md mt-1 disabled:cursor-not-allowed disabled:bg-gray-900 disabled:border-hitagi-700 transition"
+        class="form-input mt-1 rounded-md border-hitagi-600 transition focus:border-hitagi-400 focus:ring-hitagi-500 disabled:cursor-not-allowed disabled:border-hitagi-700 disabled:bg-gray-900 dark:bg-gray-800"
         v-model="apiToken"
         :minlength="1"
         :required="true"
         :disabled="submitting"
       />
     </div>
-    <div class="flex flex-row server-width flex-wrap" v-if="typeof errorValidation === 'string'">
+    <div class="server-width flex flex-row flex-wrap" v-if="typeof errorValidation === 'string'">
       <span class="mt-2 text-red-700 dark:text-red-300">{{ errorValidation }}</span>
     </div>
-    <div class="flex flex-row server-width flex-wrap" v-if="typeof errorHTTP === 'string'">
+    <div class="server-width flex flex-row flex-wrap" v-if="typeof errorHTTP === 'string'">
       <span class="mt-2 text-red-700 dark:text-red-300">{{ errorHTTP }}</span>
     </div>
-    <div class="flex flex-row server-width mt-4">
+    <div class="server-width mt-4 flex flex-row">
       <button
         :disabled="submitting || typeof errorValidation === 'string'"
         :data-error="submitting ? 'network' : 'validate'"
         @click="submit"
-        class="group btn-server-submit bg-transparent w-full border-2 px-2 py-3 disabled:cursor-not-allowed rounded-lg transition"
+        class="btn-server-submit group w-full rounded-lg border-2 bg-transparent px-2 py-3 transition disabled:cursor-not-allowed"
       >
-        <span class="text-hitagi-700 dark:text-hitagi-300 group-hover:text-white transition group-disabled:text-white">
+        <span class="text-hitagi-700 transition group-hover:text-white group-disabled:text-white dark:text-hitagi-300">
           Connect
         </span>
       </button>
     </div>
-    <DarkToggle class="w-10 h-10 text-hitagi-600 dark:text-hitagi-400 mt-4" />
+    <DarkToggle class="mt-4 h-10 w-10 text-hitagi-600 dark:text-hitagi-400" />
   </div>
 </template>
 
@@ -166,7 +166,7 @@ useSeoMeta({
 }
 
 .btn-server-submit {
-  @apply border-hitagi-500 hover:bg-hitagi-700 hover:border-hitagi-700 disabled:border-hitagi-700;
+  @apply border-hitagi-500 hover:border-hitagi-700 hover:bg-hitagi-700 disabled:border-hitagi-700;
 }
 
 .btn-server-submit[data-error="network"] {

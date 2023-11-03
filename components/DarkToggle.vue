@@ -1,11 +1,11 @@
 <template>
-  <button :class="'w-8 h-8 ' + ($props.class ?? '') + ' group '" @click="toggle">
+  <button :class="'h-8 w-8 ' + ($props.class ?? '') + ' group '" @click="toggle">
     <Icon
       name="heroicons-outline:moon"
-      class="w-[95%] h-[95%] group-hover:opacity-80 transition-opacity"
+      class="h-[95%] w-[95%] transition-opacity group-hover:opacity-80"
       v-if="colorMode.value === 'light'"
     />
-    <Icon name="heroicons-outline:sun" class="w-full h-full group-hover:opacity-80 transition-opacity" v-else />
+    <Icon name="heroicons-outline:sun" class="h-full w-full transition-opacity group-hover:opacity-80" v-else />
   </button>
 </template>
 

@@ -1,28 +1,28 @@
 <template>
   <header>
-    <div class="flex flex-row justify-between mx-2 md:mx-4 lg:mx-8">
+    <div class="mx-2 flex flex-row justify-between md:mx-4 lg:mx-8">
       <div class="flex flex-row items-center">
         <CrabIcon class="text-hitagi-600 dark:text-hitagi-300" />
-        <h1 class="text-2xl font-bold ml-2 select-none text-hitagi-600 dark:text-hitagi-300">Hitagi</h1>
+        <h1 class="ml-2 select-none text-2xl font-bold text-hitagi-600 dark:text-hitagi-300">Hitagi</h1>
       </div>
       <div class="flex flex-row items-center gap-2">
         <NuxtLink href="/" title="Home" v-if="$route.fullPath.startsWith('/admin')">
           <Icon
             name="heroicons-outline:home"
-            class="w-8 h-8 hover:opacity-80 transition-opacity text-hitagi-600 dark:text-hitagi-300"
+            class="h-8 w-8 text-hitagi-600 transition-opacity hover:opacity-80 dark:text-hitagi-300"
           />
         </NuxtLink>
         <NuxtLink href="/admin" title="Admin" v-if="!$route.fullPath.startsWith('/admin')">
           <Icon
             name="heroicons-outline:server"
-            class="w-8 h-8 hover:opacity-80 transition-opacity text-hitagi-600 dark:text-hitagi-300"
+            class="h-8 w-8 text-hitagi-600 transition-opacity hover:opacity-80 dark:text-hitagi-300"
           />
         </NuxtLink>
-        <DarkToggle class="hover:opacity-80 transition-opacity text-hitagi-600 dark:text-hitagi-300" />
+        <DarkToggle class="text-hitagi-600 transition-opacity hover:opacity-80 dark:text-hitagi-300" />
       </div>
     </div>
-    <div class="flex flex-row justify-center w-full pt-4 pb-2">
-      <hr class="mx-2 md:mx-4 lg:mx-8 w-full border-hitagi-400" />
+    <div class="flex w-full flex-row justify-center pb-2 pt-4">
+      <hr class="mx-2 w-full border-hitagi-400 md:mx-4 lg:mx-8" />
     </div>
   </header>
 </template>

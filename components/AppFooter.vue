@@ -1,15 +1,15 @@
 <template>
   <footer
-    class="mt-auto flex flex-col items-center py-2 font-incosolata text-sm text-center font-semibold text-hitagi-600 dark:text-hitagi-300"
+    class="font-incosolata mt-auto flex flex-col items-center py-2 text-center text-sm font-semibold text-hitagi-600 dark:text-hitagi-300"
   >
-    <hr class="w-[90%] mb-4 border-hitagi-400" />
+    <hr class="mb-4 w-[90%] border-hitagi-400" />
     <p class="mx-2 md:mx-auto">
       <span class="text-hitagi-500"> Hitagi </span>
       <span v-if="server.info !== undefined">
         / <a :href="server.host" class="hover:underline">{{ server.info.name }}</a>
       </span>
     </p>
-    <div class="flex flex-col items-center text-xs mt-2 mx-2 md:mx-auto" v-if="server.info">
+    <div class="mx-2 mt-2 flex flex-col items-center text-xs md:mx-auto" v-if="server.info">
       <span v-if="serverVerLink === undefined">v{{ server.info.version }} — {{ server.info.versionName }}</span>
       <span v-else>
         <a :href="serverVerLink" target="_blank" rel="noopener noreferrer" class="hover:underline">
