@@ -31,6 +31,9 @@ export const useServerMeta = defineStore("servers", {
     key: "hitagi.servers"
   },
   getters: {
+    hostURL(): URL {
+      return new URL(this.host || "");
+    },
     apiKey64(): string | undefined {
       if (!this.apiKey) return undefined;
 

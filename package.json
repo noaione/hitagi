@@ -37,6 +37,7 @@
   "dependencies": {
     "@formkit/auto-animate": "^0.8.0",
     "@pinia/nuxt": "^0.5.1",
+    "clsx": "^2.0.0",
     "pinia": "^2.1.7",
     "vue-virtual-scroll-grid": "^1.11.0",
     "vue3-carousel": "^0.3.1"

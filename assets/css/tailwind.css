@@ -38,4 +38,8 @@ body {
     .glow-text-xl {
         text-shadow: 0 0 14px var(--tw-shadow-color);
     }
+
+    .aspect-thumb {
+        aspect-ratio: 3 / 4;
+    }
 }

@@ -1,4 +1,30 @@
 export type NumberStr = string;
+export type BooleanStr = "true" | "false";
+
+export interface LRRArchiveMetadata {
+  arcid: string;
+  isnew: BooleanStr;
+  pagecount: number;
+  progress: number;
+  tags: string;
+  lastreadtime: number;
+  title: string;
+}
+
+export interface LRRArchiveCategoryInfo {
+  archives: string[];
+  id: string;
+  last_used: NumberStr;
+  name: string;
+  pinned: NumberStr;
+  search: string;
+}
+
+export interface LRRArchiveCategories {
+  categories: LRRArchiveCategoryInfo[];
+  operation: "find_arc_categories";
+  success: number;
+}
 
 export interface LRRMiscInfo {
   name: string;
@@ -23,4 +49,8 @@ export interface LRRMiscInfo {
  */
 export function numStrToInt(str: NumberStr): number {
   return Number.parseInt(str);
+}
+
+export function boolStrToBool(str: BooleanStr): boolean {
+  return str.toLowerCase() === "true";
 }
