@@ -1,5 +1,6 @@
 {
-  "name": "nuxt-app",
+  "name": "hitagi",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -40,8 +41,10 @@
     "vue-virtual-scroll-grid": "^1.11.0",
     "vue3-carousel": "^0.3.1"
   },
-  "peerDependencies": {
-    "vite": "^4.0.0",
-    "webpack": "^5.0.0"
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10",
+    "yarn": "please-use-npm",
+    "pnpm": "please-use-npm"
   }
 }
