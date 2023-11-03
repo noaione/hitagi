@@ -24,13 +24,22 @@
     "eslint-plugin-vue": "^9.18.1",
     "nuxt": "^3.8.0",
     "nuxt-icon": "^0.6.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-tailwindcss": "^0.5.6",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5.2.2",
     "vue": "^3.3.7",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.8.0",
     "@pinia/nuxt": "^0.5.1",
+    "pinia": "^2.1.7",
     "vue-virtual-scroll-grid": "^1.11.0",
     "vue3-carousel": "^0.3.1"
+  },
+  "peerDependencies": {
+    "vite": "^4.0.0",
+    "webpack": "^5.0.0"
   }
 }

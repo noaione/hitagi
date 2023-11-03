@@ -4,7 +4,7 @@ A "modern" Vue 3 client for LANraragi
 
 ## Requirements
 - Node.js 18+
-- PNPM
+- yarn
 - LANraragi Instances (v0.9.0+)
 
 ## Deploy
