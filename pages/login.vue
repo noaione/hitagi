@@ -4,21 +4,11 @@
     <h1 class="mt-2 font-bold text-hitagi-700 dark:text-hitagi-400">Hitagi</h1>
     <hr class="server-width my-4 border-hitagi-500" />
     <div class="server-width flex flex-col">
-      <label for="server" class="font-medium text-hitagi-700 dark:text-hitagi-300">Server</label>
-      <input
-        id="server"
-        type="text"
-        class="form-input mt-1 rounded-md border-hitagi-600 transition focus:border-hitagi-400 focus:ring-hitagi-500 disabled:cursor-not-allowed disabled:border-hitagi-700 disabled:bg-gray-900 dark:bg-gray-800"
-        v-model="serverForm"
-        :disabled="submitting"
-      />
-    </div>
-    <div class="server-width flex flex-col" v-if="needApiToken">
       <label for="api-token" class="font-medium text-hitagi-700 dark:text-hitagi-300">API Token</label>
       <input
         id="api-token"
         type="text"
-        class="form-input mt-1 rounded-md border-hitagi-600 transition focus:border-hitagi-400 focus:ring-hitagi-500 disabled:cursor-not-allowed disabled:border-hitagi-700 disabled:bg-gray-900 dark:bg-gray-800"
+        class="form-input mt-1 rounded-md border-hitagi-600 transition focus:border-hitagi-400 focus:ring-hitagi-500 disabled:cursor-not-allowed disabled:border-hitagi-700 disabled:bg-gray-100 dark:bg-gray-800 disabled:dark:bg-gray-900"
         v-model="apiToken"
         :minlength="1"
         :required="true"
@@ -41,11 +31,21 @@
         class="btn-server-submit group w-full rounded-lg border-2 bg-transparent px-2 py-3 transition disabled:cursor-not-allowed"
       >
         <span class="text-hitagi-700 transition group-hover:text-white group-disabled:text-white dark:text-hitagi-300">
-          Connect
+          Access
         </span>
       </button>
     </div>
     <DarkToggle class="mt-4 h-10 w-10 text-hitagi-600 dark:text-hitagi-400" />
+    <div class="server-width mt-4 text-center text-sm">
+      <a
+        :href="baseHost"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="glow-text-md text-hitagi-600 shadow-hitagi-500 hover:underline dark:text-hitagi-300 dark:shadow-hitagi-200"
+      >
+        {{ baseHost }}
+      </a>
+    </div>
   </div>
 </template>
 
@@ -56,8 +56,9 @@ const route = useRoute();
 const router = useRouter();
 const serverMeta = useServerMeta();
 
+const baseHost = ref<string>("");
+
 const loginForm = ref();
-const serverForm = ref<string>();
 const apiToken = ref<string>();
 const errorValidation = ref<string[]>([]);
 const errorHTTP = ref<string>();
@@ -76,18 +77,9 @@ function removeValidationError(error: string) {
   errorValidation.value.splice(idx, 1);
 }
 
-function removeValidationWithPrefix(prefix: string) {
-  const idx = errorValidation.value.findIndex((e) => e.startsWith(prefix));
-  if (idx === -1) return;
-  errorValidation.value.splice(idx, 1);
-}
-
 async function submit() {
-  if (serverForm.value === undefined) {
-    addValidateError("Server URL is required");
-    if (needApiToken.value && apiToken.value === undefined) {
-      addValidateError("API Token is required");
-    }
+  if (apiToken.value === undefined) {
+    addValidateError("API Token is required");
     return;
   }
   if (errorValidation.value.length > 0) {
@@ -97,19 +89,16 @@ async function submit() {
   submitting.value = true;
 
   const headers = new Headers();
-  if (typeof apiToken.value === "string" && apiToken.value.trim().length > 0) {
-    headers.append("Authorization", `Bearer ${b64encode(apiToken.value.trim())}`);
-  }
+  headers.append("Authorization", `Bearer ${b64encode(apiToken.value.trim())}`);
 
   try {
-    const url = new URL(serverForm.value);
-    const response = await $fetch<LRRMiscInfo>(url.origin + "/api/info", {
+    const url = new URL(baseHost.value);
+    const response = await $fetch<LRRMiscInfo>(url.origin + "/api/shinobu", {
       method: "GET",
       headers
     });
     if (numStrToInt(response.nofun_mode) === 1) {
       needApiToken.value = true;
-      errorHTTP.value = "Please enter your API Token";
       return;
     }
 
@@ -134,8 +123,7 @@ async function submit() {
   } catch (e) {
     if (e instanceof FetchError) {
       if ([401, 403].includes(e.response?.status ?? -1)) {
-        needApiToken.value = true;
-        errorHTTP.value = "Please enter your API Token";
+        errorHTTP.value = "Invalid API Token";
       } else {
         errorHTTP.value = `Failed to fetch: ${e.response?.statusText}`;
       }
@@ -146,33 +134,6 @@ async function submit() {
     submitting.value = false;
   }
 }
-
-watch(
-  () => serverForm.value,
-  (newValue) => {
-    errorHTTP.value = undefined;
-    removeValidationWithPrefix("Invalid URL Parse");
-    if (!newValue) {
-      addValidateError("Server URL is required");
-      return;
-    }
-    removeValidationError("Server URL is required");
-
-    try {
-      const url = new URL(newValue);
-      if (url.protocol !== "http:" && url.protocol !== "https:") {
-        addValidateError("Invalid URL: Protocol must be HTTP or HTTPS");
-      } else {
-        removeValidationError("Invalid URL: Protocol must be HTTP or HTTPS");
-      }
-    } catch (e) {
-      if (e instanceof Error) {
-        addValidateError("Invalid URL Parse: " + e.message);
-      }
-      return;
-    }
-  }
-);
 
 watch(
   () => apiToken.value,
@@ -188,12 +149,20 @@ watch(
 
 onMounted(() => {
   autoAnimate(loginForm.value);
-  needApiToken.value = false;
+
+  apiToken.value = "";
   errorValidation.value = [];
+  addValidateError("API Token is required");
   errorHTTP.value = undefined;
   submitting.value = false;
-  apiToken.value = undefined;
-  serverMeta.defaults();
+  needApiToken.value = false;
+
+  if (typeof serverMeta.host === "string" && serverMeta.host.trim().length > 0) {
+    baseHost.value = serverMeta.host;
+    return;
+  }
+
+  router.push("/server");
 });
 
 definePageMeta({
