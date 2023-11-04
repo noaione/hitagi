@@ -1,7 +1,9 @@
 <template>
   <NuxtLink :to="`/archive/${data.arcid}`" custom v-slot="{ href }">
     <div
-      class="flex max-w-[9rem] cursor-pointer flex-col rounded-md bg-hitagi-300 bg-opacity-40 align-middle dark:bg-hitagi-950 dark:bg-opacity-60 md:max-w-[11rem]"
+      :class="`relative flex max-w-[9rem] cursor-pointer flex-col rounded-md bg-hitagi-300 bg-opacity-40 align-middle dark:bg-hitagi-950 dark:bg-opacity-60 md:max-w-[11rem] ${
+        $props.class ?? ''
+      }`"
     >
       <ArchiveThumb
         ref="floatRef"
@@ -17,10 +19,17 @@
       />
       <a
         :href="href"
-        class="decoration-hitagi-800 transition hover:underline hover:opacity-80 dark:decoration-hitagi-200"
+        class="group w-full bg-hitagi-950 !bg-opacity-50 backdrop-blur"
+        :class="{
+          'absolute bottom-0 max-h-[1.8rem] hover:max-h-full': compact,
+          'max-h-full': compact && activeFloat
+        }"
       >
         <h2
-          class="select-none whitespace-pre-wrap px-2 py-1 text-center text-sm font-semibold text-hitagi-800 dark:text-hitagi-200"
+          class="select-none whitespace-pre-wrap px-2 py-1 text-center text-sm font-semibold text-hitagi-100 decoration-hitagi-200 transition group-hover:underline group-hover:opacity-80"
+          :class="{
+            'max-w-full overflow-hidden text-ellipsis whitespace-nowrap': compact
+          }"
         >
           <span class="text-blue-500" v-if="boolStrToBool(data.isnew)">•</span>
           {{ data.title }}
@@ -83,6 +92,7 @@ import { autoPlacement } from "@floating-ui/dom";
 
 const { data } = defineProps<{
   data: LRRArchiveMetadata;
+  class?: string;
   compact?: boolean;
 }>();
 

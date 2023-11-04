@@ -20,6 +20,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/google-fonts",
     "@nuxtjs/eslint-module",
+    "@vueuse/nuxt",
     "vue3-carousel-nuxt"
   ],
   colorMode: {
