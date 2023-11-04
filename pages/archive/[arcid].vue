@@ -4,7 +4,7 @@
       <img
         :src="thumbnail"
         alt="Thumbnail"
-        :class="`rounded-md ${
+        :class="`h-full rounded-md ${
           settings.thumbFit === 'contain' ? 'object-contain object-center' : 'object-cover object-right'
         }`"
       />
