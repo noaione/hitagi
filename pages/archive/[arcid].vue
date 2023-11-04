@@ -1,7 +1,13 @@
 <template>
-  <div class="mt-2 flex w-full flex-row gap-4" v-if="data">
-    <div class="aspect-thumb flex flex-col">
-      <img :src="thumbnail" alt="Thumbnail" class="h-auto w-96 rounded-md object-contain" />
+  <div class="mt-2 flex w-full flex-col gap-4 md:flex-row" v-if="data">
+    <div class="aspect-thumb mx-auto block h-96 w-64 justify-center md:mx-0 md:h-[34rem] md:w-96">
+      <img
+        :src="thumbnail"
+        alt="Thumbnail"
+        :class="`rounded-md ${
+          settings.thumbFit === 'contain' ? 'object-contain object-center' : 'object-cover object-right'
+        }`"
+      />
     </div>
     <div class="flex flex-col">
       <h2 class="mb-2 text-2xl font-bold">{{ data.metadata.title }}</h2>
@@ -24,7 +30,8 @@
 <script setup lang="ts">
 const route = useRoute();
 
-const settings = useServerMeta();
+const settings = useLRRConfig();
+const serverMeta = useServerMeta();
 
 function setSEO(metadata: LRRArchiveMetadata) {
   const arcId = route.params.arcid;
@@ -32,7 +39,7 @@ function setSEO(metadata: LRRArchiveMetadata) {
     title: metadata.title + " :: Hitagi",
     ogTitle: metadata.title + " - Hitagi",
     ogDescription: metadata.tags.split(",").join(", "),
-    ogImage: `${settings.hostURL.origin}/api/archives/${arcId}/thumbnail`,
+    ogImage: `${serverMeta.hostURL.origin}/api/archives/${arcId}/thumbnail`,
     twitterCard: "summary_large_image"
   });
 }
@@ -58,6 +65,6 @@ const { data } = await useAsyncData(
 
 const thumbnail = computed(() => {
   const arcId = route.params.arcid;
-  return `${settings.hostURL.origin}/api/archives/${arcId}/thumbnail`;
+  return `${serverMeta.hostURL.origin}/api/archives/${arcId}/thumbnail`;
 });
 </script>

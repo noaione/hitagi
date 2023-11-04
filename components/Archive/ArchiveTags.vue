@@ -11,6 +11,7 @@
           <LinkablePill
             :color="KVColor[key]"
             :href="`/search?q=${encodeURIComponent(key === 'other' ? tag : key + ':' + tag)}`"
+            :class="key === 'source' ? `whitespace-pre-wrap break-all` : ''"
             outlined
           >
             {{ tag }}
