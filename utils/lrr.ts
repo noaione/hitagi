@@ -1,5 +1,9 @@
+import type { InjectionKey, Ref } from "vue";
+
 export type NumberStr = string;
 export type BooleanStr = "true" | "false" | "none";
+
+export const LRRReaderPage = Symbol("Hitagi Reader Page") as InjectionKey<Ref<number>>;
 
 export interface LRRArchiveMetadata {
   arcid: string;
@@ -24,6 +28,11 @@ export interface LRRArchiveCategories {
   categories: LRRArchiveCategoryInfo[];
   operation: "find_arc_categories";
   success: number;
+}
+
+export interface LRRArchiveFiles {
+  job: number;
+  pages: string[];
 }
 
 export interface LRRSearchBase {

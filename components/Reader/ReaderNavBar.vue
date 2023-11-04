@@ -1,0 +1,78 @@
+<template>
+  <div class="flex w-full min-w-[100vw] flex-row justify-between bg-gray-800 py-2">
+    <div class="ml-2 block">
+      <NuxtLink :to="`/archive/${arcId}`">
+        <Icon
+          name="material-symbols:keyboard-backspace-rounded"
+          class="h-6 w-6 text-hitagi-600 transition-opacity hover:opacity-80 dark:text-hitagi-300"
+        />
+      </NuxtLink>
+    </div>
+    <div class="flex flex-row items-center gap-3">
+      <button @click="$emit('updatePage', 1)" class="group disabled:cursor-not-allowed" :disabled="page === 1">
+        <Icon name="mdi:chevron-double-left" class="reader-nav-btn" />
+      </button>
+      <div class="inline-block">
+        <button
+          @click="$emit('updatePage', previousPage ?? page - 1)"
+          :disabled="previousPage === undefined"
+          class="group disabled:cursor-not-allowed"
+        >
+          <Icon name="mdi:chevron-left" class="reader-nav-btn" />
+        </button>
+      </div>
+      <span class="text-sm text-hitagi-400">Page {{ page }}/{{ maxPage }}</span>
+      <div class="inline-block">
+        <button
+          @click="$emit('updatePage', nextPage ?? page + 1)"
+          :disabled="nextPage === undefined"
+          class="group disabled:cursor-not-allowed"
+        >
+          <Icon name="mdi:chevron-right" class="reader-nav-btn" />
+        </button>
+      </div>
+
+      <button
+        @click="$emit('updatePage', maxPage)"
+        class="group disabled:cursor-not-allowed"
+        :disabled="page === maxPage"
+      >
+        <Icon name="mdi:chevron-double-right" class="reader-nav-btn" />
+      </button>
+    </div>
+    <div class="mr-2 block">
+      <Icon name="heroicons:cog-8-tooth" class="reader-nav-btn" />
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+const props = defineProps<{
+  arcId: string;
+  page: number;
+  maxPage: number;
+}>();
+
+defineEmits<{
+  (e: "updatePage", page: number): void;
+}>();
+
+const previousPage = computed(() => {
+  if (props.page <= 1) {
+    return undefined;
+  }
+  return props.page - 1;
+});
+const nextPage = computed(() => {
+  if (props.page >= props.maxPage) {
+    return undefined;
+  }
+  return props.page + 1;
+});
+</script>
+
+<style scoped lang="postcss">
+.reader-nav-btn {
+  @apply h-6 w-6 text-hitagi-600 transition-opacity hover:opacity-80 group-disabled:text-hitagi-900 group-disabled:opacity-60 group-disabled:hover:opacity-60 dark:text-hitagi-300;
+}
+</style>
