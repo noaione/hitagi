@@ -1,14 +1,6 @@
 <template>
   <div class="mt-2 flex w-full flex-col gap-4 md:flex-row" v-if="data">
-    <div class="aspect-thumb mx-auto block h-96 w-64 justify-center md:mx-0 md:h-[34rem] md:w-96">
-      <img
-        :src="thumbnail"
-        alt="Thumbnail"
-        :class="`h-full rounded-md ${
-          settings.thumbFit === 'contain' ? 'object-contain object-center' : 'object-cover object-right'
-        }`"
-      />
-    </div>
+    <ArchiveThumb :arc-id="String($route.params.arcid)" class="mx-auto h-96 w-64 md:mx-0 md:h-[34rem] md:w-96" />
     <div class="flex flex-col">
       <h2 class="mb-2 text-2xl font-bold text-hitagi-600 dark:text-hitagi-400">{{ data.metadata.title }}</h2>
       <div class="mb-4 flex flex-row items-center text-hitagi-700 dark:text-hitagi-300">
@@ -29,7 +21,6 @@
 <script setup lang="ts">
 const route = useRoute();
 
-const settings = useLRRConfig();
 const serverMeta = useServerMeta();
 
 function setSEO(metadata: LRRArchiveMetadata) {
@@ -61,11 +52,6 @@ const { data } = await useAsyncData(
     watch: [() => route.params.arcid]
   }
 );
-
-const thumbnail = computed(() => {
-  const arcId = route.params.arcid;
-  return `${serverMeta.hostURL.origin}/api/archives/${arcId}/thumbnail`;
-});
 
 const dateAdded = computed(() => {
   const tagsData = data?.value?.metadata?.tags;

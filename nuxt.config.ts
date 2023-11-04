@@ -50,6 +50,12 @@ export default defineNuxtConfig({
     }
   },
   imports: {
+    presets: [
+      {
+        from: "@floating-ui/vue",
+        imports: ["useFloating", "VirtualElement"]
+      }
+    ],
     imports: [
       {
         name: "default",
