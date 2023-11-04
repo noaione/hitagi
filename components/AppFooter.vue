@@ -47,7 +47,7 @@ const serverVerLink = computed(() => {
 });
 
 const gitSHA = computed(() => {
-  const sha = import.meta.env.VERCEL_GIT_COMMIT_SHA || import.meta.env.CF_PAGES_COMMIT_SHA;
+  const sha = runtimeConf.public.clientSHA;
 
   if (typeof sha !== "string") return undefined;
   if (sha.length === 0) return undefined;

@@ -1,5 +1,9 @@
 import pkg from "./package.json";
 
+function getEnv(key: string): string | undefined {
+  return import.meta.env[key] ?? process.env[key];
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -23,8 +27,9 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      baseHost: process.env.BASE_HOST ?? process.env.NUXT_PUBLIC_BASE_HOST ?? undefined,
-      clientVersion: pkg.version
+      baseHost: getEnv("BASE_HOST") ?? getEnv("NUXT_PUBLIC_BASE_HOST") ?? undefined,
+      clientVersion: pkg.version,
+      clientSHA: getEnv("VERCEL_GIT_COMMIT_SHA") ?? getEnv("CF_PAGES_COMMIT_SHA") ?? undefined
     }
   },
   googleFonts: {
