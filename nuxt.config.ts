@@ -19,7 +19,8 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxtjs/google-fonts",
-    "@nuxtjs/eslint-module"
+    "@nuxtjs/eslint-module",
+    "vue3-carousel-nuxt"
   ],
   colorMode: {
     classSuffix: "",

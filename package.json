@@ -20,6 +20,7 @@
     "@nuxtjs/tailwindcss": "^6.8.1",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@tailwindcss/forms": "^0.5.6",
+    "@types/lodash.debounce": "^4.0.8",
     "@types/node": "18.11.9",
     "@vue/eslint-config-prettier": "^8.0.0",
     "@vue/eslint-config-typescript": "^12.0.0",
@@ -32,13 +33,15 @@
     "tailwindcss": "^3.3.5",
     "typescript": "^5.2.2",
     "vue": "^3.3.7",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue3-carousel-nuxt": "^1.1.0"
   },
   "dependencies": {
     "@floating-ui/vue": "^1.0.2",
     "@formkit/auto-animate": "^0.8.0",
     "@pinia/nuxt": "^0.5.1",
     "clsx": "^2.0.0",
+    "lodash.debounce": "^4.0.8",
     "pinia": "^2.1.7",
     "vue-virtual-scroll-grid": "^1.11.0",
     "vue3-carousel": "^0.3.1"
