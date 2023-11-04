@@ -84,6 +84,8 @@ export default defineNuxtConfig({
             removePagesMatching(pattern, page.children);
           }
         }
+        if (pagesToRemove.length === 0) return;
+        console.log("Removing dev pages:", pagesToRemove.map((p) => p.path).join(", "));
         for (const page of pagesToRemove) {
           pages.splice(pages.indexOf(page), 1);
         }
