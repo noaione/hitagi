@@ -193,7 +193,6 @@ onMounted(() => {
   errorHTTP.value = undefined;
   submitting.value = false;
   apiToken.value = undefined;
-  serverMeta.defaults();
 });
 
 definePageMeta({

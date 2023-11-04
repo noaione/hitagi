@@ -18,16 +18,8 @@ function shutOffSplash() {
   splash.value = false;
 }
 
-router.afterEach((to) => {
-  if (to.fullPath.startsWith("/server")) {
-    shutOffSplash();
-  }
-});
-
-router.beforeEach(() => {
-  if (isMounted.value) {
-    shutOffSplash();
-  }
+router.afterEach(() => {
+  shutOffSplash();
 });
 
 onMounted(() => {
@@ -47,9 +39,7 @@ onMounted(() => {
   }
 
   const envBasePath = runtimeConfig?.public?.baseHost;
-  const basePath = envBasePath ?? serverMeta.host;
-
-  console.log(basePath);
+  const basePath = envBasePath || serverMeta.host;
 
   if (typeof basePath !== "string") {
     router.push("/server");
