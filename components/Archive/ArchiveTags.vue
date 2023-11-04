@@ -2,11 +2,19 @@
   <div class="flex flex-col gap-2">
     <div class="flex flex-row" :key="key" v-for="[key, tags] in Object.entries(tagsKV)">
       <div class="inline-block">
-        <ArchiveTagKey :tag="key" :color="KVColor[key]" />
+        <LinkablePill :color="KVColor[key]">
+          {{ key.replaceAll("_", " ") }}
+        </LinkablePill>
       </div>
       <div class="ml-3 flex flex-row flex-wrap gap-2">
         <div class="inline-block" :key="`${key}-${tag.toLowerCase()}`" v-for="tag in tags">
-          <ArchiveTag :tag="tag" :fullTag="key === 'other' ? tag : `${key}:${tag}`" :color="KVColor[key]" />
+          <LinkablePill
+            :color="KVColor[key]"
+            :href="`/search?q=${encodeURIComponent(key === 'other' ? tag : key + ':' + tag)}`"
+            outlined
+          >
+            {{ tag }}
+          </LinkablePill>
         </div>
       </div>
     </div>
