@@ -9,14 +9,14 @@
       </NuxtLink>
     </div>
     <div class="flex flex-row items-center gap-3">
-      <button @click="$emit('updatePage', 1)" class="group disabled:cursor-not-allowed" :disabled="page === 1">
+      <button class="group disabled:cursor-not-allowed" :disabled="page === 1" @click="$emit('updatePage', 1)">
         <Icon name="mdi:chevron-double-left" class="reader-nav-btn" />
       </button>
       <div class="inline-block">
         <button
-          @click="$emit('updatePage', previousPage ?? page - 1)"
           :disabled="previousPage === undefined"
           class="group disabled:cursor-not-allowed"
+          @click="$emit('updatePage', previousPage ?? page - 1)"
         >
           <Icon name="mdi:chevron-left" class="reader-nav-btn" />
         </button>
@@ -24,18 +24,18 @@
       <span class="text-sm text-hitagi-400">Page {{ page }}/{{ maxPage }}</span>
       <div class="inline-block">
         <button
-          @click="$emit('updatePage', nextPage ?? page + 1)"
           :disabled="nextPage === undefined"
           class="group disabled:cursor-not-allowed"
+          @click="$emit('updatePage', nextPage ?? page + 1)"
         >
           <Icon name="mdi:chevron-right" class="reader-nav-btn" />
         </button>
       </div>
 
       <button
-        @click="$emit('updatePage', maxPage)"
         class="group disabled:cursor-not-allowed"
         :disabled="page === maxPage"
+        @click="$emit('updatePage', maxPage)"
       >
         <Icon name="mdi:chevron-double-right" class="reader-nav-btn" />
       </button>
@@ -59,14 +59,16 @@ defineEmits<{
 
 const previousPage = computed(() => {
   if (props.page <= 1) {
-    return undefined;
+    return;
   }
+
   return props.page - 1;
 });
 const nextPage = computed(() => {
   if (props.page >= props.maxPage) {
-    return undefined;
+    return;
   }
+
   return props.page + 1;
 });
 </script>

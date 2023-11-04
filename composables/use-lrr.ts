@@ -8,7 +8,7 @@ function useLRRInternal<T>(path: string, options?: NitroFetchOptions<string, HTT
   path = path.startsWith("/") ? path : `/${path}`;
 
   if (path.startsWith("/api")) {
-    path = path.substring(4);
+    path = path.slice(4);
   }
 
   const lrrURL = settings.hostURL.origin + "/api" + path;

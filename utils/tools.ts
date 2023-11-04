@@ -21,7 +21,8 @@ export function b64encode(data: string) {
   if (typeof Buffer === "undefined") {
     return btoa(data);
   }
-  return Buffer.from(data, "utf-8").toString("base64");
+
+  return Buffer.from(data, "utf8").toString("base64");
 }
 
 /**
@@ -35,5 +36,6 @@ export function b64decode(data: string) {
   if (typeof Buffer === "undefined") {
     return atob(data);
   }
-  return Buffer.from(data, "base64").toString("utf-8");
+
+  return Buffer.from(data, "base64").toString("utf8");
 }

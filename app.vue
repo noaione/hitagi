@@ -29,12 +29,14 @@ onMounted(() => {
     description: `A "modern" LANraragi web client`,
     ogDescription: `A "modern" LANraragi web client`,
     ogImage: "/hitagi-hero.png",
-    twitterCard: "summary_large_image"
+    twitterCard: "summary_large_image",
   });
 
   isMounted.value = true;
+
   if (route.fullPath.startsWith("/server")) {
     shutOffSplash();
+
     return;
   }
 
@@ -43,11 +45,13 @@ onMounted(() => {
 
   if (typeof basePath !== "string") {
     router.push("/server");
+
     return;
   }
 
   if (basePath.trim().length === 0) {
     router.push("/server");
+
     return;
   }
 
@@ -56,16 +60,19 @@ onMounted(() => {
   }
 
   $fetch<LRRMiscInfo>(basePath + "/api/info", {
-    method: "GET"
+    method: "GET",
   })
     .then((response) => {
       if (numStrToInt(response.nofun_mode) === 1) {
         if (isNone(serverMeta.apiKey)) {
           router.push("/login");
+
           return;
         }
+
         if (serverMeta.apiKey?.trim().length === 0) {
           router.push("/login");
+
           return;
         }
       }
@@ -76,8 +83,8 @@ onMounted(() => {
         shutOffSplash();
       });
     })
-    .catch((err) => {
-      console.error(err);
+    .catch((error) => {
+      console.error(error);
       router.push("/server");
     });
 });

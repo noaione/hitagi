@@ -3,12 +3,12 @@
 </template>
 
 <script setup lang="ts">
-const dotNots = ref(1);
-
 const props = defineProps<{
   delay?: number;
   class?: string;
 }>();
+
+const dotNots = ref(1);
 
 function startAnimation() {
   setInterval(() => {

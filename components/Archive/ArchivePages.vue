@@ -34,12 +34,13 @@ const props = defineProps<{
   totalPages: number;
 }>();
 
-const items = Array(props.totalPages)
+const items = Array.from({ length: props.totalPages })
   .fill(0)
   .map((_, i) => i + 1);
 
 function pageProvider(pageNumber: number, pageSize: number) {
   const slice = items.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize);
+
   return Promise.resolve(slice);
 }
 </script>

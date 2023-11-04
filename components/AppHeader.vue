@@ -8,13 +8,13 @@
         <h1 class="ml-2 select-none text-2xl font-bold text-hitagi-600 dark:text-hitagi-300">Hitagi</h1>
       </div>
       <div class="flex flex-row items-center gap-2">
-        <NuxtLink href="/" title="Home" v-if="$route.fullPath.startsWith('/admin')">
+        <NuxtLink v-if="$route.fullPath.startsWith('/admin')" href="/" title="Home">
           <Icon
             name="heroicons-outline:home"
             class="h-8 w-8 text-hitagi-600 transition-opacity hover:opacity-80 dark:text-hitagi-300"
           />
         </NuxtLink>
-        <NuxtLink href="/admin" title="Admin" v-if="!$route.fullPath.startsWith('/admin')">
+        <NuxtLink v-if="!$route.fullPath.startsWith('/admin')" href="/admin" title="Admin">
           <Icon
             name="heroicons-outline:server"
             class="h-8 w-8 text-hitagi-600 transition-opacity hover:opacity-80 dark:text-hitagi-300"

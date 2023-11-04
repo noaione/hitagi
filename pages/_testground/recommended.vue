@@ -26,7 +26,7 @@ type BreakpointReturn = {
 const breakspointsTwCustom = {
   ...breakpointsTailwind,
   "3xl": 1800,
-  "4xl": 2000
+  "4xl": 2000,
 };
 
 const breakpoints = useBreakpoints(breakspointsTwCustom);
@@ -40,6 +40,7 @@ const computeBreakpoints = computed(() => {
   const xxl = breakpoints.between("2xl", "3xl").value;
   const xxxl = breakpoints.greaterOrEqual("3xl").value;
   const xxxxl = breakpoints.greaterOrEqual("4xl").value;
+
   return {
     xs,
     sm,
@@ -48,7 +49,7 @@ const computeBreakpoints = computed(() => {
     xl,
     xxl,
     xxxl,
-    xxxxl
+    xxxxl,
   } as BreakpointReturn;
 });
 </script>

@@ -37,8 +37,8 @@ function updatePage(page: number) {
   // update query without reloading
   router.replace({
     query: {
-      page: page
-    }
+      page: page,
+    },
   });
 }
 
@@ -59,6 +59,7 @@ onKeyStroke(["ArrowLeft", "ArrowUp"], (e) => {
   if (e.key === "ArrowUp" && readerConfig.flow !== "vertical") {
     return;
   }
+
   e.preventDefault();
 
   if (readerConfig.flow === "rtl") {
@@ -73,6 +74,7 @@ onKeyStroke(["ArrowRight", "ArrowDown"], (e) => {
   if (e.key === "ArrowDown" && readerConfig.flow !== "vertical") {
     return;
   }
+
   e.preventDefault();
 
   if (readerConfig.flow === "rtl") {
@@ -86,21 +88,24 @@ onMounted(() => {
   // fetch and wait
   // then set startPage
   const queryPage = Number(route.query.page);
+
   if (Number.isNaN(queryPage)) {
     currentPage.value = 1;
   } else {
     if (queryPage < 1) {
       currentPage.value = 1;
+
       return;
     } else if (queryPage > metadata.pagecount) {
       currentPage.value = metadata.pagecount;
+
       return;
     }
   }
 });
 
 definePageMeta({
-  layout: "clean"
+  layout: "clean",
 });
 
 const metadata = {
@@ -111,7 +116,7 @@ const metadata = {
   pagecount: 22,
   progress: 0,
   tags: "date_added:1698843110,Ahegao,Anal,Blowjob,Creampie,Doujin,Fingering,Group,Heart Pupils,Hentai,Light Hair,Lingerie,Loli,Squirting,Stockings,Whiteout,X-ray,artist:Chiyami,series:Fate Series,source:https://www.fakku.net/hentai/christmas-present-english-1598389364",
-  title: "Christmas Present"
+  title: "Christmas Present",
 };
 
 const filesMeta = {
@@ -138,7 +143,7 @@ const filesMeta = {
     "./api/archives/a4aa7665f30f0c301c5a3fcc5160d9ac7bdf9966/page?path=%5BMukousharan%20%28Chiyami%29%5D%20Christmas%20Present%20-%20019%20%28x3200%29%20%5B2D%20Market%5D.png",
     "./api/archives/a4aa7665f30f0c301c5a3fcc5160d9ac7bdf9966/page?path=%5BMukousharan%20%28Chiyami%29%5D%20Christmas%20Present%20-%20020%20%28x3200%29%20%5B2D%20Market%5D.png",
     "./api/archives/a4aa7665f30f0c301c5a3fcc5160d9ac7bdf9966/page?path=%5BMukousharan%20%28Chiyami%29%5D%20Christmas%20Present%20-%20021%20%28x3200%29%20%5B2D%20Market%5D.png",
-    "./api/archives/a4aa7665f30f0c301c5a3fcc5160d9ac7bdf9966/page?path=%5BMukousharan%20%28Chiyami%29%5D%20Christmas%20Present%20-%20022%20%28x3200%29%20%5B2D%20Market%5D.png"
-  ]
+    "./api/archives/a4aa7665f30f0c301c5a3fcc5160d9ac7bdf9966/page?path=%5BMukousharan%20%28Chiyami%29%5D%20Christmas%20Present%20-%20022%20%28x3200%29%20%5B2D%20Market%5D.png",
+  ],
 };
 </script>

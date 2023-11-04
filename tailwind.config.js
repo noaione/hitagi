@@ -11,7 +11,7 @@ export default {
     "./middleware/**/*.{js,ts,vue}",
     "./pages/**/*.{js,ts,vue}",
     "./utils/**/*.{js,ts,vue}",
-    "./app.vue"
+    "./app.vue",
   ],
   darkMode: "class",
   theme: {
@@ -29,10 +29,10 @@ export default {
           700: "#7f3e74",
           800: "#703866",
           900: "#5d3254",
-          950: "#3b1734"
-        }
-      }
-    }
+          950: "#3b1734",
+        },
+      },
+    },
   },
-  plugins: [forms({ strategy: "class" })]
+  plugins: [forms({ strategy: "class" })],
 };

@@ -54,7 +54,7 @@ const testData: LRRArchiveMetadata = {
   pagecount: 6,
   progress: 0,
   tags: "date_added:1698846435,Busty,Color,Ecchi,Illustration,Swimsuit,Tanlines,Unlimited,artist:Michiking,series:Original Work,magazine:Comic Kairakuten 2021-09,source:https://www.fakku.net/hentai/kairakuten-cover-girl-2021-09-michiking-english",
-  title: "Kairakuten Cover Girl 2021-09: Michiking"
+  title: "Kairakuten Cover Girl 2021-09: Michiking",
 };
 
 const settings = useLRRConfig();

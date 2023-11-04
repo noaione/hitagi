@@ -24,11 +24,11 @@ export const useServerMeta = defineStore("servers", {
   state: (): StateServerMeta => ({
     host: undefined,
     apiKey: undefined,
-    info: undefined
+    info: undefined,
   }),
   persist: {
     storage: persistedState.localStorage,
-    key: "hitagi.servers"
+    key: "hitagi.servers",
   },
   getters: {
     hostURL(): URL {
@@ -55,9 +55,9 @@ export const useServerMeta = defineStore("servers", {
         archives_per_page: this.info.archivesPerPage.toString(),
         server_resizes_images: this.info.shouldResizeImage ? "1" : "0",
         server_tracks_progress: this.info.shouldTrackProgress ? "1" : "0",
-        cache_last_cleared: this.info.cacheLastCleared.toString()
+        cache_last_cleared: this.info.cacheLastCleared.toString(),
       };
-    }
+    },
   },
   actions: {
     setApiKey(apiKey: string | undefined): void {
@@ -80,11 +80,12 @@ export const useServerMeta = defineStore("servers", {
         archivesPerPage: numStrToInt(apiData.archives_per_page),
         shouldResizeImage: Boolean(numStrToInt(apiData.server_resizes_images)),
         shouldTrackProgress: Boolean(numStrToInt(apiData.server_tracks_progress)),
-        cacheLastCleared: numStrToInt(apiData.cache_last_cleared)
+        cacheLastCleared: numStrToInt(apiData.cache_last_cleared),
       };
     },
     async fetchInfoFromAPI(force?: boolean) {
       if (!this.host) return;
+
       if (this.info && !force) return;
 
       const url = new URL("/api/info", this.host);
@@ -96,7 +97,7 @@ export const useServerMeta = defineStore("servers", {
 
       const response = await $fetch<LRRMiscInfo>(url.toString(), {
         method: "GET",
-        headers
+        headers,
       });
 
       this.setInfoFromAPI(response);
@@ -105,6 +106,6 @@ export const useServerMeta = defineStore("servers", {
       this.apiKey = undefined;
       this.host = undefined;
       this.info = undefined;
-    }
-  }
+    },
+  },
 });

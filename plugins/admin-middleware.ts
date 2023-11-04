@@ -6,6 +6,7 @@ export default defineNuxtPlugin(() => {
     (to) => {
       // check if path is admin prefix (and ensure that is not just /admin or /admin/)
       const isAdminIndex = to.path === "/admin" || to.path === "/admin/";
+
       if (!to.path.startsWith("/admin") || isAdminIndex) {
         return;
       }

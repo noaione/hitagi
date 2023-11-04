@@ -1,8 +1,8 @@
 <template>
-  <span :class="tagStyle" v-if="isNone(href)">
+  <span v-if="isNone(href)" :class="tagStyle">
     <slot />
   </span>
-  <NuxtLink :to="href" no-prefetch v-else>
+  <NuxtLink v-else :to="href" no-prefetch>
     <span :class="tagStyle">
       <slot />
     </span>
@@ -11,6 +11,14 @@
 
 <script setup lang="ts">
 import clsx from "clsx";
+
+const props = defineProps<{
+  href?: string;
+  color?: string;
+  class?: string;
+  outlined?: boolean;
+  size?: keyof typeof sizeMaps;
+}>();
 
 const validColors = [
   "gray",
@@ -24,7 +32,7 @@ const validColors = [
   "hitagi",
   "orange",
   "cyan",
-  "emerald"
+  "emerald",
 ] as const;
 
 type ValidColor = (typeof validColors)[number];
@@ -41,7 +49,7 @@ const outlinedColorMaps: Record<ValidColor, string> = {
   pink: "border-pink-500 text-pink-600 dark:text-pink-400 bg-pink-100 dark:bg-pink-950",
   orange: "border-orange-500 text-orange-600 dark:text-orange-400 bg-orange-100 dark:bg-orange-950",
   cyan: "border-cyan-500 text-cyan-600 dark:text-cyan-400 bg-cyan-100 dark:bg-cyan-950",
-  emerald: "border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950"
+  emerald: "border-emerald-500 text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950",
 } as const;
 
 const filledColorMaps: Record<ValidColor, string> = {
@@ -56,26 +64,19 @@ const filledColorMaps: Record<ValidColor, string> = {
   pink: "border-pink-700 bg-pink-700 text-white",
   orange: "border-orange-700 bg-orange-700 text-white",
   cyan: "border-cyan-700 bg-cyan-700 text-white",
-  emerald: "border-emerald-700 bg-emerald-700 text-white"
+  emerald: "border-emerald-700 bg-emerald-700 text-white",
 } as const;
 
 const sizeMaps = {
   sm: "px-1 py-0.5 text-sm",
   md: "px-2 py-1 text-base",
   lg: "px-3 py-1.5 text-md",
-  xl: "px-4 py-2 text-lg"
+  xl: "px-4 py-2 text-lg",
 };
-
-const props = defineProps<{
-  href?: string;
-  color?: string;
-  class?: string;
-  outlined?: boolean;
-  size?: keyof typeof sizeMaps;
-}>();
 
 function makePillColor() {
   const colorMaps = props.outlined ? outlinedColorMaps : filledColorMaps;
+
   return colorMaps[(props.color as ValidColor) ?? "gray"] ?? colorMaps.gray;
 }
 
@@ -88,7 +89,7 @@ const tagStyle = clsx(
   props.outlined ? "border-2" : undefined,
   makePillSize(),
   makePillColor(),
-  !isNone(props.href) ? "transition-opacity hover:border-opacity-75 hover:opacity-75" : undefined,
+  isNone(props.href) ? undefined : "transition-opacity hover:border-opacity-75 hover:opacity-75",
   props.class
 );
 </script>

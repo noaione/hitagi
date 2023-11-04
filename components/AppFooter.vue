@@ -19,7 +19,7 @@
         </a>
       </span>
     </p>
-    <div class="mx-2 mt-2 flex flex-col items-center text-xs md:mx-auto" v-if="server.info">
+    <div v-if="server.info" class="mx-2 mt-2 flex flex-col items-center text-xs md:mx-auto">
       <span v-if="serverVerLink === undefined">v{{ server.info.version }} — {{ server.info.versionName }}</span>
       <span v-else>
         <a
@@ -42,15 +42,17 @@ const runtimeConf = useRuntimeConfig();
 const server = useServerMeta();
 
 const serverVerLink = computed(() => {
-  if (server.info === undefined) return undefined;
+  if (server.info === undefined) return;
+
   return `https://github.com/Difegue/LANraragi/releases/tag/v.${server.info.version}`;
 });
 
 const gitSHA = computed(() => {
   const sha = runtimeConf.public.clientSHA;
 
-  if (typeof sha !== "string") return undefined;
-  if (sha.length === 0) return undefined;
+  if (typeof sha !== "string") return;
+
+  if (sha.length === 0) return;
 
   // cut of only to 7 chars
   return sha.slice(0, 7);
@@ -60,6 +62,7 @@ const versionString = computed(() => {
   const clientVer = runtimeConf.public.clientVersion;
 
   let packageVer = `v${clientVer}`;
+
   if (import.meta.env.DEV) {
     return `${packageVer}-dev`;
   }

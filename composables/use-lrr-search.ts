@@ -7,7 +7,7 @@ export const useLRRSearch = defineStore("lrrsearch", {
   state: (): StateLRRSearch => {
     return {
       filter: "",
-      category: ""
+      category: "",
     };
   },
   actions: {
@@ -19,6 +19,6 @@ export const useLRRSearch = defineStore("lrrsearch", {
     },
     setCategory(category: string): void {
       this.category = category;
-    }
-  }
+    },
+  },
 });

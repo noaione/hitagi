@@ -36,9 +36,11 @@ const serverMeta = useServerMeta();
 
 const thumbnail = computed(() => {
   let thumb = `${serverMeta.hostURL.origin}/api/archives/${props.arcId}/thumbnail`;
+
   if (!isNone(props.page)) {
     thumb += `?page=${props.page}`;
   }
+
   return thumb;
 });
 </script>

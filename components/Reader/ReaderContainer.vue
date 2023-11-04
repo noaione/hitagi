@@ -1,11 +1,11 @@
 <template>
   <Carousel
+    v-if="data.length > 0"
+    ref="carouselRef"
     :wrap-around="true"
     :items-to-show="1"
     :dir="readerConf.flow === 'vertical' ? 'ltr' : readerConf.flow"
-    ref="carouselRef"
     snap-align="center"
-    v-if="data.length > 0"
     @slide-end="handleImageSlide"
   >
     <Slide v-for="item in data" :key="item">
@@ -62,10 +62,13 @@ watch(
 
 onMounted(() => {
   const imageArray: string[] = [];
+
   for (let i = 0; i < images.images.length; i++) {
     const imgUrl = images.images[i].replace(/^.\//, serverMeta.hostURL.origin + "/");
+
     imageArray.push(imgUrl);
   }
+
   data.value = imageArray;
 });
 </script>

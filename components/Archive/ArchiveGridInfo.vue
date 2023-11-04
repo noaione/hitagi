@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="`/archive/${data.arcid}`" custom v-slot="{ href }">
+  <NuxtLink v-slot="{ href }" :to="`/archive/${data.arcid}`" custom>
     <div
       :class="`relative flex max-w-[9rem] cursor-pointer flex-col rounded-md bg-hitagi-300 bg-opacity-40 align-middle dark:bg-hitagi-950 dark:bg-opacity-60 md:max-w-[11rem] ${
         $props.class ?? ''
@@ -22,16 +22,16 @@
         class="group w-full bg-hitagi-950 !bg-opacity-50 backdrop-blur"
         :class="{
           'absolute bottom-0 max-h-[1.8rem] hover:max-h-full': compact,
-          'max-h-full': compact && activeFloat
+          'max-h-full': compact && activeFloat,
         }"
       >
         <h2
           class="select-none whitespace-pre-wrap px-2 py-1 text-center text-sm font-semibold text-hitagi-100 decoration-hitagi-200 transition group-hover:underline group-hover:opacity-80"
           :class="{
-            'max-w-full overflow-hidden text-ellipsis whitespace-nowrap': compact
+            'max-w-full overflow-hidden text-ellipsis whitespace-nowrap': compact,
           }"
         >
-          <span class="text-blue-500" v-if="boolStrToBool(data.isnew)">•</span>
+          <span v-if="boolStrToBool(data.isnew)" class="text-blue-500">•</span>
           {{ data.title }}
         </h2>
       </a>
@@ -40,46 +40,46 @@
   <Teleport to="body">
     <Transition name="tooltip-archive">
       <div
-        ref="floatEl"
         v-if="activeFloat"
+        ref="floatEl"
         class="z-50 rounded-md bg-hitagi-300 !bg-opacity-50 backdrop-blur-lg dark:bg-hitagi-950"
         :style="floatingStyles"
         :data-id="data.arcid"
       >
         <div class="flex flex-col gap-2 px-2 py-1 pt-2 shadow-md">
           <LinkablePill
+            v-for="(artist, idx) in artistsTags"
             :key="idx"
             :color="LRRTagColor['artist']"
-            v-for="(artist, idx) in artistsTags"
             class="px-1.5 lowercase"
             outlined
           >
             {{ `artist:${artist}` }}
           </LinkablePill>
           <LinkablePill
+            v-for="(group, idx) in groupsTags"
             :key="idx"
             :color="LRRTagColor['group']"
-            v-for="(group, idx) in groupsTags"
             class="px-1.5 lowercase"
             outlined
           >
             {{ `group:${group}` }}
           </LinkablePill>
           <LinkablePill
+            v-for="(magazine, idx) in magazineTags"
             :key="idx"
             :color="LRRTagColor['magazine']"
-            v-for="(magazine, idx) in magazineTags"
             class="px-1.5 lowercase"
             outlined
           >
             {{ `magazine:${magazine}` }}
           </LinkablePill>
           <ArchiveUnix
+            v-if="dateAdded"
             :unix="dateAdded"
             text="Added on"
             class="text-sm text-hitagi-700 dark:text-hitagi-300"
             inner-class="font-semibold"
-            v-if="dateAdded"
           />
         </div>
       </div>
@@ -108,7 +108,9 @@ const groupsTags = computed(() => splitTags.value.group ?? []);
 const magazineTags = computed(() => splitTags.value.magazine ?? []);
 const dateAdded = computed(() => {
   const date = splitTags.value?.date_added?.[0];
-  if (date === undefined) return undefined;
+
+  if (date === undefined) return;
+
   return Number.parseInt(date);
 });
 
@@ -116,9 +118,9 @@ const { floatingStyles } = useFloating(floatRef, floatEl, {
   middleware: [
     autoPlacement({
       alignment: "end",
-      padding: 5
-    })
-  ]
+      padding: 5,
+    }),
+  ],
 });
 
 function setFloatActive() {
@@ -140,15 +142,16 @@ function setFloatingPosition({ clientX, clientY }: PointerEvent) {
         left: clientX,
         top: clientY,
         right: clientX,
-        bottom: clientY
+        bottom: clientY,
       };
-    }
+    },
   };
 }
 
 function setFloatingPositionTouch({ targetTouches }: TouchEvent) {
   // get latest
   const { clientX, clientY } = targetTouches[targetTouches.length - 1];
+
   floatRef.value = {
     getBoundingClientRect() {
       return {
@@ -159,9 +162,9 @@ function setFloatingPositionTouch({ targetTouches }: TouchEvent) {
         left: clientX,
         top: clientY,
         right: clientX,
-        bottom: clientY
+        bottom: clientY,
       };
-    }
+    },
   };
 }
 

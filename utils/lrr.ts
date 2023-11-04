@@ -82,7 +82,7 @@ export const LRRTagColor: Record<string, string> = {
   series: "red",
   group: "emerald",
   female: "pink",
-  male: "blue"
+  male: "blue",
 };
 
 /**
@@ -116,6 +116,7 @@ export function mapTagsToKeyValues(tagsOrStrTag: string | string[]): KVTags {
     const [key, ...valueK] = tag.split(":");
     const actKey = valueK.length === 0 ? "other" : key;
     const values = keyValueTags[actKey] ?? [];
+
     values.push(valueK.length > 0 ? valueK.join(":") : key);
     keyValueTags[actKey] = values;
   }

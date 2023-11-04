@@ -14,11 +14,13 @@ const { unix } = defineProps<{
 
 const formatUnix = computed(() => {
   const date = new Date(unix * 1000);
+
   return date.toLocaleString();
 });
 
 const formatDatetime = computed(() => {
   const date = new Date(unix * 1000);
+
   return date.toISOString();
 });
 </script>

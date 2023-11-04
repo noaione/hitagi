@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col" v-if="data">
+  <div v-if="data" class="flex flex-col">
     <div class="mb-auto block">
       <ReaderNavBar
         :arc-id="data.metadata.arcid"
@@ -31,12 +31,13 @@ const currentPage = ref(1);
 
 function setSEO(metadata: LRRArchiveMetadata) {
   const arcId = route.params.arcid;
+
   useSeoMeta({
     title: metadata.title + " :: Read :: Hitagi",
     ogTitle: metadata.title + " - Read at Hitagi",
     ogDescription: metadata.tags.split(",").join(", "),
     ogImage: `${serverMeta.hostURL.origin}/api/archives/${arcId}/thumbnail`,
-    twitterCard: "summary_large_image"
+    twitterCard: "summary_large_image",
   });
 }
 
@@ -47,16 +48,17 @@ const { data, execute } = await useAsyncData(
     const metadataLRR = useLRR<LRRArchiveMetadata>(`/archives/${arcId}/metadata`);
     const filesLRR = useLRR<LRRArchiveFiles>(`/archives/${arcId}/files`);
     const [metadata, files] = await Promise.all([metadataLRR, filesLRR]);
+
     setSEO(metadata);
 
     return {
       metadata,
-      files
+      files,
     };
   },
   {
     watch: [() => route.params.arcid],
-    immediate: false
+    immediate: false,
   }
 );
 
@@ -68,8 +70,8 @@ function updatePage(page: number) {
   // update query without reloading
   router.replace({
     query: {
-      page: page
-    }
+      page: page,
+    },
   });
 }
 
@@ -80,10 +82,8 @@ function kbdMoveLeft() {
 }
 
 function kbdMoveRight() {
-  if (data.value) {
-    if (currentPage.value < data.value.metadata.pagecount) {
-      updatePage(currentPage.value + 1);
-    }
+  if (data.value && currentPage.value < data.value.metadata.pagecount) {
+    updatePage(currentPage.value + 1);
   }
 }
 
@@ -92,6 +92,7 @@ onKeyStroke(["ArrowLeft", "ArrowUp"], (e) => {
   if (e.key === "ArrowUp" && readerConfig.flow !== "vertical") {
     return;
   }
+
   e.preventDefault();
 
   if (readerConfig.flow === "rtl") {
@@ -106,6 +107,7 @@ onKeyStroke(["ArrowRight", "ArrowDown"], (e) => {
   if (e.key === "ArrowDown" && readerConfig.flow !== "vertical") {
     return;
   }
+
   e.preventDefault();
 
   if (readerConfig.flow === "rtl") {
@@ -118,26 +120,35 @@ onKeyStroke(["ArrowRight", "ArrowDown"], (e) => {
 onMounted(() => {
   // fetch and wait
   // then set startPage
-  execute().then(() => {
-    console.log("reader ready");
-    const queryPage = Number(route.query.page);
-    if (Number.isNaN(queryPage)) {
-      updatePage(1);
-    } else {
-      if (queryPage < 1) {
+  execute()
+    .then(() => {
+      console.log("reader ready");
+
+      const queryPage = Number(route.query.page);
+
+      if (Number.isNaN(queryPage)) {
         updatePage(1);
-        return;
-      } else if (data.value && queryPage > data.value.metadata.pagecount) {
-        updatePage(data.value.metadata.pagecount);
-        return;
       } else {
-        updatePage(queryPage);
+        if (queryPage < 1) {
+          updatePage(1);
+
+          return;
+        } else if (data.value && queryPage > data.value.metadata.pagecount) {
+          updatePage(data.value.metadata.pagecount);
+
+          return;
+        } else {
+          updatePage(queryPage);
+        }
       }
-    }
-  });
+    })
+    .catch((error) => {
+      console.error(error);
+      router.push("/500");
+    });
 });
 
 definePageMeta({
-  layout: "clean"
+  layout: "clean",
 });
 </script>

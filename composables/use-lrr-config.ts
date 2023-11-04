@@ -19,11 +19,11 @@ export const useLRRConfig = defineStore("lrrconfig", {
     order: "asc",
     thumbFit: "contain",
     listMode: "grid",
-    listCompact: false
+    listCompact: false,
   }),
   persist: {
     storage: persistedState.localStorage,
-    key: "hitagi.config"
+    key: "hitagi.config",
   },
   actions: {
     defaults(): void {
@@ -32,6 +32,6 @@ export const useLRRConfig = defineStore("lrrconfig", {
       this.order = "asc";
       this.thumbFit = "contain";
       this.listMode = "grid";
-    }
-  }
+    },
+  },
 });
