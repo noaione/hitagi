@@ -16,6 +16,10 @@
       <ArchiveTags :tags="data.metadata.tags.split(',')" :unrender="['date_added']" />
     </div>
   </div>
+  <div class="mt-4 flex w-full flex-col" v-if="data">
+    <h2 class="glow-text-lg mb-6 text-2xl font-bold text-hitagi-700 shadow-hitagi-400 dark:text-hitagi-200">Pages</h2>
+    <ArchivePages :arc-id="data.metadata.arcid" :total-pages="data.metadata.pagecount" />
+  </div>
 </template>
 
 <script setup lang="ts">

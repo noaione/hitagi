@@ -60,11 +60,6 @@ export default defineNuxtConfig({
     ],
     imports: [
       {
-        name: "default",
-        as: "Grid",
-        from: "vue-virtual-scroll-grid"
-      },
-      {
         name: "FetchError",
         from: "ofetch"
       }
