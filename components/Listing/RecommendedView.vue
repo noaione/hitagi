@@ -12,8 +12,19 @@
     }`"
     v-else
   >
-    <CrabIcon class="animate-bounce text-hitagi-700 dark:text-hitagi-300" />
-    <LoadingText class="font-incosolata text-sm font-semibold lowercase text-hitagi-700 dark:text-hitagi-300" />
+    <CrabIcon
+      class="text-hitagi-700 dark:text-hitagi-300"
+      :class="{
+        'animate-bounce': pending
+      }"
+    />
+    <LoadingText
+      class="font-incosolata text-sm font-semibold lowercase text-hitagi-700 dark:text-hitagi-300"
+      v-if="pending"
+    />
+    <span class="font-incosolata text-sm font-semibold lowercase text-hitagi-700 dark:text-hitagi-300" v-else>
+      No Results Found
+    </span>
   </div>
 </template>
 
@@ -88,7 +99,7 @@ const itemsToShow = computed(() => {
   return mappings[activeBreakpoint[0] as keyof typeof mappings] ?? 2;
 });
 
-const { data, execute } = await useAsyncData(
+const { data, pending, execute } = await useAsyncData(
   `recommended-${settings.recommended}-${searchQuery.filter}`,
   async () => {
     if (settings.recommended === "random") {
