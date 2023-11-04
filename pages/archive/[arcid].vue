@@ -4,7 +4,12 @@
     <div class="flex flex-col">
       <h2 class="mb-2 text-2xl font-bold text-hitagi-600 dark:text-hitagi-400">{{ data.metadata.title }}</h2>
       <div class="mb-4 flex flex-row items-center text-hitagi-700 dark:text-hitagi-300">
-        <LinkablePill class="mr-2 font-semibold uppercase transition-opacity hover:opacity-80" color="blue" outlined>
+        <LinkablePill
+          class="mr-2 font-semibold uppercase transition-opacity hover:opacity-80"
+          color="blue"
+          outlined
+          v-if="boolStrToBool(data.metadata.isnew)"
+        >
           NEW
         </LinkablePill>
         <div class="text-sm">{{ data.metadata.pagecount.toLocaleString() }} pages</div>
