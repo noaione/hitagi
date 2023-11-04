@@ -10,19 +10,18 @@
       />
     </div>
     <div class="flex flex-col">
-      <h2 class="mb-2 text-2xl font-bold">{{ data.metadata.title }}</h2>
-      <div class="mb-4 flex flex-row items-center">
-        <div
-          class="mr-2 flex items-center rounded-md bg-blue-500 px-1 py-0.5 align-middle text-sm font-semibold uppercase text-white"
-          v-if="boolStrToBool(data.metadata.isnew)"
-        >
+      <h2 class="mb-2 text-2xl font-bold text-hitagi-600 dark:text-hitagi-400">{{ data.metadata.title }}</h2>
+      <div class="mb-4 flex flex-row items-center text-hitagi-700 dark:text-hitagi-300">
+        <LinkablePill class="mr-2 font-semibold uppercase transition-opacity hover:opacity-80" color="blue" outlined>
           NEW
-        </div>
+        </LinkablePill>
         <div class="text-sm">{{ data.metadata.pagecount.toLocaleString() }} pages</div>
+        <div class="mx-2 text-sm" v-if="dateAdded">|</div>
+        <ArchiveUnix v-if="dateAdded" :unix="dateAdded" text="Added on" class="text-sm" inner-class="font-semibold" />
       </div>
       <ArchiveInfoBtn class="mb-4" :arc-id="String($route.params.arcid)" />
       <hr class="mb-4 w-full border-hitagi-400" />
-      <ArchiveTags :tags="data.metadata.tags.split(',')" />
+      <ArchiveTags :tags="data.metadata.tags.split(',')" :unrender="['date_added']" />
     </div>
   </div>
 </template>
@@ -66,5 +65,16 @@ const { data } = await useAsyncData(
 const thumbnail = computed(() => {
   const arcId = route.params.arcid;
   return `${serverMeta.hostURL.origin}/api/archives/${arcId}/thumbnail`;
+});
+
+const dateAdded = computed(() => {
+  const tagsData = data?.value?.metadata?.tags;
+  if (isNone(tagsData)) return undefined;
+
+  const tags = tagsData.split(",");
+  const date = tags.find((tag) => tag.startsWith("date_added:"));
+  if (isNone(date)) return undefined;
+
+  return Number.parseInt(date.split(":", 2)[1]);
 });
 </script>

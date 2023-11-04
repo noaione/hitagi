@@ -84,7 +84,7 @@ function makePillSize() {
 }
 
 const tagStyle = clsx(
-  "select-none rounded-md align-middle lowercase",
+  "select-none rounded-md align-middle",
   props.outlined ? "border-2" : undefined,
   makePillSize(),
   makePillColor(),

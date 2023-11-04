@@ -24,6 +24,8 @@
         "*.css": "tailwindcss"
     },
     "tailwindCSS.experimental.classRegex": [
-        ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+        ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+        // support for innerClass/inner-class="..."
+        ["(?:innerClass|inner-class)=\"([^\"]*)\"", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
     ]
 }

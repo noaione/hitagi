@@ -1,17 +1,17 @@
 <template>
-  <div class="flex flex-col gap-2">
+  <div :class="`flex flex-col gap-2 ${$props.class ?? ''}`">
     <div class="flex flex-row" :key="key" v-for="[key, tags] in Object.entries(tagsKV)">
       <div class="inline-block">
-        <LinkablePill :color="KVColor[key]">
+        <LinkablePill :color="LRRTagColor[key]" class="lowercase">
           {{ key.replaceAll("_", " ") }}
         </LinkablePill>
       </div>
       <div class="ml-3 flex flex-row flex-wrap gap-2">
         <div class="inline-block" :key="`${key}-${tag.toLowerCase()}`" v-for="tag in tags">
           <LinkablePill
-            :color="KVColor[key]"
-            :href="`/search?q=${encodeURIComponent(key === 'other' ? tag : key + ':' + tag)}`"
-            :class="key === 'source' ? `whitespace-pre-wrap break-all` : ''"
+            :color="LRRTagColor[key]"
+            :href="`/search?q=${encodeURIComponent(key === 'other' ? tag : key + ':' + tag)}$`"
+            :class="key === 'source' ? `whitespace-pre-wrap break-all` : '' + ' lowercase'"
             outlined
           >
             {{ tag }}
@@ -23,42 +23,45 @@
 </template>
 
 <script setup lang="ts">
-const { tags } = defineProps<{
+const { tags, unrender } = defineProps<{
   tags: string[];
+  class?: string;
+  // Unrendere some tags, like "other" or "source"
+  unrender?: string[];
 }>();
 
-type KVTags = Record<string, string[]>;
-
-const KVColor: Record<string, string> = {
-  artist: "cyan",
-  magazine: "orange",
-  series: "red",
-  group: "emerald",
-  female: "pink",
-  male: "blue"
-};
-
-function sortTags(keyValueTags: KVTags) {
-  const sortedTags: Record<string, string[]> = {};
-
-  for (const key of Object.keys(keyValueTags).sort()) {
-    sortedTags[key] = keyValueTags[key].sort();
-  }
-
-  return sortedTags;
-}
-
 const tagsKV = computed(() => {
-  const kvTags: Record<string, string[]> = {};
-
-  for (const tag of tags) {
-    const [key, ...valueK] = tag.split(":");
-    const actKey = valueK.length === 0 ? "other" : key;
-    const values = kvTags[actKey] ?? [];
-    values.push(valueK.length > 0 ? valueK.join(":") : key);
-    kvTags[actKey] = values;
+  const sortedTags = mapTagsToKeyValues(tags);
+  // put priority tags like this:
+  // - artist
+  // - group
+  // - magazine
+  // [...]
+  // - source
+  const ignoreKeys = ["artist", "group", "magazine", "series", "source"];
+  if (Array.isArray(unrender)) {
+    ignoreKeys.push(...unrender);
   }
-
-  return sortTags(kvTags);
+  const resortedTags: Record<string, string[]> = {};
+  if (sortedTags.artist) {
+    resortedTags.artist = sortedTags.artist;
+  }
+  if (sortedTags.group) {
+    resortedTags.group = sortedTags.group;
+  }
+  if (sortedTags.magazine) {
+    resortedTags.magazine = sortedTags.magazine;
+  }
+  if (sortedTags.series) {
+    resortedTags.series = sortedTags.series;
+  }
+  for (const [key, value] of Object.entries(sortedTags)) {
+    if (ignoreKeys.includes(key)) continue;
+    resortedTags[key] = value;
+  }
+  if (sortedTags.source) {
+    resortedTags.source = sortedTags.source;
+  }
+  return resortedTags;
 });
 </script>
