@@ -25,7 +25,12 @@
     },
     "tailwindCSS.experimental.classRegex": [
         ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
-        // support for innerClass/inner-class="..."
-        ["(?:innerClass|inner-class)=\"([^\"]*)\"", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ],
+    "tailwindCSS.classAttributes": [
+        "class",
+        "className",
+        "ngClass",
+        "innerClass",
+        "inner-class"
     ]
 }
