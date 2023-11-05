@@ -1,25 +1,5 @@
 <template>
-  <div v-if="data" class="flex flex-col">
-    <div class="mb-auto block">
-      <ReaderNavBar
-        :arc-id="data.metadata.arcid"
-        :page="currentPage"
-        :max-page="data.metadata.pagecount"
-        @update-page="updatePage"
-        @open-settings="modalReader = true"
-      />
-    </div>
-    <ReaderContainer :arc-id="data.metadata.arcid" :images="data.files.pages" @update-page="updatePage" />
-    <div class="mt-auto block">
-      <ReaderNavBar
-        :arc-id="data.metadata.arcid"
-        :page="currentPage"
-        :max-page="data.metadata.pagecount"
-        @update-page="updatePage"
-        @open-settings="modalReader = true"
-      />
-    </div>
-  </div>
+  <ReaderViewWrapper v-if="data" :metadata="data.metadata" @open-modal="modalReader = true" />
   <ModalReaderSettings v-model:open="modalReader" />
 </template>
 
@@ -27,11 +7,9 @@
 const route = useRoute();
 const router = useRouter();
 
+const reader = useLRRReader();
 const serverMeta = useServerMeta();
-const readerConfig = useLRRReaderConfig();
 const modalReader = ref(false);
-
-const currentPage = ref(1);
 
 function setSEO(metadata: LRRArchiveMetadata) {
   const arcId = route.params.arcid;
@@ -66,85 +44,39 @@ const { data, execute } = await useAsyncData(
   }
 );
 
-// Use inject/provide to pass updated page number (from nav bar) to reader container
-provide(LRRReaderPage, readonly(currentPage));
-
-function updatePage(page: number) {
-  currentPage.value = page;
-  // update query without reloading
-  router.replace({
-    query: {
-      page: page,
-    },
-  });
-}
-
-function kbdMoveLeft() {
-  if (currentPage.value > 1) {
-    updatePage(currentPage.value - 1);
-  }
-}
-
-function kbdMoveRight() {
-  if (data.value && currentPage.value < data.value.metadata.pagecount) {
-    updatePage(currentPage.value + 1);
-  }
-}
-
-onKeyStroke(["ArrowLeft", "ArrowUp"], (e) => {
-  // allow arrow up only in vertical mode
-  if (e.key === "ArrowUp" && readerConfig.flow !== "vertical") {
-    return;
-  }
-
-  e.preventDefault();
-
-  if (readerConfig.flow === "rtl") {
-    kbdMoveRight();
-  } else {
-    kbdMoveLeft();
-  }
-});
-
-onKeyStroke(["ArrowRight", "ArrowDown"], (e) => {
-  // allow arrow down only in vertical mode
-  if (e.key === "ArrowDown" && readerConfig.flow !== "vertical") {
-    return;
-  }
-
-  e.preventDefault();
-
-  if (readerConfig.flow === "rtl") {
-    kbdMoveLeft();
-  } else {
-    kbdMoveRight();
-  }
-});
-
 onMounted(() => {
   // fetch and wait
   // then set startPage
   execute()
-    .then(() => {
+    .then((result) => {
+      if (isNone(result)) {
+        router.push("/404");
+
+        return;
+      }
+
+      reader.populate(result.files.pages);
       console.log("reader ready");
 
       const queryPage = Number(route.query.page);
 
       if (Number.isNaN(queryPage)) {
-        updatePage(1);
+        reader.updatePage(1);
       } else {
         if (queryPage < 1) {
-          updatePage(1);
+          reader.updatePage(1);
 
           return;
         } else if (data.value && queryPage > data.value.metadata.pagecount) {
-          updatePage(data.value.metadata.pagecount);
+          reader.updatePage(data.value.metadata.pagecount);
 
           return;
         } else {
-          updatePage(queryPage);
+          reader.updatePage(queryPage);
         }
       }
+
+      reader.preloadImagesFromConfig();
     })
     .catch((error) => {
       console.error(error);

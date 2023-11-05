@@ -5,6 +5,16 @@ export type BooleanStr = "true" | "false" | "none";
 
 export const LRRReaderPage = Symbol("Hitagi Reader Page") as InjectionKey<Ref<number>>;
 
+export interface LoadedImage {
+  url: string;
+  blob?: Blob;
+  width: number;
+  height: number;
+  // page number != index
+  page: number;
+  name: string;
+}
+
 export interface LRRArchiveMetadata {
   arcid: string;
   isnew: BooleanStr;
@@ -122,4 +132,25 @@ export function mapTagsToKeyValues(tagsOrStrTag: string | string[]): KVTags {
   }
 
   return sortTags(keyValueTags);
+}
+
+export function mapFilesIntoImages(files: string[]): LoadedImage[] {
+  const copyOfFiles = [...files];
+
+  return copyOfFiles.map((file, index) => {
+    // page number are not available sometimes in files
+    const page = index + 1;
+
+    // find ?path=
+    const pathIndex = file.indexOf("?path=");
+    const fileName = pathIndex === -1 ? file : file.slice(pathIndex + 6);
+
+    return {
+      url: file,
+      width: 0,
+      height: 0,
+      name: fileName,
+      page,
+    };
+  });
 }

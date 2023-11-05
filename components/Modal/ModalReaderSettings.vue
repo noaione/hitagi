@@ -95,6 +95,6 @@ const modalOpen = computed({
 const FlowTextInfo = {
   ltr: "Left-to-Right",
   rtl: "Right-to-Left",
-  vertical: "Vertical",
+  // vertical: "Vertical",
 };
 </script>
