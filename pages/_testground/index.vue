@@ -1,13 +1,15 @@
 <template>
   <div class="flex flex-col gap-2">
+    <HitagiInput container-class="w-full">
+      <template #label>Testing</template>
+    </HitagiInput>
     <div class="mb-4 flex flex-col gap-2">
-      <div class="flex flex-col gap-1">
-        <label>Thumbnail Fit</label>
-        <select v-model="settings.thumbFit" class="form-select rounded-md dark:bg-hitagi-950">
-          <option value="contain">Contain</option>
-          <option value="cover">Cover</option>
-        </select>
-      </div>
+      <HitagiSelect v-model="settings.thumbFit">
+        <option value="contain">Contain</option>
+        <option value="cover">Cover</option>
+
+        <template #label><label>Thumbnail Fit</label></template>
+      </HitagiSelect>
     </div>
     <div class="flex flex-row flex-wrap gap-2">
       <LinkablePill color="hitagi">Hitagi</LinkablePill>

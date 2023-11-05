@@ -31,6 +31,8 @@
         "className",
         "ngClass",
         "innerClass",
-        "inner-class"
+        "inner-class",
+        "containerClass",
+        "container-class",
     ]
 }

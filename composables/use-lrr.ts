@@ -13,7 +13,20 @@ function useLRRInternal<T>(path: string, options?: NitroFetchOptions<string, HTT
 
   const lrrURL = settings.hostURL.origin + "/api" + path;
 
-  return $fetch<T>(lrrURL, options);
+  const optHeader = options?.headers ?? {};
+
+  const headers = new Headers(optHeader);
+
+  if (settings.apiKey64) {
+    headers.set("Authorization", `Basic ${settings.apiKey64}`);
+  }
+
+  const mergedOptions: NitroFetchOptions<string, HTTPMethod> = {
+    ...options,
+    headers,
+  };
+
+  return $fetch<T>(lrrURL, mergedOptions);
 }
 
 export const useLRR = useLRRInternal;

@@ -3,28 +3,33 @@
     <CrabIcon class="text-hitagi-600" />
     <h1 class="mt-2 font-bold text-hitagi-700 dark:text-hitagi-400">Hitagi</h1>
     <hr class="server-width my-4 border-hitagi-500" />
-    <div class="server-width flex flex-col">
-      <label for="server" class="font-medium text-hitagi-700 dark:text-hitagi-300">Server</label>
-      <input
-        id="server"
-        v-model="serverForm"
-        type="text"
-        class="form-input mt-1 rounded-md border-hitagi-600 transition focus:border-hitagi-400 focus:ring-hitagi-500 disabled:cursor-not-allowed disabled:border-hitagi-700 disabled:bg-gray-900 dark:bg-gray-800"
-        :disabled="submitting"
-      />
-    </div>
-    <div v-if="needApiToken" class="server-width flex flex-col">
-      <label for="api-token" class="font-medium text-hitagi-700 dark:text-hitagi-300">API Token</label>
-      <input
-        id="api-token"
-        v-model="apiToken"
-        type="text"
-        class="form-input mt-1 rounded-md border-hitagi-600 transition focus:border-hitagi-400 focus:ring-hitagi-500 disabled:cursor-not-allowed disabled:border-hitagi-700 disabled:bg-gray-900 dark:bg-gray-800"
-        :minlength="1"
-        :required="true"
-        :disabled="submitting"
-      />
-    </div>
+    <HitagiInput
+      v-model="serverForm"
+      input-id="server"
+      container-class="server-width"
+      type="text"
+      :minlength="1"
+      :required="true"
+      :disabled="submitting"
+    >
+      <template #label>
+        <label for="api-token" class="font-medium text-hitagi-700 dark:text-hitagi-300">Server</label>
+      </template>
+    </HitagiInput>
+    <HitagiInput
+      v-if="needApiToken"
+      v-model="apiToken"
+      input-id="api-token"
+      container-class="server-width"
+      type="text"
+      :minlength="1"
+      :required="true"
+      :disabled="submitting"
+    >
+      <template #label>
+        <label for="api-token" class="font-medium text-hitagi-700 dark:text-hitagi-300">API Token</label>
+      </template>
+    </HitagiInput>
     <div v-if="errorValidation.length > 0" class="server-width flex flex-col flex-wrap">
       <span v-for="(error, idx) in errorValidation" :key="idx" class="mt-2 text-red-700 dark:text-red-300">
         {{ error }}
@@ -34,16 +39,14 @@
       <span class="mt-2 text-red-700 dark:text-red-300">{{ errorHTTP }}</span>
     </div>
     <div class="server-width mt-4 flex flex-row">
-      <button
+      <HitagiButton
         :disabled="submitting || errorValidation.length > 0"
         :data-error="submitting ? 'network' : 'validate'"
-        class="btn-server-submit group w-full rounded-lg border-2 bg-transparent px-2 py-3 transition disabled:cursor-not-allowed"
+        class="btn-server-submit"
         @click="submit"
       >
-        <span class="text-hitagi-700 transition group-hover:text-white group-disabled:text-white dark:text-hitagi-300">
-          Connect
-        </span>
-      </button>
+        Connect
+      </HitagiButton>
     </div>
     <DarkToggle class="mt-4 h-10 w-10 text-hitagi-600 dark:text-hitagi-400" />
   </div>
@@ -233,10 +236,6 @@ useSeoMeta({
 <style scoped lang="postcss">
 .server-width {
   @apply w-[90%] md:w-[60%] lg:w-[30%];
-}
-
-.btn-server-submit {
-  @apply border-hitagi-500 hover:border-hitagi-700 hover:bg-hitagi-700 disabled:border-hitagi-700;
 }
 
 .btn-server-submit[data-error="network"] {
