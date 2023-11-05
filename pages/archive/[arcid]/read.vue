@@ -1,11 +1,13 @@
 <template>
   <ReaderViewWrapper v-if="data" :metadata="data.metadata" @open-modal="modalReader = true" />
+  <ErrorViewer v-if="error && !pending">
+    {{ error.message }}
+  </ErrorViewer>
   <ModalReaderSettings v-model:open="modalReader" />
 </template>
 
 <script setup lang="ts">
 const route = useRoute();
-const router = useRouter();
 
 const reader = useLRRReader();
 const serverMeta = useServerMeta();
@@ -23,7 +25,7 @@ function setSEO(metadata: LRRArchiveMetadata) {
   });
 }
 
-const { data, execute } = await useAsyncData(
+const { data, error, pending, execute } = await useAsyncData(
   `archive-read-${route.params.arcid}`,
   async () => {
     const arcId = route.params.arcid;
@@ -48,14 +50,12 @@ onMounted(() => {
   // fetch and wait
   // then set startPage
   execute()
-    .then((result) => {
-      if (isNone(result)) {
-        router.push("/404");
-
+    .then(() => {
+      if (isNone(data.value)) {
         return;
       }
 
-      reader.populate(result.files.pages);
+      reader.populate(data.value.files.pages);
       console.log("reader ready");
 
       const queryPage = Number(route.query.page);
@@ -76,11 +76,11 @@ onMounted(() => {
         }
       }
 
+      reader.loadCurrent();
       reader.preloadImagesFromConfig();
     })
-    .catch((error) => {
-      console.error(error);
-      router.push("/500");
+    .catch((error_) => {
+      console.error(error_);
     });
 });
 

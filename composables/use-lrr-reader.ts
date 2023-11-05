@@ -225,7 +225,7 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
       const preloadFollowings: string[] = [];
 
       // preload page if preloadPage is set and is not less than or equal to 0
-      if (config.preloadPage <= 0) {
+      if (config.preloadPage > 0) {
         // preload back
         for (let i = indexPage - 1; i >= minPage; i--) {
           preloadFollowings.push(images.value[i].url);
