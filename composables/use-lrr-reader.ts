@@ -187,6 +187,9 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
         break;
       }
     }
+
+    // load current page
+    loadCurrent();
   }
   function updatePage(singleOrDoublePage: number | number[]) {
     if (Array.isArray(singleOrDoublePage)) {
@@ -221,23 +224,50 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
 
       const preloadFollowings: string[] = [];
 
-      // preload back
-      for (let i = indexPage - 1; i >= minPage; i--) {
-        preloadFollowings.push(images.value[i].url);
-      }
+      // preload page if preloadPage is set and is not less than or equal to 0
+      if (config.preloadPage <= 0) {
+        // preload back
+        for (let i = indexPage - 1; i >= minPage; i--) {
+          preloadFollowings.push(images.value[i].url);
+        }
 
-      // preload front
-      for (let i = indexPage + 1; i < maxPage; i++) {
-        preloadFollowings.push(images.value[i].url);
-      }
+        // preload front
+        for (let i = indexPage + 1; i < maxPage; i++) {
+          preloadFollowings.push(images.value[i].url);
+        }
 
-      // preload current
-      preloadFollowings.push(images.value[indexPage].url);
+        // preload current
+        preloadFollowings.push(images.value[indexPage].url);
+      } else {
+        console.warn("Preload page is set to disabled.");
+      }
 
       for (const imgPreload of preloadFollowings) {
         preload(imgPreload);
       }
     });
+  }
+  function loadCurrent(): void {
+    // Do not execute this if we use preloadPage
+    if (config.preloadPage > 0) {
+      return;
+    }
+
+    const indexPage = currentPairIndex.value;
+
+    const indexData = pairedImages.value[indexPage];
+
+    if (isNone(indexData)) {
+      return;
+    }
+
+    console.info("Loading current page", indexData);
+
+    for (const img of indexData) {
+      if (isNone(img.blob)) {
+        preload(img.url);
+      }
+    }
   }
   function clear(): void {
     images.value = [];
@@ -267,5 +297,6 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
     updatePage,
     clear,
     preloadImagesFromConfig,
+    loadCurrent,
   };
 });

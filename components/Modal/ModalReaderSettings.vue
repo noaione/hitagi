@@ -71,6 +71,18 @@
           <div class="block px-2 py-2">Screen Width</div>
         </HitagiRadioBlock>
       </HitagiRadioContainer>
+      <HitagiSelect v-model="settings.preloadPage" class="w-full flex-wrap gap-2" input-id="hitagi-reader-preload">
+        <template #label>
+          <label for="hitagi-reader-preload" class="mb-2 font-semibold">Image Preload</label>
+        </template>
+
+        <option :value="0">Disable</option>
+        <option :value="1">1 page</option>
+        <option :value="2">2 pages</option>
+        <option :value="3">3 pages</option>
+        <option :value="4">4 pages</option>
+        <option :value="5">5 pages</option>
+      </HitagiSelect>
     </div>
   </ModalContainer>
 </template>
