@@ -1,7 +1,7 @@
 <template>
   <div :class="`flex flex-col ${containerClass ?? ''}`">
     <slot name="label" />
-    <select v-bind="$attrs" :id="inputId" v-model="inputModel" :class="inputFormClass">
+    <select v-bind="$attrs" :id="inputId" v-model="inputModel" :class="inputFormClass" :disabled="disabled">
       <slot />
     </select>
   </div>
@@ -15,6 +15,7 @@ const props = defineProps<{
   class?: string;
   modelValue?: any;
   containerClass?: string;
+  disabled?: boolean;
   color?: string;
 }>();
 

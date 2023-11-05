@@ -1,16 +1,56 @@
 <template>
   <div class="flex flex-col gap-2">
-    <HitagiInput container-class="w-full">
+    <HitagiInput v-model="disabledForm" type="checkbox" container-class="gap-2" swap>
+      <template #label>Disable form?</template>
+    </HitagiInput>
+    <HitagiInput container-class="w-full" :disabled="disabledForm">
       <template #label>Testing</template>
     </HitagiInput>
     <div class="mb-4 flex flex-col gap-2">
-      <HitagiSelect v-model="settings.thumbFit">
+      <HitagiSelect v-model="settings.thumbFit" :disabled="disabledForm">
         <option value="contain">Contain</option>
         <option value="cover">Cover</option>
 
         <template #label><label>Thumbnail Fit</label></template>
       </HitagiSelect>
     </div>
+    <HitagiRadioContainer class="gap-2">
+      <template #label>
+        <span>Radio block outline</span>
+      </template>
+      <HitagiRadioBlock
+        v-for="radioData in radioOptions"
+        :key="radioData.value"
+        v-model="selectedRadio"
+        class="rounded"
+        :value="radioData.value"
+        :disabled="disabledForm"
+      >
+        <div class="block px-2 py-2">
+          <div class="w-full text-lg font-semibold">{{ radioData.name }}</div>
+          <div class="flex flex-wrap">{{ radioData.description }}</div>
+        </div>
+      </HitagiRadioBlock>
+    </HitagiRadioContainer>
+    <HitagiRadioContainer class="gap-2">
+      <template #label>
+        <span>Radio block filled</span>
+      </template>
+      <HitagiRadioBlock
+        v-for="radioData in radioOptions"
+        :key="radioData.value"
+        v-model="selectedRadio"
+        class="rounded"
+        :value="radioData.value"
+        :disabled="disabledForm"
+        filled
+      >
+        <div class="block px-2 py-2">
+          <div class="w-full text-lg font-semibold">{{ radioData.name }}</div>
+          <div class="flex flex-wrap">{{ radioData.description }}</div>
+        </div>
+      </HitagiRadioBlock>
+    </HitagiRadioContainer>
     <div class="flex flex-row flex-wrap gap-2">
       <LinkablePill color="hitagi">Hitagi</LinkablePill>
       <LinkablePill color="gray">Gray</LinkablePill>
@@ -60,4 +100,20 @@ const testData: LRRArchiveMetadata = {
 };
 
 const settings = useLRRConfig();
+
+const disabledForm = ref(false);
+
+const selectedRadio = ref();
+const radioOptions = [
+  {
+    name: "Option 1",
+    value: "option1",
+    description: "This is option 1",
+  },
+  {
+    name: "Option 2",
+    value: "option2",
+    description: "This is option 2",
+  },
+];
 </script>
