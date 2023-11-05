@@ -6,6 +6,7 @@
         :page="currentPage"
         :max-page="metadata.pagecount"
         @update-page="updatePage"
+        @open-settings="modalReader = true"
       />
     </div>
     <ReaderContainer :arc-id="metadata.arcid" :images="filesMeta.pages" @update-page="updatePage" />
@@ -15,9 +16,11 @@
         :page="currentPage"
         :max-page="metadata.pagecount"
         @update-page="updatePage"
+        @open-settings="modalReader = true"
       />
     </div>
   </div>
+  <ModalReaderSettings v-model:open="modalReader" />
 </template>
 
 <script setup lang="ts">
@@ -27,6 +30,7 @@ const router = useRouter();
 const readerConfig = useLRRReaderConfig();
 
 const currentPage = ref(1);
+const modalReader = ref(false);
 
 // Use inject/provide to pass updated page number (from nav bar) to reader container
 provide(LRRReaderPage, readonly(currentPage));

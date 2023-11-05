@@ -6,6 +6,7 @@
         :page="currentPage"
         :max-page="data.metadata.pagecount"
         @update-page="updatePage"
+        @open-settings="modalReader = true"
       />
     </div>
     <ReaderContainer :arc-id="data.metadata.arcid" :images="data.files.pages" @update-page="updatePage" />
@@ -15,9 +16,11 @@
         :page="currentPage"
         :max-page="data.metadata.pagecount"
         @update-page="updatePage"
+        @open-settings="modalReader = true"
       />
     </div>
   </div>
+  <ModalReaderSettings v-model:open="modalReader" />
 </template>
 
 <script setup lang="ts">
@@ -26,6 +29,7 @@ const router = useRouter();
 
 const serverMeta = useServerMeta();
 const readerConfig = useLRRReaderConfig();
+const modalReader = ref(false);
 
 const currentPage = ref(1);
 

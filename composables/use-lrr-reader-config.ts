@@ -1,14 +1,19 @@
 export interface StateLRRReaderConfig {
   flow: "ltr" | "rtl" | "vertical";
-  doublePage: boolean;
+  // single: single page mode
+  // double: double page mode, first page is single
+  // double-cover: double page mode, first page is double
+  pagingMode: "single" | "double" | "double-cover";
   fitMode: "screen-height" | "screen-width";
+  background: "gray" | "black" | "white";
 }
 
 export const useLRRReaderConfig = defineStore("lrrconfig.reader", {
   state: (): StateLRRReaderConfig => ({
     flow: "ltr",
-    doublePage: false,
+    pagingMode: "single",
     fitMode: "screen-height",
+    background: "gray",
   }),
   persist: {
     storage: persistedState.localStorage,
@@ -17,8 +22,9 @@ export const useLRRReaderConfig = defineStore("lrrconfig.reader", {
   actions: {
     defaults(): void {
       this.flow = "ltr";
-      this.doublePage = false;
+      this.pagingMode = "single";
       this.fitMode = "screen-height";
+      this.background = "gray";
     },
   },
 });

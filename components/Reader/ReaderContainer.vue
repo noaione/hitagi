@@ -2,14 +2,19 @@
   <Carousel
     v-if="data.length > 0"
     ref="carouselRef"
-    :wrap-around="true"
+    :wrap-around="false"
     :items-to-show="1"
     :dir="readerConf.flow === 'vertical' ? 'ltr' : readerConf.flow"
+    :class="bgColor"
     snap-align="center"
     @slide-end="handleImageSlide"
   >
     <Slide v-for="item in data" :key="item">
-      <img :src="item" loading="lazy" class="h-screen w-auto" />
+      <img
+        :src="item"
+        loading="lazy"
+        :class="`${readerConf.fitMode === 'screen-height' ? 'h-screen w-auto' : 'h-auto w-screen'}`"
+      />
     </Slide>
   </Carousel>
 </template>
@@ -41,6 +46,20 @@ const serverMeta = useServerMeta();
 const carouselRef = ref<CarouselRefFunc>();
 const data = ref<string[]>([]);
 const currentSlide = ref<number>(0);
+
+const bgColor = computed(() => {
+  switch (readerConf.background) {
+    case "black": {
+      return "bg-black";
+    }
+    case "white": {
+      return "bg-white";
+    }
+    default: {
+      return "";
+    }
+  }
+});
 
 const activePage = inject(LRRReaderPage) as Ref<number>;
 

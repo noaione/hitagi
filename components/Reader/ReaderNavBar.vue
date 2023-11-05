@@ -40,7 +40,7 @@
         <Icon name="mdi:chevron-double-right" class="reader-nav-btn" />
       </button>
     </div>
-    <div class="mr-2 block">
+    <div class="mr-2 block" @click="$emit('openSettings')">
       <Icon name="heroicons:cog-8-tooth" class="reader-nav-btn" />
     </div>
   </div>
@@ -55,6 +55,7 @@ const props = defineProps<{
 
 defineEmits<{
   (e: "updatePage", page: number): void;
+  (e: "openSettings"): void;
 }>();
 
 const previousPage = computed(() => {
