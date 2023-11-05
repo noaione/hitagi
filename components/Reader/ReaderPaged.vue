@@ -12,7 +12,7 @@
       <ReaderImage v-for="img in item" :key="img.url" :image="img" />
     </Slide>
   </Carousel>
-  <div v-else :class="readerConf.fitMode === 'screen-height' ? 'min-h-screen w-auto' : 'h-auto min-w-[100vw]'" />
+  <div v-else class="h-full w-full object-contain" />
 </template>
 
 <script setup lang="ts">

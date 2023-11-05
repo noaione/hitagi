@@ -1,5 +1,7 @@
 <template>
-  <ReaderPaged v-if="readerConf.isPaged" />
+  <div :class="`block ${readerConf.fitMode === 'screen-height' ? 'min-h-screen w-auto' : 'h-auto min-w-[100vw]'}`">
+    <ReaderPaged v-if="readerConf.isPaged" />
+  </div>
 </template>
 
 <script setup lang="ts">

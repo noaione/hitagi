@@ -2,9 +2,9 @@
   <img
     :src="blobURL"
     loading="lazy"
+    :class="`object-contain ${readerConf.fitMode === 'screen-height' ? 'h-screen w-auto' : 'w-full'}`"
     :width="$props.image.width"
     :height="$props.image.height"
-    :class="`${readerConf.fitMode === 'screen-height' ? 'h-screen w-auto' : 'h-auto w-screen'}`"
     :data-page="$props.image.page"
     :data-original="$props.image.url"
   />
