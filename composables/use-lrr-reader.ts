@@ -55,6 +55,39 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
 
     return pairedImages.value[0].map((img) => img.page);
   });
+  const currentPairIndex = computed({
+    get: () => {
+      if (pairedImages.value.length === 0) {
+        return 0;
+      }
+
+      // get from currentPage
+      const pairedImageIndex = pairedImages.value.findIndex(
+        (item) => item.findIndex((img) => img.page === currentPage.value) !== -1
+      );
+
+      if (pairedImageIndex !== -1) {
+        return pairedImageIndex;
+      }
+
+      return 0;
+    },
+    set: (value: number) => {
+      if (pairedImages.value.length === 0) {
+        return;
+      }
+
+      // the provided value should be the pairedImages index
+      const pairedImage = pairedImages.value[value];
+
+      if (isNone(pairedImage)) {
+        return;
+      }
+
+      // dispatch updatePage
+      updatePage(pairedImage.map((img) => img.page));
+    },
+  });
   const firstPages = computed(() => {
     // get the last image
     const firstPair = pairedImages.value[0];
@@ -224,6 +257,7 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
     pairedImages,
     nextPage,
     previousPage,
+    currentPairIndex,
     firstPages,
     lastPages,
     maxPage,
