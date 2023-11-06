@@ -21,7 +21,7 @@
       <ArchiveTags :tags="data.metadata.tags.split(',')" :unrender="['date_added']" />
     </div>
   </div>
-  <div v-if="data" class="mt-4 flex w-full flex-col">
+  <div v-if="data && data.metadata.pagecount > 1" class="mt-4 flex w-full flex-col">
     <h2 class="glow-text-lg mb-6 text-2xl font-bold text-hitagi-700 shadow-hitagi-400 dark:text-hitagi-200">Pages</h2>
     <ArchivePages :arc-id="data.metadata.arcid" :total-pages="data.metadata.pagecount" />
   </div>

@@ -21,6 +21,7 @@
         :style="style"
         :href="`/archive/${arcId}/read?page=${item}`"
         class="mx-auto h-48 w-[9rem] rounded-lg transition-opacity hover:opacity-80 md:h-[22rem] md:w-[15.25rem]"
+        auto-refresh
       />
     </template>
   </VirtualGrid>
