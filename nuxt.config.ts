@@ -1,5 +1,6 @@
 import type { NuxtPage } from "nuxt/schema";
 import pkg from "./package.json";
+import pkgLock from "./package-lock.json";
 
 function getEnv(key: string): string | undefined {
   return import.meta.env[key] ?? process.env[key];
@@ -27,6 +28,28 @@ function removePagesMatching(pattern: RegExp, pages: NuxtPage[] = []) {
   }
 }
 
+function getPackageInformation() {
+  const piniaNuxtVer = pkgLock.packages["node_modules/@pinia/nuxt"].version;
+  const piniaVer = pkgLock.packages["node_modules/pinia"].version;
+  const piniaPersistVer = pkgLock.packages["node_modules/pinia-plugin-persistedstate"].version;
+
+  const nuxtVer = pkgLock.packages["node_modules/nuxt"].version;
+  const vueVer = pkgLock.packages["node_modules/vue"].version;
+
+  const tailwindVer = pkgLock.packages["node_modules/tailwindcss"].version;
+
+  return {
+    pinia: {
+      version: piniaVer,
+      nuxt: piniaNuxtVer,
+      persist: piniaPersistVer,
+    },
+    nuxt: nuxtVer,
+    vue: vueVer,
+    tailwind: tailwindVer,
+  };
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -40,6 +63,7 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
+    "@nuxt/image",
     "@nuxtjs/google-fonts",
     "@nuxtjs/eslint-module",
     "@vueuse/nuxt",
@@ -55,6 +79,7 @@ export default defineNuxtConfig({
       baseHost: getEnv("BASE_HOST") ?? getEnv("NUXT_PUBLIC_BASE_HOST") ?? undefined,
       clientVersion: pkg.version,
       clientSHA: getEnv("VERCEL_GIT_COMMIT_SHA") ?? getEnv("CF_PAGES_COMMIT_SHA") ?? undefined,
+      packagesVersion: getPackageInformation(),
     },
   },
   googleFonts: {
