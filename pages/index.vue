@@ -14,7 +14,11 @@
       <ListingArchiveNavigation @open-page="pageModal = true" />
     </div>
   </div>
-  <ModalArchivePageSelector v-model:open="pageModal" />
+  <ModalArchivePageSelector
+    v-model:page="search.pageSelectorIndex"
+    v-model:open="pageModal"
+    :max-page="search.maxPage"
+  />
 </template>
 
 <script setup lang="ts">

@@ -186,6 +186,14 @@ export const useLRRSearch = defineStore("lrrsearchV2", () => {
   // Actions + Getters
   const searchDebounced = debounce(search, 500);
 
+  // Extra
+  const pageSelectorIndex = computed({
+    get: () => currentPageIndex.value,
+    set: (value) => {
+      navigatePage(value);
+    },
+  });
+
   return {
     // State
     filter,
@@ -206,6 +214,7 @@ export const useLRRSearch = defineStore("lrrsearchV2", () => {
     perPage,
     maxPage,
     currentSearchSlice,
+    pageSelectorIndex,
 
     // Actions
     search,

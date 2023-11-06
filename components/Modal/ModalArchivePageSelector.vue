@@ -19,13 +19,13 @@
     >
       <HitagiRadioBlock
         v-for="pageData in pagedData"
-        :key="`page-nav-home-${pageData}`"
+        :key="`page-nav-${pageData}`"
         v-model="pageNumber"
         :value="pageData"
         filled
       >
         <div class="block h-10 w-10 p-2 text-center">
-          {{ pageData }}
+          {{ pageData + 1 }}
         </div>
       </HitagiRadioBlock>
     </HitagiRadioContainer>
@@ -35,13 +35,14 @@
 <script setup lang="ts">
 const props = defineProps<{
   open: boolean;
+  page: number;
+  maxPage: number;
 }>();
 
 const emit = defineEmits<{
   (e: "update:open", value: boolean): void;
+  (e: "update:page", value: number): void;
 }>();
-
-const searchEngine = useLRRSearch();
 
 const modalOpen = computed({
   get: () => props.open,
@@ -49,15 +50,14 @@ const modalOpen = computed({
 });
 
 const pagedData = computed(() => {
-  return Array.from({ length: searchEngine.maxPage }).map((_, index) => index + 1);
+  return Array.from({ length: props.maxPage }).map((_, index) => index);
 });
 
 const pageNumber = computed({
-  get: () => searchEngine.currentPageIndex + 1,
+  get: () => props.page,
   set: (pageValue) => {
-    modalOpen.value = false;
-
-    searchEngine.navigatePage(pageValue - 1);
+    emit("update:page", pageValue);
+    emit("update:open", false);
   },
 });
 </script>
