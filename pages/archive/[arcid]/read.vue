@@ -46,6 +46,14 @@ const { data, error, pending, execute } = await useAsyncData(
   }
 );
 
+function showNavigationAndClose() {
+  reader.navigationBar = true;
+
+  setTimeout(() => {
+    reader.navigationBar = false;
+  }, 2000);
+}
+
 onMounted(() => {
   // fetch and wait
   // then set startPage
@@ -57,6 +65,8 @@ onMounted(() => {
 
       reader.populate(data.value.files.pages);
       console.log("reader ready");
+      reader.screenSpy = true;
+      showNavigationAndClose();
 
       const queryPage = Number(route.query.page);
 

@@ -1,3 +1,5 @@
+import debounce from "lodash.debounce";
+
 export const useLRRReader = defineStore("lrr.readerDataV2", () => {
   const serverMeta = useServerMeta();
   const config = useLRRReaderConfig();
@@ -5,11 +7,37 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
   // State
   const images = ref<LoadedImage[]>([]);
   const imgPreload = ref<string[]>([]);
+  const _screenSpyVisible = ref(false);
+  const _navigationVisible = ref(false);
   // not a zero-based index
   const currentPage = ref(1);
   const pageIndicator = ref([1]);
 
   // Getters
+  const screenSpy = computed({
+    get: () => _screenSpyVisible.value,
+    set: (newValue) => {
+      if (newValue) {
+        _screenSpyVisible.value = true;
+
+        nextTick(() => {
+          setTimeout(() => {
+            nextTick(() => {
+              _screenSpyVisible.value = false;
+            });
+          }, 2000);
+        });
+      } else {
+        _screenSpyVisible.value = false;
+      }
+    },
+  });
+  const navigationBar = computed({
+    get: () => _navigationVisible.value,
+    set: (newValue) => {
+      _navigationVisible.value = newValue;
+    },
+  });
   const sortedImages = computed(() => {
     return images.value.sort((a, b) => a.page - b.page);
   });
@@ -35,7 +63,7 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
     }
 
     // if we can't provide last pair
-    return pairedImages.value[pairedImages.value.length - 1].map((img) => img.page);
+    return [];
   });
   const previousPage = computed(() => {
     if (pairedImages.value.length === 0) {
@@ -46,6 +74,12 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
     const pairedImageIndex = pairedImages.value.findIndex(
       (item) => item.findIndex((img) => img.page === currentPage.value) !== -1
     );
+
+    console.info("Previous page", pairedImageIndex);
+
+    if (pairedImageIndex === 0) {
+      return [];
+    }
 
     if (pairedImageIndex !== -1 && pairedImageIndex - 1 >= 0) {
       const previousPairedImage = pairedImages.value[pairedImageIndex - 1];
@@ -193,6 +227,11 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
   }
   function updatePage(singleOrDoublePage: number | number[]) {
     if (Array.isArray(singleOrDoublePage)) {
+      if (singleOrDoublePage.length === 0) {
+        return;
+      }
+
+      console.info("Updating page", singleOrDoublePage);
       updatePageInternal(singleOrDoublePage);
     } else {
       if (isNone(pairedImages.value)) {
@@ -282,6 +321,7 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
     imgPreload,
     currentPage,
     pageIndicator,
+    _screenSpyVisible,
     // Getters
     sortedImages,
     pairedImages,
@@ -291,10 +331,13 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
     firstPages,
     lastPages,
     maxPage,
+    screenSpy,
+    navigationBar,
     // Actions
     populate,
     preload,
     updatePage,
+    updatePageDebounced: debounce(updatePage, 500),
     clear,
     preloadImagesFromConfig,
     loadCurrent,

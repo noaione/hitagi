@@ -96,6 +96,7 @@ const emit = defineEmits<{
   (e: "update:open", value: boolean): void;
 }>();
 
+const reader = useLRRReader();
 const settings = useLRRReaderConfig();
 
 const modalOpen = computed({
@@ -109,4 +110,11 @@ const FlowTextInfo = {
   rtl: "Right-to-Left",
   // vertical: "Vertical",
 };
+
+watch(
+  () => settings.flow,
+  () => {
+    reader.screenSpy = true;
+  }
+);
 </script>

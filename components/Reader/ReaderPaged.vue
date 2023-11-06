@@ -6,6 +6,8 @@
     :wrap-around="false"
     :items-to-show="1"
     :dir="readerConf.isPaged ? (readerConf.flow as 'ltr' | 'rtl') : 'ltr'"
+    :touch-drag="false"
+    :mouse-drag="false"
     snap-align="center"
   >
     <Slide v-for="item in reader.pairedImages" :key="'parent-' + item[0].url">
