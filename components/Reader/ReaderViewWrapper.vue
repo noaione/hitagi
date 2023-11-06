@@ -47,9 +47,11 @@ const bgColor = computed(() => {
 function updatePage(page: number[]) {
   reader.updatePage(page);
 
+  const selPage = readerConfig.flow === "ltr" ? page[0] : page[page.length - 1];
+
   router.replace({
     query: {
-      page: page[0],
+      page: selPage,
     },
   });
 }
@@ -57,18 +59,15 @@ function updatePage(page: number[]) {
 function kbdMoveLeft() {
   const movement = reader.previousPage;
 
-  if (movement[0] !== 1) {
+  if (movement.length > 0) {
     updatePage(movement);
   }
 }
 
 function kbdMoveRight() {
   const movement = reader.nextPage;
-  const moveLast = movement[movement.length - 1];
-  const maxPairs = reader.pairedImages[reader.pairedImages.length - 1];
-  const maxPage = maxPairs[maxPairs.length - 1].page;
 
-  if (moveLast !== maxPage) {
+  if (movement.length > 0) {
     updatePage(movement);
   }
 }
