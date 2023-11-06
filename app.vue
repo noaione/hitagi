@@ -87,7 +87,9 @@ onMounted(() => {
 
   isMounted.value = true;
 
-  if (route.fullPath.startsWith("/server")) {
+  const currentRoute = route.fullPath;
+
+  if (currentRoute.startsWith("/server")) {
     shutOffSplash();
 
     return;
@@ -95,15 +97,16 @@ onMounted(() => {
 
   const envBasePath = runtimeConfig?.public?.baseHost;
   const basePath = envBasePath || serverMeta.host;
+  const redirect = encodeURIComponent(currentRoute);
 
   if (typeof basePath !== "string") {
-    router.push("/server");
+    router.push(`/server?redirect=${redirect}`);
 
     return;
   }
 
   if (basePath.trim().length === 0) {
-    router.push("/server");
+    router.push(`/server?redirect=${redirect}`);
 
     return;
   }
@@ -117,14 +120,18 @@ onMounted(() => {
   })
     .then((response) => {
       if (numStrToInt(response.nofun_mode) === 1) {
+        if (currentRoute.startsWith("/login")) {
+          return;
+        }
+
         if (isNone(serverMeta.apiKey)) {
-          router.push("/login");
+          router.push(`/login?redirect=${redirect}`);
 
           return;
         }
 
         if (serverMeta.apiKey?.trim().length === 0) {
-          router.push("/login");
+          router.push(`/login?redirect=${redirect}`);
 
           return;
         }
@@ -135,7 +142,7 @@ onMounted(() => {
     })
     .catch((error) => {
       console.error(error);
-      router.push("/server");
+      router.push(`/server?redirect=${redirect}`);
     });
 });
 </script>
