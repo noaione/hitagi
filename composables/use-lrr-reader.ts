@@ -75,8 +75,6 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
       (item) => item.findIndex((img) => img.page === currentPage.value) !== -1
     );
 
-    console.info("Previous page", pairedImageIndex);
-
     if (pairedImageIndex === 0) {
       return [];
     }
@@ -231,7 +229,6 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
         return;
       }
 
-      console.info("Updating page", singleOrDoublePage);
       updatePageInternal(singleOrDoublePage);
     } else {
       if (isNone(pairedImages.value)) {

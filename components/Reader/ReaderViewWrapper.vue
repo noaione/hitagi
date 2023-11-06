@@ -1,18 +1,14 @@
 <template>
   <div :class="`flex flex-col ${bgColor}`">
-    <div class="mb-auto block">
-      <ReaderNavBar :arc-id="metadata.arcid" pinned @update-page="updatePage" @open-settings="$emit('openModal')" />
-    </div>
+    <ReaderNavBar :arc-id="metadata.arcid" pinned @update-page="updatePage" @open-settings="$emit('openModal')" />
     <ReaderContainer />
-    <div v-if="readerConfig.isPaged" class="mt-auto block">
-      <ReaderNavBar
-        :arc-id="metadata.arcid"
-        pinned
-        bottom
-        @update-page="updatePage"
-        @open-settings="$emit('openModal')"
-      />
-    </div>
+    <ReaderNavBar
+      :arc-id="metadata.arcid"
+      pinned
+      bottom
+      @update-page="updatePage"
+      @open-settings="$emit('openModal')"
+    />
   </div>
   <ReaderHint />
 </template>

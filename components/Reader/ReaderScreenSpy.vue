@@ -57,30 +57,21 @@ const touchTrap = ref<() => void>();
 const reader = useLRRReader();
 const readerConf = useLRRReaderConfig();
 
-const targetParent = computed(() => props.reference ?? window);
-const windowLeft = computed(() => {
-  if (targetParent.value === window) {
-    return window.innerWidth * 0.35;
+function getTargetWidth(target: EventTarget) {
+  if (target === window) {
+    return window.innerWidth;
   }
 
-  return (targetParent.value as HTMLDivElement).offsetWidth * 0.35;
-});
-const windowRight = computed(() => {
-  if (targetParent.value === window) {
-    return window.innerWidth * 0.65;
-  }
+  return (target as HTMLDivElement).offsetWidth;
+}
 
-  return (targetParent.value as HTMLDivElement).offsetWidth * 0.65;
-});
-
-function trapHandle({ x }: { x: number }) {
-  console.log("Trapping", props.reference, window);
-
-  const left = x < windowLeft.value;
-  const right = x > windowRight.value;
+function trapHandle({ x }: { x: number }, target: EventTarget) {
+  const baseW = getTargetWidth(target);
+  const left = x < baseW * 0.35;
+  const right = x > baseW * 0.65;
   const middle = !left && !right;
 
-  console.log("Left", left, "| Right |", right, "| Middle", middle);
+  console.log(left, right, middle, baseW, x, target);
 
   if (left) {
     // go to previous page
@@ -105,19 +96,20 @@ function handleMouseTrapArea(ev: MouseEvent) {
   // only handle left click
   if (ev.button !== 0) return;
 
-  const { clientX } = ev;
+  const { clientX, currentTarget } = ev;
 
-  trapHandle({ x: clientX });
+  trapHandle({ x: clientX }, currentTarget ?? window);
 }
 
 function handleTouchTrapArea(ev: TouchEvent) {
   // check if the event is a touch event
   const { clientX } = ev.touches[0];
 
-  trapHandle({ x: clientX });
+  trapHandle({ x: clientX }, ev.currentTarget ?? window);
 }
 
 function addTrapListener(reference: HTMLDivElement | Window) {
+  console.log("Adding trap listener", reference, touchTrap, mouseTrap);
   touchTrap.value?.();
   mouseTrap.value?.();
 
@@ -130,6 +122,18 @@ function addTrapListener(reference: HTMLDivElement | Window) {
     capture: false,
   });
 }
+
+// Trap for window size change
+const { width: windowWidthSize } = useWindowSize();
+
+watch(
+  () => windowWidthSize.value,
+  () => {
+    reader.screenSpy = true;
+
+    addTrapListener(props.reference ?? window);
+  }
+);
 
 watch(
   () => props.reference,
