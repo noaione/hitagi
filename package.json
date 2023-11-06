@@ -45,6 +45,7 @@
   "dependencies": {
     "@floating-ui/vue": "^1.0.2",
     "@formkit/auto-animate": "^0.8.0",
+    "@nuxt/image": "^1.0.0",
     "@pinia/nuxt": "^0.5.1",
     "clsx": "^2.0.0",
     "lodash.debounce": "^4.0.8",
