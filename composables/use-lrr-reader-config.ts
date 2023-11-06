@@ -9,6 +9,7 @@ export interface StateLRRReaderConfig {
   // prefetch pages
   // from current page, prefetch pages in both directions.
   preloadPage: number;
+  firstTimeHint: boolean;
 }
 
 export const useLRRReaderConfig = defineStore("lrrconfig.reader", {
@@ -18,6 +19,7 @@ export const useLRRReaderConfig = defineStore("lrrconfig.reader", {
     fitMode: "screen-height",
     background: "gray",
     preloadPage: 3,
+    firstTimeHint: true,
   }),
   persist: {
     storage: persistedState.localStorage,

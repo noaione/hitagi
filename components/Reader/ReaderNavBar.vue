@@ -2,11 +2,11 @@
   <Transition :name="bottom ? 'reader-bar' : 'reader-bar-2'">
     <div
       v-show="reader.navigationBar"
-      :class="`flex w-full min-w-[100vw] flex-row justify-between bg-gray-800 py-2 ${
+      :class="`flex w-full min-w-[100vw] flex-row bg-gray-800 py-2 ${
         pinned ? (bottom ? 'fixed top-0 z-20' : 'fixed bottom-0 z-20') : ''
-      }`"
+      } ${bottom ? 'justify-between' : 'justify-center'}`"
     >
-      <div class="ml-2 block">
+      <div v-if="bottom" class="ml-2 block">
         <NuxtLink :to="`/archive/${arcId}`">
           <Icon
             name="material-symbols:keyboard-backspace-rounded"
@@ -50,7 +50,7 @@
           <ReaderNavIcon name="mdi:chevron-double-right" />
         </button>
       </div>
-      <div class="mr-2 block" @click="$emit('openSettings')">
+      <div v-if="$props.bottom" class="mr-2 block" @click="$emit('openSettings')">
         <ReaderNavIcon name="heroicons:cog-8-tooth" />
       </div>
     </div>

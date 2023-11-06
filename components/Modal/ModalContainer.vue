@@ -42,7 +42,7 @@ function backdropClick(e: Event) {
 
 <style scoped lang="postcss">
 .modal-mask {
-  @apply fixed left-0 top-0 z-[9998] flex h-full w-full bg-black bg-opacity-50 transition-opacity;
+  @apply fixed left-0 top-0 z-[1000] flex h-full w-full bg-black bg-opacity-50 transition-opacity;
 }
 
 .modal-container {

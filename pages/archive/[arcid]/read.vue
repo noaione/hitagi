@@ -10,6 +10,7 @@
 const route = useRoute();
 
 const reader = useLRRReader();
+const readerConf = useLRRReaderConfig();
 const serverMeta = useServerMeta();
 const modalReader = ref(false);
 
@@ -53,6 +54,18 @@ function showNavigationAndClose() {
     reader.navigationBar = false;
   }, 2000);
 }
+
+onKeyStroke("Escape", () => {
+  if (readerConf.firstTimeHint) {
+    readerConf.firstTimeHint = false;
+
+    return;
+  }
+
+  if (modalReader.value) {
+    modalReader.value = false;
+  }
+});
 
 onMounted(() => {
   // fetch and wait

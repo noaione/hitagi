@@ -14,6 +14,7 @@
       />
     </div>
   </div>
+  <ReaderHint />
 </template>
 
 <script setup lang="ts">
@@ -21,7 +22,7 @@ defineProps<{
   metadata: LRRArchiveMetadata;
 }>();
 
-defineEmits<{
+const emits = defineEmits<{
   (e: "openModal"): void;
 }>();
 
@@ -56,7 +57,11 @@ function updatePage(page: number[]) {
   });
 }
 
-function kbdMoveLeft() {
+function kbdMoveLeft(ctrlKey?: boolean) {
+  if (ctrlKey) {
+    updatePage(reader.firstPages);
+  }
+
   const movement = reader.previousPage;
 
   if (movement.length > 0) {
@@ -64,7 +69,11 @@ function kbdMoveLeft() {
   }
 }
 
-function kbdMoveRight() {
+function kbdMoveRight(ctrlKey?: boolean) {
+  if (ctrlKey) {
+    updatePage(reader.lastPages);
+  }
+
   const movement = reader.nextPage;
 
   if (movement.length > 0) {
@@ -72,33 +81,88 @@ function kbdMoveRight() {
   }
 }
 
-onKeyStroke(["ArrowLeft", "ArrowUp"], (e) => {
+onKeyStroke(["ArrowLeft", "ArrowUp", "A", "W", "a", "w"], (e) => {
   // allow arrow up only in vertical mode
-  if (e.key === "ArrowUp" && readerConfig.flow !== "vertical") {
+  const verticalMove = e.key === "ArrowUp" || e.key === "W" || e.key === "w";
+
+  if (verticalMove && readerConfig.isPaged) {
     return;
   }
 
   e.preventDefault();
 
   if (readerConfig.flow === "rtl") {
-    kbdMoveRight();
+    kbdMoveRight(e.ctrlKey);
   } else {
-    kbdMoveLeft();
+    kbdMoveLeft(e.ctrlKey);
   }
 });
 
-onKeyStroke(["ArrowRight", "ArrowDown"], (e) => {
+onKeyStroke(["ArrowRight", "ArrowDown", "D", "S", "d", "s"], (e) => {
   // allow arrow down only in vertical mode
-  if (e.key === "ArrowDown" && readerConfig.flow !== "vertical") {
+  const verticalMove = e.key === "ArrowDown" || e.key === "S" || e.key === "s";
+
+  if (verticalMove && readerConfig.isPaged) {
     return;
   }
 
   e.preventDefault();
 
   if (readerConfig.flow === "rtl") {
-    kbdMoveLeft();
+    kbdMoveLeft(e.ctrlKey);
   } else {
-    kbdMoveRight();
+    kbdMoveRight(e.ctrlKey);
   }
+});
+
+onKeyStroke(["P", "p"], (e) => {
+  e.preventDefault();
+
+  const swapchains = ["single", "double", "double-cover"];
+  const current = swapchains.indexOf(readerConfig.pagingMode);
+  const nextChain = swapchains[(current + 1) % swapchains.length] as "single" | "double" | "double-cover";
+
+  readerConfig.pagingMode = nextChain;
+});
+
+onKeyStroke(["R", "r"], (e) => {
+  e.preventDefault();
+
+  if (readerConfig.flow === "ltr" || readerConfig.flow === "rtl") {
+    readerConfig.flow = readerConfig.flow === "ltr" ? "rtl" : "ltr";
+  } else {
+    readerConfig.flow = readerConfig.flow === "vertical" ? "webtoon" : "vertical";
+  }
+});
+
+onKeyStroke(["F", "f"], (e) => {
+  e.preventDefault();
+  readerConfig.fitMode = readerConfig.fitMode === "screen-height" ? "screen-width" : "screen-height";
+});
+
+onKeyStroke(["N", "n"], (e) => {
+  e.preventDefault();
+  reader.navigationBar = !reader.navigationBar;
+});
+
+onKeyStroke(["L", "l"], (e) => {
+  e.preventDefault();
+
+  const swapchains = ["gray", "black", "white"];
+  const current = swapchains.indexOf(readerConfig.background);
+  const nextChain = swapchains[(current + 1) % swapchains.length] as "gray" | "black" | "white";
+
+  readerConfig.background = nextChain;
+});
+
+onKeyStroke(["C", "c"], (e) => {
+  e.preventDefault();
+  emits("openModal");
+});
+
+onKeyStroke(["H", "h"], (e) => {
+  e.preventDefault();
+
+  readerConfig.firstTimeHint = true;
 });
 </script>
