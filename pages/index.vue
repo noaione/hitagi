@@ -4,11 +4,35 @@
       Recommended
     </h1>
     <ListingRecommendedView class="mb-4" />
+    <div class="mb-2 flex flex-row justify-between">
+      <h1 class="glow-text-lg text-2xl font-bold text-hitagi-700 shadow-hitagi-400 dark:text-hitagi-200">Listing</h1>
+      <ListingArchiveNavigation container-class="hidden md:block" @open-page="pageModal = true" />
+      <ListingArchiveOptions />
+    </div>
+    <ListingArchiveView class="mb-2" />
+    <div class="mb-4 flex flex-row items-center justify-center">
+      <ListingArchiveNavigation @open-page="pageModal = true" />
+    </div>
   </div>
+  <ModalArchivePageSelector v-model:open="pageModal" />
 </template>
 
 <script setup lang="ts">
+const search = useLRRSearch();
+
+const pageModal = ref(false);
+
 onMounted(() => {
+  search
+    .getAvailableTags()
+    .then(() => {
+      search.search(0);
+    })
+    .catch((error) => {
+      console.error(error);
+      search.search(0);
+    });
+
   useSeoMeta({
     title: "Home :: Hitagi",
     ogTitle: "Hitagi",

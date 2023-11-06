@@ -45,16 +45,3 @@ function pageProvider(pageNumber: number, pageSize: number) {
   return Promise.resolve(slice);
 }
 </script>
-
-<style scoped lang="postcss">
-.archive-pages-grid {
-  @apply grid items-center justify-center gap-2;
-  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
-}
-
-@media (min-width: 768px) {
-  .archive-pages-grid {
-    grid-template-columns: repeat(auto-fill, minmax(15.25rem, 1fr));
-  }
-}
-</style>

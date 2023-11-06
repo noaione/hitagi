@@ -10,10 +10,10 @@
       }"
     >
       <div class="flex flex-row items-start md:items-center">
-        <LinkablePill v-if="boolStrToBool(data.isnew)" color="blue" outlined>NEW</LinkablePill>
+        <LinkablePill v-if="boolStrToBool(data.isnew)" color="blue" class="mr-2" outlined>NEW</LinkablePill>
         <NuxtLink
           :to="`/archive/${data.arcid}`"
-          class="ml-2 text-hitagi-800 decoration-hitagi-800 transition-opacity hover:underline hover:opacity-80 dark:text-hitagi-200 dark:decoration-hitagi-200"
+          class="text-hitagi-800 decoration-hitagi-800 transition-opacity hover:underline hover:opacity-80 dark:text-hitagi-200 dark:decoration-hitagi-200"
         >
           {{ data.title }}
         </NuxtLink>

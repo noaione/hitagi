@@ -8,6 +8,7 @@
       :class="inputFormClass"
       :type="type"
       :disabled="disabled"
+      :placeholder="placeholder"
     />
     <slot v-if="swap" name="label" />
   </div>
@@ -24,6 +25,7 @@ const props = defineProps<{
   modelValue?: any;
   containerClass?: string;
   disabled?: boolean;
+  placeholder?: string;
   color?: string;
   swap?: boolean;
 }>();

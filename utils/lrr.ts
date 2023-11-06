@@ -45,6 +45,12 @@ export interface LRRArchiveFiles {
   pages: string[];
 }
 
+export interface LRRDatabaseStatsItem {
+  namespace: string;
+  text: string;
+  weight: NumberStr;
+}
+
 export interface LRRSearchBase {
   data: LRRArchiveMetadata[];
 }

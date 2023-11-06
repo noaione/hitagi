@@ -118,7 +118,7 @@ const { data, pending, execute } = await useAsyncData(
     } else {
       const params: Record<string, string | number> = {
         filter: searchQuery.filter,
-        category: searchQuery.category,
+        category: searchQuery.category ?? "",
         start: -1,
         order: "desc",
         sortby: "date_added",

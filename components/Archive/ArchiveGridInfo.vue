@@ -28,7 +28,8 @@
         <h2
           class="select-none whitespace-pre-wrap px-2 py-1 text-center text-sm font-semibold text-hitagi-100 decoration-hitagi-200 transition group-hover:underline group-hover:opacity-80"
           :class="{
-            'max-w-full overflow-hidden text-ellipsis whitespace-nowrap': compact,
+            'max-h-[1.8rem] max-w-full overflow-hidden text-ellipsis whitespace-nowrap': compact,
+            'max-h-full': compact && activeFloat,
           }"
         >
           <span v-if="boolStrToBool(data.isnew)" class="text-blue-500">•</span>
