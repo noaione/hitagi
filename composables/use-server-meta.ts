@@ -60,10 +60,10 @@ export const useServerMeta = defineStore("servers", {
     },
   },
   actions: {
-    setApiKey(apiKey: string | undefined): void {
+    setApiKey(apiKey?: string): void {
       this.apiKey = apiKey;
     },
-    setApiHost(host: string | undefined): void {
+    setApiHost(host?: string): void {
       this.host = host;
     },
     setInfoFromAPI(apiData: LRRMiscInfo): void {

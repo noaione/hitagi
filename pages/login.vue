@@ -54,6 +54,7 @@ import autoAnimate from "@formkit/auto-animate";
 const route = useRoute();
 const router = useRouter();
 const serverMeta = useServerMeta();
+const serverSetting = useLRRSettings();
 
 const baseHost = ref<string>("");
 
@@ -119,7 +120,9 @@ async function submit() {
     }
 
     console.info("Assigning server info...");
-    serverMeta.setInfoFromAPI(response);
+    await serverMeta.fetchInfoFromAPI(true);
+
+    serverSetting.loggedIn = true;
 
     // redirect
     const redirect = route.query.redirect;
@@ -139,6 +142,8 @@ async function submit() {
     } else if (error instanceof Error) {
       errorHTTP.value = `Failed to fetch: ${error.message}`;
     }
+
+    serverSetting.loggedIn = false;
   } finally {
     submitting.value = false;
   }

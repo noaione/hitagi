@@ -10,6 +10,7 @@ const route = useRoute();
 const router = useRouter();
 const serverMeta = useServerMeta();
 const runtimeConfig = useRuntimeConfig();
+const serverSetting = useLRRSettings();
 
 const isMounted = ref(false);
 const splash = ref(true);
@@ -20,6 +21,58 @@ function shutOffSplash() {
 
 router.afterEach(() => {
   shutOffSplash();
+});
+
+function testForAPILogin() {
+  if (!serverSetting.loggedIn && serverMeta.apiKey64) {
+    serverSetting
+      .loginFromState()
+      // eslint-disable-next-line promise/no-nesting
+      .then(() => {
+        nextTick(() => {
+          shutOffSplash();
+        });
+      })
+      .catch(() => {
+        serverMeta.setApiKey();
+        serverSetting.loggedIn = false;
+
+        nextTick(() => {
+          shutOffSplash();
+        });
+      });
+  } else {
+    serverSetting.loggedIn = false;
+
+    nextTick(() => {
+      shutOffSplash();
+    });
+  }
+}
+
+router.beforeResolve((to) => {
+  // properly check for the server settings
+
+  // ignore following
+  if (to.fullPath.startsWith("/server")) {
+    return;
+  }
+
+  // check if host is set
+  if (isNone(serverMeta.host)) {
+    navigateTo("/server?redirect" + encodeURIComponent(to.fullPath));
+
+    return;
+  }
+
+  // check if API key is set, and no fun mode is enabled
+  if (isNone(serverMeta.apiKey) && serverMeta.info?.restrictedMode && !to.fullPath.startsWith("/login")) {
+    navigateTo("/login?=redirect" + encodeURIComponent(to.fullPath));
+
+    return;
+  }
+
+  // everything is fine, continue
 });
 
 onMounted(() => {
@@ -78,10 +131,7 @@ onMounted(() => {
       }
 
       serverMeta.setInfoFromAPI(response);
-
-      nextTick(() => {
-        shutOffSplash();
-      });
+      testForAPILogin();
     })
     .catch((error) => {
       console.error(error);
