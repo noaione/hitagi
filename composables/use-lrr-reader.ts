@@ -312,6 +312,14 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
     pageIndicator.value = config.pagingMode === "double-cover" ? [1, 2] : [1];
   }
 
+  // Extra
+  const pageSelectorIndex = computed({
+    get: () => currentPage.value - 1,
+    set: (value: number) => {
+      updatePage(value + 1);
+    },
+  });
+
   return {
     // State
     images,
@@ -330,6 +338,7 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
     maxPage,
     screenSpy,
     navigationBar,
+    pageSelectorIndex,
     // Actions
     populate,
     preload,

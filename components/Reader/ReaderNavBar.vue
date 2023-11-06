@@ -31,7 +31,12 @@
             <ReaderNavIcon name="mdi:chevron-left" />
           </button>
         </div>
-        <span class="text-sm text-hitagi-400">Page {{ fmtPage }}/{{ reader.maxPage }}</span>
+        <span
+          class="cursor-pointer text-sm text-hitagi-400 transition hover:text-opacity-75"
+          @click="$emit('openPages')"
+        >
+          Page {{ fmtPage }}/{{ reader.maxPage }}
+        </span>
         <div class="inline-block">
           <button
             :disabled="reader.nextPage.length === 0"
@@ -66,6 +71,7 @@ defineProps<{
 
 defineEmits<{
   (e: "openSettings"): void;
+  (e: "openPages"): void;
 }>();
 
 const reader = useLRRReader();

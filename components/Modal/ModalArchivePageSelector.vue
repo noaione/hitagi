@@ -14,8 +14,7 @@
     </template>
 
     <HitagiRadioContainer
-      class="mx-auto h-[60vh] w-full flex-grow flex-row flex-wrap items-center justify-start gap-4 overflow-x-hidden overflow-y-scroll"
-      container-class="min-w-0 flex-grow min-h-0"
+      class="mx-auto max-h-[60vh] w-full basis-full flex-row flex-wrap justify-start gap-4 overflow-x-hidden overflow-y-scroll"
     >
       <HitagiRadioBlock
         v-for="pageData in pagedData"

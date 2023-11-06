@@ -1,6 +1,12 @@
 <template>
   <div :class="`flex flex-col ${bgColor}`">
-    <ReaderNavBar :arc-id="metadata.arcid" pinned @update-page="updatePage" @open-settings="$emit('openModal')" />
+    <ReaderNavBar
+      :arc-id="metadata.arcid"
+      pinned
+      @update-page="updatePage"
+      @open-settings="$emit('openModal')"
+      @open-pages="modalPage = true"
+    />
     <ReaderContainer />
     <ReaderNavBar
       :arc-id="metadata.arcid"
@@ -8,8 +14,14 @@
       bottom
       @update-page="updatePage"
       @open-settings="$emit('openModal')"
+      @open-pages="modalPage = true"
     />
   </div>
+  <ModalArchivePageSelector
+    v-model:page="reader.pageSelectorIndex"
+    v-model:open="modalPage"
+    :max-page="reader.maxPage"
+  />
   <ReaderHint />
 </template>
 
@@ -26,6 +38,8 @@ const router = useRouter();
 
 const reader = useLRRReader();
 const readerConfig = useLRRReaderConfig();
+
+const modalPage = ref(false);
 
 const bgColor = computed(() => {
   switch (readerConfig.background) {
