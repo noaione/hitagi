@@ -8,6 +8,12 @@
         <h1 class="ml-2 select-none text-2xl font-bold text-hitagi-600 dark:text-hitagi-300">Hitagi</h1>
       </div>
       <div class="flex flex-row items-center gap-2">
+        <NuxtLink href="/search" title="Search">
+          <Icon
+            name="heroicons:magnifying-glass"
+            class="h-8 w-8 text-hitagi-600 transition-opacity hover:opacity-80 dark:text-hitagi-300"
+          />
+        </NuxtLink>
         <NuxtLink href="/settings" title="Settings">
           <Icon
             name="heroicons:cog-8-tooth"

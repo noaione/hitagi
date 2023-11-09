@@ -6,26 +6,7 @@
       </Slide>
     </Carousel>
   </div>
-  <div
-    v-else
-    :class="`my-auto flex h-48 w-full flex-col items-center justify-center rounded-lg bg-hitagi-500 !bg-opacity-20 align-middle backdrop-blur-lg md:h-64 ${
-      $props.class ?? ''
-    }`"
-  >
-    <CrabIcon
-      class="text-hitagi-700 dark:text-hitagi-300"
-      :class="{
-        'animate-bounce': pending,
-      }"
-    />
-    <LoadingText
-      v-if="pending"
-      class="font-incosolata text-sm font-semibold lowercase text-hitagi-700 dark:text-hitagi-300"
-    />
-    <span v-else class="font-incosolata text-sm font-semibold lowercase text-hitagi-700 dark:text-hitagi-300">
-      No Results Found
-    </span>
-  </div>
+  <ListingLoadingIndicator v-else :pending="pending" :class="$props.class" />
 </template>
 
 <script setup lang="ts">
@@ -43,8 +24,9 @@ type BreakpointReturn = {
   xxxxl: boolean;
 };
 
-defineProps<{
+const props = defineProps<{
   class?: string;
+  searchMode?: boolean;
 }>();
 
 const settings = useLRRConfig();
@@ -102,7 +84,7 @@ const itemsToShow = computed(() => {
   return mappings[activeBreakpoint[0] as keyof typeof mappings] ?? 2;
 });
 
-const { data, pending, execute } = await useAsyncData(
+const { data, pending, execute, refresh } = await useAsyncData(
   `recommended-${settings.recommended}-${searchQuery.filter}`,
   async () => {
     if (settings.recommended === "random") {
@@ -144,8 +126,17 @@ const { data, pending, execute } = await useAsyncData(
 );
 
 onMounted(() => {
-  execute({ dedupe: true });
+  if (!props.searchMode) {
+    execute({ dedupe: true });
+  }
 });
+
+watch(
+  () => searchQuery.filter,
+  () => {
+    refresh({ dedupe: true });
+  }
+);
 </script>
 
 <style scoped lang="postcss">

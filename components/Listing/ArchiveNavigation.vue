@@ -17,7 +17,7 @@
       :disabled="search.loading"
       @click="$emit('openPage')"
     >
-      Page {{ search.currentPageIndex + 1 }}/{{ search.maxPage }}
+      {{ search.loading ? "Loading..." : `Page ${search.currentPageIndex + 1}/${search.maxPage}` }}
     </button>
     <div class="inline-block">
       <button

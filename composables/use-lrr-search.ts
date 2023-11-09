@@ -28,7 +28,8 @@ export const useLRRSearch = defineStore("lrrsearchV2", () => {
   const archiveRecords = ref<number>(0);
   const currentPageIndex = ref<number>(0);
 
-  const searchSuggestions = ref<string[]>([]);
+  // Used to output to user
+  const statsInformations = ref<LRRDatabaseStatsItem[]>([]);
 
   // Getters
   const perPage = computed(() => {
@@ -154,19 +155,13 @@ export const useLRRSearch = defineStore("lrrsearchV2", () => {
 
       // Get all namespace and dedupe
       const namespaces = new Set<string>();
-      const suggestions = new Set<string>();
 
       for (const item of req) {
         namespaces.add(item.namespace);
-
-        // Add suggestions
-        const mergedQuery = `${item.namespace}:${item.text}`;
-
-        suggestions.add(mergedQuery);
       }
 
       sortNamespaces.value = [...namespaces];
-      searchSuggestions.value = [...suggestions];
+      statsInformations.value = req;
     } catch (error_) {
       if (error_ instanceof Error) {
         console.error(error_);
@@ -206,7 +201,7 @@ export const useLRRSearch = defineStore("lrrsearchV2", () => {
     searchRecords,
     archiveRecords,
     currentPageIndex,
-    searchSuggestions,
+    statsInformations,
 
     // Getters
     hasMore,
