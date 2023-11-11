@@ -77,6 +77,12 @@ export interface LRRMiscInfo {
   cache_last_cleared: NumberStr;
 }
 
+export interface LRRMinionJob {
+  state: "finished" | "failed" | "active" | "inactive";
+  task: string;
+  error: string | null;
+}
+
 /**
  * Convert a number string to number
  * @param str A number string
