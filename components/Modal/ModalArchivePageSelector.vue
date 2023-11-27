@@ -1,7 +1,7 @@
 <template>
   <ModalContainer
     v-model:show="modalOpen"
-    class="flex h-[80vh] w-screen flex-col !bg-gray-100 dark:!bg-gray-900 md:w-[80vw] lg:w-[60vw]"
+    class="flex h-[80vh] w-screen flex-col overflow-y-scroll !bg-gray-100 dark:!bg-gray-900 md:w-[80vw] lg:w-[60vw]"
     @close="$emit('update:open', false)"
   >
     <template #header>

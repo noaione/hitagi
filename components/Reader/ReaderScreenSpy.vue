@@ -30,6 +30,19 @@
  *
  * When clicking left/right, do the navigation update for the reader
  * Clicking middle will activate the navigation bar.
+ *
+ * Reference for vertical mode:
+ * |---------------------|
+ * |                     |
+ * |          L          |
+ * |                     |
+ * |---------------------|
+ * |          M          |
+ * |---------------------|
+ * |                     |
+ * |          R          |
+ * |                     |
+ * |---------------------|
  */
 
 const props = defineProps<{
@@ -92,18 +105,10 @@ function trapHandleVertical(y: number, target: EventTarget) {
 
   if (top) {
     // go to previous page
-    if (readerConf.flow === "ltr") {
-      reader.updatePage(reader.previousPage);
-    } else {
-      reader.updatePage(reader.nextPage);
-    }
+    reader.updatePage(reader.previousPage);
   } else if (bottom) {
     // go to next page
-    if (readerConf.flow === "ltr") {
-      reader.updatePage(reader.nextPage);
-    } else {
-      reader.updatePage(reader.previousPage);
-    }
+    reader.updatePage(reader.nextPage);
   } else if (middle) {
     reader.navigationBar = !reader.navigationBar;
   }

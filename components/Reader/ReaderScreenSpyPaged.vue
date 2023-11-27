@@ -1,17 +1,17 @@
 <template>
-  <div :class="`absolute left-0 top-0 h-screen w-[35%] ${spyPrevInfo.className} bg-opacity-50 backdrop-blur-md`">
+  <div :class="`absolute left-0 top-0 h-screen w-[35%] ${spyPrevInfo.className} backdrop-blur-md`">
     <div class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 transform-gpu">
       <div class="text-2xl font-bold text-white">
-        <p class="select-none uppercase shadow-md drop-shadow-md">
+        <p class="text-shadow-md select-none uppercase shadow-black">
           {{ spyPrevInfo.text }}
         </p>
       </div>
     </div>
   </div>
-  <div :class="`absolute left-[65%] top-0 h-screen w-[35%] ${spyNextInfo.className} bg-opacity-50 backdrop-blur-md`">
+  <div :class="`absolute left-[65%] top-0 h-screen w-[35%] ${spyNextInfo.className} backdrop-blur-md`">
     <div class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 transform-gpu">
       <div class="text-2xl font-bold text-white">
-        <p class="select-none uppercase drop-shadow-md">
+        <p class="text-shadow-md select-none uppercase shadow-black">
           {{ spyNextInfo.text }}
         </p>
       </div>
@@ -38,9 +38,9 @@ const spyNextInfo = computed(() => {
 
 <style scoped lang="postcss">
 .sspy-next-bg {
-  @apply bg-green-500;
+  @apply bg-green-500 bg-opacity-50;
 }
 .sspy-prev-bg {
-  @apply bg-red-500;
+  @apply bg-red-500 bg-opacity-50;
 }
 </style>
