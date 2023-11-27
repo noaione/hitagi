@@ -3,6 +3,7 @@ import debounce from "lodash.debounce";
 export const useLRRReader = defineStore("lrr.readerDataV2", () => {
   const serverMeta = useServerMeta();
   const config = useLRRReaderConfig();
+  const router = useRouter();
 
   // State
   const images = ref<LoadedImage[]>([]);
@@ -204,18 +205,28 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
       });
     });
   }
+  function updatePageInternalRouter(targetPage: number) {
+    currentPage.value = targetPage;
+
+    router.replace({
+      query: {
+        ...router.currentRoute.value.query,
+        page: targetPage.toString(),
+      },
+    });
+  }
   function updatePageInternal(pages: number[]) {
     switch (config.pagingMode) {
       case "single": {
         pageIndicator.value = [pages[0]];
-        currentPage.value = pages[0];
+        updatePageInternalRouter(pages[0]);
         break;
       }
       default: {
         // set page indicator to the provided page number
         pageIndicator.value = pages;
         // set current page depending on flow
-        currentPage.value = config.flow === "ltr" ? pages[0] : pages[pages.length - 1];
+        updatePageInternalRouter(config.flow === "ltr" ? pages[0] : pages[pages.length - 1]);
         break;
       }
     }

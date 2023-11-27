@@ -1,18 +1,11 @@
 <template>
   <div :class="`flex flex-col ${bgColor}`">
-    <ReaderNavBar
-      :arc-id="metadata.arcid"
-      pinned
-      @update-page="updatePage"
-      @open-settings="$emit('openModal')"
-      @open-pages="modalPage = true"
-    />
+    <ReaderNavBar :arc-id="metadata.arcid" pinned @open-settings="$emit('openModal')" @open-pages="modalPage = true" />
     <ReaderContainer />
     <ReaderNavBar
       :arc-id="metadata.arcid"
       pinned
       bottom
-      @update-page="updatePage"
       @open-settings="$emit('openModal')"
       @open-pages="modalPage = true"
     />
@@ -34,8 +27,6 @@ const emits = defineEmits<{
   (e: "openModal"): void;
 }>();
 
-const router = useRouter();
-
 const reader = useLRRReader();
 const readerConfig = useLRRReaderConfig();
 
@@ -55,39 +46,27 @@ const bgColor = computed(() => {
   }
 });
 
-function updatePage(page: number[]) {
-  reader.updatePage(page);
-
-  const selPage = readerConfig.flow === "ltr" ? page[0] : page[page.length - 1];
-
-  router.replace({
-    query: {
-      page: selPage,
-    },
-  });
-}
-
 function kbdMoveLeft(ctrlKey?: boolean) {
   if (ctrlKey) {
-    updatePage(reader.firstPages);
+    reader.updatePage(reader.firstPages);
   }
 
   const movement = reader.previousPage;
 
   if (movement.length > 0) {
-    updatePage(movement);
+    reader.updatePage(movement);
   }
 }
 
 function kbdMoveRight(ctrlKey?: boolean) {
   if (ctrlKey) {
-    updatePage(reader.lastPages);
+    reader.updatePage(reader.lastPages);
   }
 
   const movement = reader.nextPage;
 
   if (movement.length > 0) {
-    updatePage(movement);
+    reader.updatePage(movement);
   }
 }
 
