@@ -76,6 +76,32 @@ export default <Partial<Config>>{
           900: "#5d3254",
           950: "#3b1734",
         },
+        hachikuji: {
+          50: "#f6f8ed",
+          100: "#e8efd8",
+          200: "#d3e0b6",
+          300: "#b7cc8a",
+          400: "#9bb665",
+          500: "#759042",
+          600: "#617b35",
+          700: "#4c5f2c",
+          800: "#3e4c28",
+          900: "#364225",
+          950: "#1b2310",
+        },
+        shinobu: {
+          50: "#fdfbe9",
+          100: "#fcf6c5",
+          200: "#faeb8e",
+          300: "#f6d541",
+          400: "#f2c21d",
+          500: "#e2aa10",
+          600: "#c3840b",
+          700: "#9c5e0c",
+          800: "#814a12",
+          900: "#6e3d15",
+          950: "#401f08",
+        },
         themed: {
           50: "rgb(var(--hitagi-theme-50) / <alpha-value>)",
           100: "rgb(var(--hitagi-theme-100) / <alpha-value>)",
@@ -104,6 +130,9 @@ export default <Partial<Config>>{
     "object-center",
     {
       pattern: /(bg|text|shadow|border|decoration)-themed-(\d{2,3})/,
+    },
+    {
+      pattern: /border-(hitagi|hachikuji|shinobu)-500/,
     },
   ],
 };

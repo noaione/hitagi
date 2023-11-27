@@ -12,7 +12,15 @@
         :value="kvKey"
         filled
       >
-        <div class="block px-2 py-2">
+        <div
+          class="block rounded border-[1px] px-2 py-2"
+          :class="{
+            'border-themed-500': hitagiTheme === kvKey,
+            'bd-theme-hitagi': hitagiTheme !== 'hitagi' && kvKey === 'hitagi',
+            'bd-theme-hachikuji': hitagiTheme !== 'hachikuji' && kvKey === 'hachikuji',
+            'bd-theme-shinobu': hitagiTheme !== 'shinobu' && kvKey === 'shinobu',
+          }"
+        >
           {{ capitalize(kvKey) }}
         </div>
       </HitagiRadioBlock>
@@ -143,3 +151,15 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 </script>
+
+<style scoped lang="postcss">
+.bd-theme-hitagi {
+  @apply border-hitagi-500;
+}
+.bd-theme-hachikuji {
+  @apply border-hachikuji-500;
+}
+.bd-theme-shinobu {
+  @apply border-shinobu-500;
+}
+</style>
