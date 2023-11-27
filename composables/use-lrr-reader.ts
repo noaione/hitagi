@@ -226,7 +226,7 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
         // set page indicator to the provided page number
         pageIndicator.value = pages;
         // set current page depending on flow
-        updatePageInternalRouter(config.flow === "ltr" ? pages[0] : pages[pages.length - 1]);
+        updatePageInternalRouter(config.flow === "rtl" ? pages[pages.length - 1] : pages[0]);
         break;
       }
     }

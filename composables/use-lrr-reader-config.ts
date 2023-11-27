@@ -4,6 +4,7 @@ export interface StateLRRReaderConfig {
   // double: double page mode, first page is single
   // double-cover: double page mode, first page is double
   pagingMode: "single" | "double" | "double-cover";
+  padding: number;
   fitMode: "screen-height" | "screen-width";
   background: "gray" | "black" | "white";
   // prefetch pages
@@ -19,6 +20,7 @@ export const useLRRReaderConfig = defineStore("lrrconfig.reader", {
     fitMode: "screen-height",
     background: "gray",
     preloadPage: 3,
+    padding: 5,
     firstTimeHint: true,
   }),
   persist: {

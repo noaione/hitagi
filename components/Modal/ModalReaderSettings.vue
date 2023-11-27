@@ -33,7 +33,24 @@
           </div>
         </HitagiRadioBlock>
       </HitagiRadioContainer>
-      <HitagiRadioContainer class="w-full flex-wrap gap-2">
+      <HitagiInput
+        v-if="settings.flow === 'vertical'"
+        v-model="settings.padding"
+        type="range"
+        min="5"
+        max="30"
+        step="5"
+      >
+        <template #label>
+          <div class="flex flex-col gap-1">
+            <div class="mb-2 font-semibold">Padding</div>
+            <div class="text-sm font-light">
+              Current: <span class="font-semibold">{{ settings.padding }}%</span>
+            </div>
+          </div>
+        </template>
+      </HitagiInput>
+      <HitagiRadioContainer v-if="settings.flow !== 'webtoon'" class="w-full flex-wrap gap-2">
         <template #label>
           <span class="mb-2 font-semibold">Paging Mode</span>
         </template>
@@ -109,7 +126,8 @@ const modalOpen = computed({
 const FlowTextInfo = {
   ltr: "Left-to-Right",
   rtl: "Right-to-Left",
-  // vertical: "Vertical",
+  vertical: "Vertical",
+  webtoon: "Webtoon",
 };
 
 watch(
