@@ -1,0 +1,16 @@
+@layer components {
+  .aspect-thumb {
+    aspect-ratio: 3 / 4;
+  }
+
+  .archive-pages-grid {
+    @apply grid items-center justify-center gap-2;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  }
+
+  @media (min-width: 768px) {
+    .archive-pages-grid {
+      grid-template-columns: repeat(auto-fill, minmax(15.25rem, 1fr));
+    }
+  }
+}

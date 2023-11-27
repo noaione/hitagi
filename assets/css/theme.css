@@ -32,16 +32,16 @@
 
 .ht-theme-shinobu {
   *, ::before, ::after {
-    --hitagi-theme-50: 250 244 229;
-    --hitagi-theme-100: 248 240 219;
-    --hitagi-theme-200: 243 231 198;
-    --hitagi-theme-300: 239 222 177;
-    --hitagi-theme-400: 235 213 155;
-    --hitagi-theme-500: 230 204 134;
-    --hitagi-theme-600: 226 196 113;
-    --hitagi-theme-700: 216 175 62;
-    --hitagi-theme-800: 180 143 37;
-    --hitagi-theme-900: 129 103 26;
-    --hitagi-theme-950: 104 83 21;
+    --hitagi-theme-50: 253 251 233;
+    --hitagi-theme-100: 252 246 197;
+    --hitagi-theme-200: 250 235 142;
+    --hitagi-theme-300: 246 213 65;
+    --hitagi-theme-400: 242 194 29;
+    --hitagi-theme-500: 226 170 16;
+    --hitagi-theme-600: 195 132 11;
+    --hitagi-theme-700: 156 94 12;
+    --hitagi-theme-800: 129 74 18;
+    --hitagi-theme-900: 110 61 21;
+    --hitagi-theme-950: 64 31 8;
   }
 }

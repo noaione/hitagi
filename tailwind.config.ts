@@ -1,6 +1,47 @@
 import type { Config } from "tailwindcss";
+import type { PluginCreator } from "tailwindcss/types/config";
 import forms from "@tailwindcss/forms";
 import colors from "tailwindcss/colors";
+
+import postcss from "postcss";
+import postcssJS from "postcss-js";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+
+/**
+ *
+ * @param cssPath
+ */
+function cssImportPlugin(cssPath: string): PluginCreator {
+  const fullPath = join(process.cwd(), cssPath);
+
+  if (!fullPath.endsWith(".css")) {
+    throw new Error("cssImportPlugin: path must be a .css file");
+  }
+
+  if (!existsSync(fullPath)) {
+    throw new Error(`cssImportPlugin: file not found at ${fullPath}`);
+  }
+
+  return ({ addBase, addComponents, addUtilities }) => {
+    const css = readFileSync(fullPath, "utf8");
+
+    const root = postcss.parse(css);
+    const jss = postcssJS.objectify(root);
+
+    if (jss["@layer base"]) {
+      addBase(jss["@layer base"]);
+    }
+
+    if (jss["@layer components"]) {
+      addComponents(jss["@layer components"]);
+    }
+
+    if (jss["@layer utilities"]) {
+      addUtilities(jss["@layer utilities"]);
+    }
+  };
+}
 
 export default <Partial<Config>>{
   content: [
@@ -47,7 +88,12 @@ export default <Partial<Config>>{
       },
     },
   },
-  plugins: [forms({ strategy: "class" })],
+  plugins: [
+    forms({ strategy: "class" }),
+    cssImportPlugin("./assets/css/components/archives.css"),
+    cssImportPlugin("./assets/css/components/font.css"),
+    cssImportPlugin("./assets/css/components/shadowy-text.css"),
+  ],
   safelist: [
     "object-right",
     "object-left",
