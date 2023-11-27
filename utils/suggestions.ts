@@ -61,7 +61,7 @@ export function createSuggestions(currentQuery: string, sample?: number): LRRDat
 
   if (search.statsInformations.length === 0) return [];
 
-  const statsSuggestions = [...search.statsInformations];
+  const statsSuggestions = [...search.statsInformations].filter((s) => s.namespace !== "date_added");
   const nsRe = makeNamespaceRegex(search.sortNamespaces);
 
   // see query if it formatted like "tag:xxx"
