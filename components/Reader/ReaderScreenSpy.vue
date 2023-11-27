@@ -2,24 +2,8 @@
   <Teleport to="body">
     <Transition name="sspy-fade">
       <div v-show="reader.screenSpy" class="fixed left-0 top-0 w-screen" data-screen-spy="1">
-        <div class="absolute left-0 top-0 h-screen w-[35%] bg-red-500 bg-opacity-50 backdrop-blur-md">
-          <div class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 transform-gpu">
-            <div class="text-2xl font-bold text-white">
-              <p class="select-none uppercase shadow-md drop-shadow-md">
-                {{ readerConf.flow === "ltr" ? "Left" : "Right" }}
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="absolute left-[65%] top-0 h-screen w-[35%] bg-green-500 bg-opacity-50 backdrop-blur-md">
-          <div class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 transform-gpu">
-            <div class="text-2xl font-bold text-white">
-              <p class="select-none uppercase drop-shadow-md">
-                {{ readerConf.flow === "ltr" ? "Right" : "Left" }}
-              </p>
-            </div>
-          </div>
-        </div>
+        <ReaderScreenSpyPaged v-if="readerConf.isPaged" />
+        <ReaderScreenSpyVertical v-else />
       </div>
     </Transition>
   </Teleport>
@@ -65,7 +49,15 @@ function getTargetWidth(target: EventTarget) {
   return (target as HTMLDivElement).offsetWidth;
 }
 
-function trapHandle({ x }: { x: number }, target: EventTarget) {
+function getTargetHeight(target: EventTarget) {
+  if (target === window) {
+    return window.innerHeight;
+  }
+
+  return (target as HTMLDivElement).offsetHeight;
+}
+
+function trapHandlePaged(x: number, target: EventTarget) {
   const baseW = getTargetWidth(target);
   const left = x < baseW * 0.35;
   const right = x > baseW * 0.65;
@@ -92,20 +84,53 @@ function trapHandle({ x }: { x: number }, target: EventTarget) {
   }
 }
 
+function trapHandleVertical(y: number, target: EventTarget) {
+  const baseH = getTargetHeight(target);
+  const top = y < baseH * 0.35;
+  const bottom = y > baseH * 0.65;
+  const middle = !top && !bottom;
+
+  if (top) {
+    // go to previous page
+    if (readerConf.flow === "ltr") {
+      reader.updatePage(reader.previousPage);
+    } else {
+      reader.updatePage(reader.nextPage);
+    }
+  } else if (bottom) {
+    // go to next page
+    if (readerConf.flow === "ltr") {
+      reader.updatePage(reader.nextPage);
+    } else {
+      reader.updatePage(reader.previousPage);
+    }
+  } else if (middle) {
+    reader.navigationBar = !reader.navigationBar;
+  }
+}
+
+function trapHandle(params: { x: number; y: number }, target: EventTarget) {
+  if (readerConf.isPaged) {
+    trapHandlePaged(params.x, target);
+  } else {
+    trapHandleVertical(params.y, target);
+  }
+}
+
 function handleMouseTrapArea(ev: MouseEvent) {
   // only handle left click
   if (ev.button !== 0) return;
 
-  const { clientX, currentTarget } = ev;
+  const { clientX, clientY, currentTarget } = ev;
 
-  trapHandle({ x: clientX }, currentTarget ?? window);
+  trapHandle({ x: clientX, y: clientY }, currentTarget ?? window);
 }
 
 function handleTouchTrapArea(ev: TouchEvent) {
   // check if the event is a touch event
-  const { clientX } = ev.touches[0];
+  const { clientX, clientY } = ev.touches[0];
 
-  trapHandle({ x: clientX }, ev.currentTarget ?? window);
+  trapHandle({ x: clientX, y: clientY }, ev.currentTarget ?? window);
 }
 
 function addTrapListener(reference: HTMLDivElement | Window) {
@@ -136,6 +161,15 @@ watch(
 );
 
 watch(
+  () => readerConf.isPaged,
+  () => {
+    reader.screenSpy = true;
+
+    addTrapListener(props.reference ?? window);
+  }
+);
+
+watch(
   () => props.reference,
   (newRef) => {
     if (newRef) {
@@ -158,5 +192,12 @@ onMounted(() => {
 .sspy-fade-enter-from,
 .sspy-fade-leave-to {
   opacity: 0;
+}
+
+.sspy-next-bg {
+  @apply bg-green-500;
+}
+.sspy-prev-bg {
+  @apply bg-red-500;
 }
 </style>
