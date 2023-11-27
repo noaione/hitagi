@@ -10,7 +10,7 @@
         <NuxtLink :to="`/archive/${arcId}`">
           <Icon
             name="material-symbols:keyboard-backspace-rounded"
-            class="h-6 w-6 text-hitagi-600 transition-opacity hover:opacity-80 dark:text-hitagi-300"
+            class="h-6 w-6 text-themed-600 transition-opacity hover:opacity-80 dark:text-themed-300"
           />
         </NuxtLink>
       </div>
@@ -32,7 +32,7 @@
           </button>
         </div>
         <span
-          class="cursor-pointer text-sm text-hitagi-400 transition hover:text-opacity-75"
+          class="cursor-pointer text-sm text-themed-400 transition hover:text-opacity-75"
           @click="$emit('openPages')"
         >
           Page {{ fmtPage }}/{{ reader.maxPage }}

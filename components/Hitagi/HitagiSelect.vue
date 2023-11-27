@@ -43,14 +43,15 @@ const validColors = [
   "orange",
   "cyan",
   "emerald",
+  "themed",
 ] as const;
 
 type ValidColor = (typeof validColors)[number];
 
 const selectedColor = computed(() => {
-  const col = props.color ?? "hitagi";
+  const col = props.color ?? "themed";
 
-  return validColors.includes(col as ValidColor) ? col : "hitagi";
+  return validColors.includes(col as ValidColor) ? col : "themed";
 });
 
 const inputFormClass = clsx(
@@ -62,6 +63,10 @@ const inputFormClass = clsx(
 </script>
 
 <style scoped lang="postcss">
+.input-hb-themed {
+  @apply border-themed-600 focus:border-themed-400 focus:ring-themed-500 disabled:border-themed-700;
+}
+
 .input-hb-hitagi {
   @apply border-hitagi-600 focus:border-hitagi-400 focus:ring-hitagi-500 disabled:border-hitagi-700;
 }

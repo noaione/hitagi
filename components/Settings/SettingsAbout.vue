@@ -2,8 +2,8 @@
   <div class="flex w-full flex-col flex-wrap justify-center">
     <div class="flex flex-row items-center justify-center gap-4">
       <div class="font-incosolata flex flex-col items-center">
-        <CrabIcon class="mx-auto h-16 w-16 text-hitagi-700 dark:text-hitagi-300" />
-        <span class="text-hitagi-600 dark:text-hitagi-400">Hitagi</span>
+        <CrabIcon class="mx-auto h-16 w-16 text-themed-700 dark:text-themed-300" />
+        <span class="text-themed-600 dark:text-themed-400">Hitagi</span>
       </div>
       <div class="flex flex-col items-center">
         <NuxtImg src="/images/lrr-logo.png" class="mx-auto h-16 w-16" />
@@ -15,11 +15,11 @@
       </div>
     </div>
     <div class="mt-4 flex flex-col">
-      <p class="font-semibold text-hitagi-600 dark:text-hitagi-400">
+      <p class="font-semibold text-themed-600 dark:text-themed-400">
         Server:
         <NuxtLink
           :to="serverMeta.hostURL.origin"
-          class="glow-text text-hitagi-700 shadow-hitagi-300 hover:underline dark:text-hitagi-300 dark:shadow-hitagi-500"
+          class="glow-text text-themed-700 shadow-themed-300 hover:underline dark:text-themed-300 dark:shadow-themed-500"
           target="_blank"
           rel="noopener noreferrer"
           external
@@ -27,49 +27,49 @@
           {{ serverMeta?.info?.name }}
         </NuxtLink>
       </p>
-      <p class="text-hitagi-700 dark:text-hitagi-300">
+      <p class="text-themed-700 dark:text-themed-300">
         &nbsp;v{{ serverMeta?.info?.version }} — {{ serverMeta?.info?.versionName }}
       </p>
-      <p class="text-hitagi-700 dark:text-hitagi-300">&nbsp;{{ serverMeta?.info?.versionDesc }}</p>
+      <p class="text-themed-700 dark:text-themed-300">&nbsp;{{ serverMeta?.info?.versionDesc }}</p>
     </div>
     <div class="mt-4 flex flex-col">
-      <p class="font-semibold text-hitagi-600 dark:text-hitagi-400">
-        Client: <span class="text-hitagi-700 dark:text-hitagi-300"> {{ versionString }}</span>
+      <p class="font-semibold text-themed-600 dark:text-themed-400">
+        Client: <span class="text-themed-700 dark:text-themed-300"> {{ versionString }}</span>
       </p>
-      <p v-if="gitSHA" class="text-hitagi-600 dark:text-hitagi-400">
+      <p v-if="gitSHA" class="text-themed-600 dark:text-themed-400">
         &nbsp;Git SHA:&nbsp;
-        <NuxtLink class="whitespace-pre-wrap break-all text-hitagi-700 dark:text-hitagi-300">{{ gitSHA }}</NuxtLink>
+        <NuxtLink class="whitespace-pre-wrap break-all text-themed-700 dark:text-themed-300">{{ gitSHA }}</NuxtLink>
       </p>
-      <p class="font-semibold text-hitagi-600 dark:text-hitagi-400">&nbsp;Packages:</p>
-      <p class="text-hitagi-600 dark:text-hitagi-400">
+      <p class="font-semibold text-themed-600 dark:text-themed-400">&nbsp;Packages:</p>
+      <p class="text-themed-600 dark:text-themed-400">
         &nbsp; - Nuxt:
-        <span class="text-hitagi-700 dark:text-hitagi-300">
+        <span class="text-themed-700 dark:text-themed-300">
           v{{ runtimeConf.public.packagesVersion.nuxt }} (Vue v{{ runtimeConf.public.packagesVersion.vue }})
         </span>
       </p>
-      <p class="text-hitagi-600 dark:text-hitagi-400">
+      <p class="text-themed-600 dark:text-themed-400">
         &nbsp; - Pinia:
-        <span class="text-hitagi-700 dark:text-hitagi-300">
+        <span class="text-themed-700 dark:text-themed-300">
           v{{ runtimeConf.public.packagesVersion.pinia.version }} (Plugin v{{
             runtimeConf.public.packagesVersion.pinia.nuxt
           }})
         </span>
       </p>
-      <p class="text-hitagi-600 dark:text-hitagi-400">
+      <p class="text-themed-600 dark:text-themed-400">
         &nbsp;&nbsp;&nbsp; - Persisted State:
-        <span class="text-hitagi-700 dark:text-hitagi-300">
+        <span class="text-themed-700 dark:text-themed-300">
           v{{ runtimeConf.public.packagesVersion.pinia.persist }}
         </span>
       </p>
-      <p class="text-hitagi-600 dark:text-hitagi-400">
+      <p class="text-themed-600 dark:text-themed-400">
         &nbsp; - TailwindCSS:
-        <span class="text-hitagi-700 dark:text-hitagi-300"> v{{ runtimeConf.public.packagesVersion.tailwind }} </span>
+        <span class="text-themed-700 dark:text-themed-300"> v{{ runtimeConf.public.packagesVersion.tailwind }} </span>
       </p>
     </div>
 
     <div v-if="serverSettings.loggedIn" class="mt-4 flex flex-col items-center">
-      <p class="font-semibold text-hitagi-600 dark:text-hitagi-400">API Key</p>
-      <p class="select-all whitespace-pre-wrap break-all text-hitagi-700 dark:text-hitagi-300" @copy="copyAPIKey">
+      <p class="font-semibold text-themed-600 dark:text-themed-400">API Key</p>
+      <p class="select-all whitespace-pre-wrap break-all text-themed-700 dark:text-themed-300" @copy="copyAPIKey">
         {{ redactAPIKey(serverMeta.apiKey ?? "") }}
       </p>
     </div>

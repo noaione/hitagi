@@ -1,8 +1,8 @@
 <template>
   <div ref="loginForm" class="font-incosolata flex h-screen flex-col items-center justify-center">
-    <CrabIcon class="text-hitagi-600" />
-    <h1 class="mt-2 font-bold text-hitagi-700 dark:text-hitagi-400">Hitagi</h1>
-    <hr class="server-width my-4 border-hitagi-500" />
+    <CrabIcon class="text-themed-600" />
+    <h1 class="mt-2 font-bold text-themed-700 dark:text-themed-400">Hitagi</h1>
+    <hr class="server-width my-4 border-themed-500" />
     <HitagiInput
       v-model="apiToken"
       input-id="api-token"
@@ -13,7 +13,7 @@
       :disabled="submitting"
     >
       <template #label>
-        <label for="api-token" class="font-medium text-hitagi-700 dark:text-hitagi-300">API Token</label>
+        <label for="api-token" class="font-medium text-themed-700 dark:text-themed-300">API Token</label>
       </template>
     </HitagiInput>
     <div v-if="errorValidation.length > 0" class="server-width flex flex-col flex-wrap">
@@ -34,13 +34,13 @@
         Access
       </HitagiButton>
     </div>
-    <DarkToggle class="mt-4 h-10 w-10 text-hitagi-600 dark:text-hitagi-400" />
+    <DarkToggle class="mt-4 h-10 w-10 text-themed-600 dark:text-themed-400" />
     <div class="server-width mt-4 text-center text-sm">
       <NuxtLink
         :to="baseHost"
         target="_blank"
         rel="noopener noreferrer"
-        class="glow-text-md text-hitagi-600 shadow-hitagi-500 hover:underline dark:text-hitagi-300 dark:shadow-hitagi-200"
+        class="glow-text-md text-themed-600 shadow-themed-500 hover:underline dark:text-themed-300 dark:shadow-themed-200"
       >
         {{ baseHost }}
       </NuxtLink>

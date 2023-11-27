@@ -9,7 +9,7 @@
     </template>
     <template #footer>
       <div class="flex flex-col gap-2">
-        <span class="mb-2 text-center text-sm italic text-hitagi-400">Changes is autosaved on the local storage.</span>
+        <span class="mb-2 text-center text-sm italic text-themed-400">Changes is autosaved on the local storage.</span>
         <HitagiButton @click="settings.firstTimeHint = true">Open Hint</HitagiButton>
         <HitagiButton @click="$emit('update:open', false)">Close</HitagiButton>
       </div>

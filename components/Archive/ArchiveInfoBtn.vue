@@ -2,7 +2,7 @@
   <div :class="`flex flex-row items-center gap-2 ${$props.class ?? ''}`">
     <NuxtLink
       :href="`/archive/${arcId}/read`"
-      class="rounded-md bg-hitagi-600 px-2 py-1 text-sm text-white transition-opacity hover:opacity-80"
+      class="rounded-md bg-themed-600 px-2 py-1 text-sm text-white transition-opacity hover:opacity-80"
     >
       Read
     </NuxtLink>

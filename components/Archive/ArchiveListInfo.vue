@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex flex-col flex-wrap rounded-md bg-hitagi-300 bg-opacity-40 px-2 py-2 align-middle dark:bg-hitagi-950 dark:bg-opacity-60"
+    class="flex flex-col flex-wrap rounded-md bg-themed-300 bg-opacity-40 px-2 py-2 align-middle dark:bg-themed-950 dark:bg-opacity-60"
   >
     <div
       class="flex"
@@ -13,7 +13,7 @@
         <LinkablePill v-if="boolStrToBool(data.isnew)" color="blue" class="mr-2" outlined>NEW</LinkablePill>
         <NuxtLink
           :to="`/archive/${data.arcid}`"
-          class="text-hitagi-800 decoration-hitagi-800 transition-opacity hover:underline hover:opacity-80 dark:text-hitagi-200 dark:decoration-hitagi-200"
+          class="text-themed-800 decoration-themed-800 transition-opacity hover:underline hover:opacity-80 dark:text-themed-200 dark:decoration-themed-200"
         >
           {{ data.title }}
         </NuxtLink>
@@ -39,12 +39,12 @@
         >
           {{ `group:${group}` }}
         </LinkablePill>
-        <span v-if="dateAdded" class="my-1 hidden text-sm text-hitagi-700 dark:text-hitagi-300 md:inline-block">|</span>
+        <span v-if="dateAdded" class="my-1 hidden text-sm text-themed-700 dark:text-themed-300 md:inline-block">|</span>
         <ArchiveUnix
           v-if="dateAdded"
           :unix="dateAdded"
           text="Added on"
-          class="my-1 text-sm text-hitagi-700 dark:text-hitagi-300"
+          class="my-1 text-sm text-themed-700 dark:text-themed-300"
           inner-class="font-semibold"
         />
       </div>
@@ -59,7 +59,7 @@
       v-if="dateAdded && !compact"
       :unix="dateAdded"
       text="Added on"
-      class="my-1 text-sm text-hitagi-700 dark:text-hitagi-300"
+      class="my-1 text-sm text-themed-700 dark:text-themed-300"
       inner-class="font-semibold"
     />
   </div>

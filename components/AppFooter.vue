@@ -1,11 +1,11 @@
 <template>
   <footer
-    class="font-incosolata mt-auto flex flex-col items-center py-2 text-center text-sm font-semibold text-hitagi-600 dark:text-hitagi-300"
+    class="font-incosolata mt-auto flex flex-col items-center py-2 text-center text-sm font-semibold text-themed-600 dark:text-themed-300"
   >
-    <hr class="mb-4 w-[90%] border-hitagi-400" />
+    <hr class="mb-4 w-[90%] border-themed-400" />
     <p class="mx-2 md:mx-auto">
-      <span class="text-hitagi-500">
-        Hitagi <span class="glow-text-md shadow-hitagi-700 dark:shadow-hitagi-400">{{ versionString }}</span>
+      <span class="text-themed-500">
+        Hitagi <span class="glow-text-md shadow-themed-700 dark:shadow-themed-400">{{ versionString }}</span>
       </span>
       <span v-if="server.info !== undefined">
         /
@@ -13,7 +13,7 @@
           :href="server.host"
           target="_blank"
           rel="noopener noreferrer"
-          class="glow-text-lg shadow-hitagi-600 hover:underline dark:shadow-hitagi-300"
+          class="glow-text-lg shadow-themed-600 hover:underline dark:shadow-themed-300"
         >
           {{ server.info.name }}
         </a>
@@ -26,7 +26,7 @@
           :href="serverVerLink"
           target="_blank"
           rel="noopener noreferrer"
-          class="glow-text shadow-hitagi-600 hover:underline dark:shadow-hitagi-300"
+          class="glow-text shadow-themed-600 hover:underline dark:shadow-themed-300"
         >
           v{{ server.info.version }}
         </a>

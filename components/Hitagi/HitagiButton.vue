@@ -40,14 +40,15 @@ const validColors = [
   "orange",
   "cyan",
   "emerald",
+  "themed",
 ] as const;
 
 type ValidColor = (typeof validColors)[number];
 
 const selectedColor = computed(() => {
-  const col = props.color ?? "hitagi";
+  const col = props.color ?? "themed";
 
-  return validColors.includes(col as ValidColor) ? col : "hitagi";
+  return validColors.includes(col as ValidColor) ? col : "themed";
 });
 
 const buttonClass = clsx(
@@ -58,6 +59,10 @@ const buttonClass = clsx(
 </script>
 
 <style scoped lang="postcss">
+.btn-hb-themed {
+  @apply border-themed-500 hover:border-themed-700 hover:bg-themed-700 disabled:border-themed-700 disabled:bg-themed-700;
+}
+
 .btn-hb-hitagi {
   @apply border-hitagi-500 hover:border-hitagi-700 hover:bg-hitagi-700 disabled:border-hitagi-700 disabled:bg-hitagi-700;
 }
@@ -104,6 +109,10 @@ const buttonClass = clsx(
 
 .btn-hb-emerald {
   @apply border-emerald-500 hover:border-emerald-700 hover:bg-emerald-700 disabled:border-emerald-700 disabled:bg-emerald-700;
+}
+
+.btn-hb-themed-text {
+  @apply text-themed-700 group-hover:text-white group-disabled:text-white dark:text-themed-300;
 }
 
 .btn-hb-hitagi-text {

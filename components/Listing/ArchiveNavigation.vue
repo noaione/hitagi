@@ -13,7 +13,7 @@
       </button>
     </div>
     <button
-      class="mx-2 text-sm text-hitagi-400 transition hover:text-opacity-80 disabled:text-opacity-80"
+      class="mx-2 text-sm text-themed-400 transition hover:text-opacity-80 disabled:text-opacity-80"
       :disabled="search.loading"
       @click="$emit('openPage')"
     >

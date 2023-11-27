@@ -21,6 +21,7 @@ const props = defineProps<{
 }>();
 
 const validColors = [
+  "themed",
   "gray",
   "red",
   "yellow",
@@ -38,6 +39,7 @@ const validColors = [
 type ValidColor = (typeof validColors)[number];
 
 const outlinedColorMaps: Record<ValidColor, string> = {
+  themed: "border-themed-500 text-themed-600 dark:text-themed-400 bg-themed-100 dark:bg-themed-950",
   hitagi: "border-hitagi-500 text-hitagi-600 dark:text-hitagi-400 bg-hitagi-100 dark:bg-hitagi-950",
   gray: "border-gray-500 text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-gray-800",
   red: "border-red-500 text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-950",
@@ -53,6 +55,7 @@ const outlinedColorMaps: Record<ValidColor, string> = {
 } as const;
 
 const filledColorMaps: Record<ValidColor, string> = {
+  themed: "border-themed-700 bg-themed-700 text-white",
   hitagi: "border-hitagi-700 bg-hitagi-700 text-white",
   gray: "border-gray-700 bg-gray-700 text-white",
   red: "border-red-700 bg-red-700 text-white",

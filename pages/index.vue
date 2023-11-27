@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-col gap-2">
-    <h1 class="glow-text-lg mb-2 text-2xl font-bold text-hitagi-700 shadow-hitagi-400 dark:text-hitagi-200">
+    <h1 class="glow-text-lg mb-2 text-2xl font-bold text-themed-700 shadow-themed-400 dark:text-themed-200">
       Recommended
     </h1>
     <ListingRecommendedView class="mb-4" />
     <div class="mb-2 flex flex-row justify-between">
-      <h1 class="glow-text-lg text-2xl font-bold text-hitagi-700 shadow-hitagi-400 dark:text-hitagi-200">Listing</h1>
+      <h1 class="glow-text-lg text-2xl font-bold text-themed-700 shadow-themed-400 dark:text-themed-200">Listing</h1>
       <ListingArchiveNavigation container-class="hidden md:block" @open-page="pageModal = true" />
       <ListingArchiveOptions />
     </div>

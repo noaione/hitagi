@@ -53,7 +53,7 @@ export default <Partial<Config>>{
     "object-left",
     "object-center",
     {
-      pattern: /(bg|text|shadow|border)-themed-(\d{2,3})/,
+      pattern: /(bg|text|shadow|border|decoration)-themed-(\d{2,3})/,
     },
   ],
 };

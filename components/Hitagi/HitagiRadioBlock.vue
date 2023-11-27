@@ -51,14 +51,15 @@ const validColors = [
   "orange",
   "cyan",
   "emerald",
+  "themed",
 ] as const;
 
 type ValidColor = (typeof validColors)[number];
 
 const selectedColor = computed(() => {
-  const col = props.color ?? "hitagi";
+  const col = props.color ?? "themed";
 
-  return validColors.includes(col as ValidColor) ? col : "hitagi";
+  return validColors.includes(col as ValidColor) ? col : "themed";
 });
 
 const inputFormClass = clsx(
@@ -71,6 +72,10 @@ const inputFormClass = clsx(
 <style scoped lang="postcss">
 .radio-hb {
   @apply border bg-white disabled:bg-gray-100 group-hover:opacity-75 group-hover:disabled:opacity-100 group-hover:peer-checked:opacity-100 peer-disabled:bg-opacity-80 dark:bg-gray-800;
+}
+
+.radio-hb-themed {
+  @apply border-gray-100 disabled:border-gray-200 peer-checked:!border-themed-600 peer-checked:peer-disabled:!border-themed-700 dark:border-gray-700 peer-disabled:dark:border-gray-800;
 }
 
 .radio-hb-hitagi {
@@ -124,6 +129,10 @@ const inputFormClass = clsx(
 /* filled mode */
 .radio-hf {
   @apply border-0 bg-white text-black peer-checked:text-white dark:text-white;
+}
+
+.radio-hf-themed {
+  @apply peer-checked:bg-themed-600 peer-checked:peer-disabled:!bg-themed-700;
 }
 
 .radio-hf-hitagi {

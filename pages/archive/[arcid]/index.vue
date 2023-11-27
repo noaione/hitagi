@@ -2,8 +2,8 @@
   <div v-if="data" class="mt-2 flex w-full flex-col gap-4 md:flex-row">
     <ArchiveThumb :arc-id="String($route.params.arcid)" class="mx-auto h-96 w-64 md:mx-0 md:h-[34rem] md:w-96" />
     <div class="flex flex-col">
-      <h2 class="mb-2 text-2xl font-bold text-hitagi-600 dark:text-hitagi-400">{{ data.metadata.title }}</h2>
-      <div class="mb-4 flex flex-row items-center text-hitagi-700 dark:text-hitagi-300">
+      <h2 class="mb-2 text-2xl font-bold text-themed-600 dark:text-themed-400">{{ data.metadata.title }}</h2>
+      <div class="mb-4 flex flex-row items-center text-themed-700 dark:text-themed-300">
         <LinkablePill
           v-if="boolStrToBool(data.metadata.isnew)"
           class="mr-2 font-semibold uppercase transition-opacity hover:opacity-80"
@@ -17,12 +17,12 @@
         <ArchiveUnix v-if="dateAdded" :unix="dateAdded" text="Added on" class="text-sm" inner-class="font-semibold" />
       </div>
       <ArchiveInfoBtn class="mb-4" :arc-id="String($route.params.arcid)" />
-      <hr class="mb-4 w-full border-hitagi-400" />
+      <hr class="mb-4 w-full border-themed-400" />
       <ArchiveTags :tags="data.metadata.tags.split(',')" :unrender="['date_added']" />
     </div>
   </div>
   <div v-if="data && data.metadata.pagecount > 1" class="mt-4 flex w-full flex-col">
-    <h2 class="glow-text-lg mb-6 text-2xl font-bold text-hitagi-700 shadow-hitagi-400 dark:text-hitagi-200">Pages</h2>
+    <h2 class="glow-text-lg mb-6 text-2xl font-bold text-themed-700 shadow-themed-400 dark:text-themed-200">Pages</h2>
     <ArchivePages :arc-id="data.metadata.arcid" :total-pages="data.metadata.pagecount" />
   </div>
 </template>

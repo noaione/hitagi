@@ -51,6 +51,23 @@
         </div>
       </HitagiRadioBlock>
     </HitagiRadioContainer>
+    <HitagiRadioContainer class="w-full flex-wrap gap-2">
+      <template #label>
+        <span class="mb-2 font-semibold text-themed-700 dark:text-themed-300">Theme</span>
+      </template>
+      <HitagiRadioBlock
+        v-for="kvKey in HitagiTheme"
+        :key="kvKey"
+        v-model="settingsTheme"
+        class="rounded"
+        :value="kvKey"
+        filled
+      >
+        <div class="block px-2 py-2">
+          {{ capitalize(kvKey) }}
+        </div>
+      </HitagiRadioBlock>
+    </HitagiRadioContainer>
     <div class="flex flex-row flex-wrap gap-2">
       <LinkablePill color="hitagi">Hitagi</LinkablePill>
       <LinkablePill color="gray">Gray</LinkablePill>
@@ -116,4 +133,17 @@ const radioOptions = [
     description: "This is option 2",
   },
 ];
+
+const HitagiTheme = ["hitagi", "hachikuji", "shinobu"];
+
+const settingsTheme = computed({
+  get: () => settings.theme,
+  set: (newTheme) => {
+    settings.changeTheme(newTheme);
+  },
+});
+
+function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
 </script>
