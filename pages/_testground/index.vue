@@ -58,7 +58,7 @@
       <HitagiRadioBlock
         v-for="kvKey in HitagiTheme"
         :key="kvKey"
-        v-model="settingsTheme"
+        v-model="hitagiTheme"
         class="rounded"
         :value="kvKey"
         filled
@@ -135,13 +135,7 @@ const radioOptions = [
 ];
 
 const HitagiTheme = ["hitagi", "hachikuji", "shinobu"];
-
-const settingsTheme = computed({
-  get: () => settings.theme,
-  set: (newTheme) => {
-    settings.changeTheme(newTheme);
-  },
-});
+const hitagiTheme = useLRRTheme();
 
 function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);

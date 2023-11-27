@@ -10,7 +10,6 @@ const route = useRoute();
 const router = useRouter();
 const serverMeta = useServerMeta();
 const runtimeConfig = useRuntimeConfig();
-const webConfig = useLRRConfig();
 const serverSetting = useLRRSettings();
 
 const isMounted = ref(false);
@@ -85,7 +84,6 @@ onMounted(() => {
     ogImage: "/hitagi-hero.png",
     twitterCard: "summary_large_image",
   });
-  webConfig.setThemeFromStorage();
 
   isMounted.value = true;
 

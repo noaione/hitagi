@@ -1,6 +1,9 @@
 import type { NuxtPage } from "nuxt/schema";
 import pkg from "./package.json";
 import pkgLock from "./package-lock.json";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
 
 function getEnv(key: string): string | undefined {
   return import.meta.env[key] ?? process.env[key];
@@ -50,6 +53,29 @@ function getPackageInformation() {
   };
 }
 
+const BUILD_SCRIPTS_CACHE: Record<string, string> = {};
+
+function readFromScript(filename: string): string {
+  if (BUILD_SCRIPTS_CACHE[filename]) {
+    return BUILD_SCRIPTS_CACHE[filename];
+  }
+
+  const currentDir = dirname(fileURLToPath(import.meta.url));
+
+  const scriptsDir = join(currentDir, "scripts", filename);
+
+  const scriptsContents = readFileSync(scriptsDir, "utf8");
+
+  // minify
+  // remove comments
+  // remove newlines
+  const minified = scriptsContents.replaceAll(/\/\/.*/g, "").replaceAll("\n", "");
+
+  BUILD_SCRIPTS_CACHE[filename] = minified;
+
+  return minified;
+}
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -73,6 +99,7 @@ export default defineNuxtConfig({
     classSuffix: "",
     preference: "system",
     fallback: "dark",
+    storageKey: "hitagi.theme.dark",
   },
   runtimeConfig: {
     public: {
@@ -96,6 +123,64 @@ export default defineNuxtConfig({
     layoutTransition: {
       name: "layout-fade",
       mode: "out-in",
+    },
+    head: {
+      meta: [
+        {
+          "http-equiv": "x-ua-compatible",
+          content: "IE=edge",
+        },
+        {
+          name: "apple-mobile-web-app-capable",
+          content: "yes",
+        },
+        {
+          name: "mobile-web-app-capable",
+          content: "yes",
+        },
+        {
+          name: "msapplication-TileColor",
+          content: "#a6539a",
+        },
+        {
+          name: "msapplication-TileImage",
+          content: "/mstile-144x144.png",
+        },
+      ],
+      link: [
+        {
+          rel: "icon",
+          href: "/favicon.ico",
+        },
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/apple-touch-icon.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "32x32",
+          href: "/favicon-32x32.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "16x16",
+          href: "/favicon-16x16.png",
+        },
+        {
+          rel: "manifest",
+          href: "/site.webmanifest",
+        },
+      ],
+      script: [
+        {
+          type: "text/javascript",
+          "data-script": "theme-init.js",
+          innerHTML: readFromScript("theme-init.js"),
+        },
+      ],
     },
   },
   imports: {

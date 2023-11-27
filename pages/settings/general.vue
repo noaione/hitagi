@@ -2,12 +2,12 @@
   <SettingsContainer title="General">
     <HitagiRadioContainer class="w-full flex-wrap gap-2">
       <template #label>
-        <span class="dark:text-themed-300 text-themed-700 mb-2 font-semibold">Theme</span>
+        <span class="mb-2 font-semibold text-themed-700 dark:text-themed-300">Theme</span>
       </template>
       <HitagiRadioBlock
         v-for="kvKey in HitagiTheme"
         :key="kvKey"
-        v-model="settingsTheme"
+        v-model="hitagiTheme"
         class="rounded"
         :value="kvKey"
         filled
@@ -19,7 +19,7 @@
     </HitagiRadioContainer>
     <HitagiRadioContainer class="w-full flex-wrap gap-2">
       <template #label>
-        <span class="dark:text-themed-300 text-themed-700 mb-2 font-semibold">List View</span>
+        <span class="mb-2 font-semibold text-themed-700 dark:text-themed-300">List View</span>
       </template>
       <HitagiRadioBlock
         v-for="[kvKey, kvVal] in Object.entries(ListModeViewTextInfo)"
@@ -36,12 +36,12 @@
     </HitagiRadioContainer>
     <HitagiInput v-model="settings.listCompact" type="checkbox" swap container-class="items-center gap-1">
       <template #label>
-        <label for="list-compact" class="text-themed-700 dark:text-themed-300 font-medium">Compact Mode</label>
+        <label for="list-compact" class="font-medium text-themed-700 dark:text-themed-300">Compact Mode</label>
       </template>
     </HitagiInput>
     <HitagiRadioContainer class="w-full flex-wrap gap-2">
       <template #label>
-        <span class="dark:text-themed-300 text-themed-700 mb-2 font-semibold">List Recommended</span>
+        <span class="mb-2 font-semibold text-themed-700 dark:text-themed-300">List Recommended</span>
       </template>
       <HitagiRadioBlock
         v-for="[kvKey, kvVal] in Object.entries(RecommendTextInfo)"
@@ -58,7 +58,7 @@
     </HitagiRadioContainer>
     <HitagiRadioContainer class="w-full flex-wrap gap-2">
       <template #label>
-        <span class="dark:text-themed-300 text-themed-700 mb-2 font-semibold">List Order</span>
+        <span class="mb-2 font-semibold text-themed-700 dark:text-themed-300">List Order</span>
       </template>
       <HitagiRadioBlock
         v-for="[kvKey, kvVal] in Object.entries(OrderByTextInfo)"
@@ -75,7 +75,7 @@
     </HitagiRadioContainer>
     <HitagiRadioContainer class="w-full flex-wrap gap-2">
       <template #label>
-        <span class="dark:text-themed-300 text-themed-700 mb-2 font-semibold">Thumbnail Fit</span>
+        <span class="mb-2 font-semibold text-themed-700 dark:text-themed-300">Thumbnail Fit</span>
       </template>
       <HitagiRadioBlock
         v-for="[kvKey, kvVal] in Object.entries(ThumbFitInfo)"
@@ -92,7 +92,7 @@
     </HitagiRadioContainer>
     <HitagiRadioContainer v-if="settings.thumbFit === 'cover'" class="w-full flex-wrap gap-2">
       <template #label>
-        <span class="dark:text-themed-300 text-themed-700 mb-2 font-semibold">Thumbnail Cover Show Side</span>
+        <span class="mb-2 font-semibold text-themed-700 dark:text-themed-300">Thumbnail Cover Show Side</span>
       </template>
       <HitagiRadioBlock
         v-for="kvKey in ThumbSideInfo"
@@ -114,13 +114,7 @@
 const settings = useLRRConfig();
 
 const HitagiTheme = ["hitagi", "hachikuji", "shinobu"];
-
-const settingsTheme = computed({
-  get: () => settings.theme,
-  set: (newTheme) => {
-    settings.changeTheme(newTheme);
-  },
-});
+const hitagiTheme = useLRRTheme();
 
 const ListModeViewTextInfo = {
   list: "List",

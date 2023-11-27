@@ -167,5 +167,11 @@ module.exports = {
         "unicorn/filename-case": "off",
       },
     },
+    {
+      files: ["scripts/*.js"],
+      rules: {
+        "unicorn/prefer-module": "off",
+      },
+    },
   ],
 };

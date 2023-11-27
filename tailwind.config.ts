@@ -13,7 +13,11 @@ import { join } from "node:path";
  * @param cssPath
  */
 function cssImportPlugin(cssPath: string): PluginCreator {
-  const fullPath = join(process.cwd(), cssPath);
+  // get current file dir, do not use process.cwd() because it will be different
+  // and we can't use import.meta.url because it's not a module
+
+  // eslint-disable-next-line unicorn/prefer-module
+  const fullPath = join(__dirname, cssPath);
 
   if (!fullPath.endsWith(".css")) {
     throw new Error("cssImportPlugin: path must be a .css file");
