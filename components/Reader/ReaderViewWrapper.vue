@@ -136,6 +136,11 @@ onKeyStroke(["P", "p"], (e) => {
 });
 
 onKeyStroke(["R", "r"], (e) => {
+  if (e.ctrlKey) {
+    // CTRL+R -> Reload
+    return;
+  }
+
   e.preventDefault();
 
   if (readerConfig.flow === "ltr" || readerConfig.flow === "rtl") {
