@@ -1,7 +1,7 @@
 <template>
   <Teleport to="body">
     <Transition name="sspy-fade">
-      <div v-show="reader.screenSpy" class="fixed left-0 top-0 w-screen" data-screen-spy="1">
+      <div v-show="reader.screenSpy" class="fixed left-0 top-0 h-screen w-screen" data-screen-spy="1">
         <ReaderScreenSpyPaged v-if="readerConf.isPaged" />
         <ReaderScreenSpyVertical v-else />
       </div>
@@ -62,14 +62,6 @@ function getTargetWidth(target: EventTarget) {
   return (target as HTMLDivElement).offsetWidth;
 }
 
-function getTargetHeight(target: EventTarget) {
-  if (target === window) {
-    return window.innerHeight;
-  }
-
-  return (target as HTMLDivElement).offsetHeight;
-}
-
 function trapHandlePaged(x: number, target: EventTarget) {
   const baseW = getTargetWidth(target);
   const left = x < baseW * 0.35;
@@ -97,8 +89,11 @@ function trapHandlePaged(x: number, target: EventTarget) {
   }
 }
 
-function trapHandleVertical(y: number, target: EventTarget) {
-  const baseH = getTargetHeight(target);
+function trapHandleVertical(y: number) {
+  const baseH = window.innerHeight;
+
+  console.log("Trap handle vertical", y, baseH);
+
   const top = y < baseH * 0.35;
   const bottom = y > baseH * 0.65;
   const middle = !top && !bottom;
@@ -118,7 +113,7 @@ function trapHandle(params: { x: number; y: number }, target: EventTarget) {
   if (readerConf.isPaged) {
     trapHandlePaged(params.x, target);
   } else {
-    trapHandleVertical(params.y, target);
+    trapHandleVertical(params.y);
   }
 }
 
@@ -132,8 +127,12 @@ function handleMouseTrapArea(ev: MouseEvent) {
 }
 
 function handleTouchTrapArea(ev: TouchEvent) {
+  if (ev.targetTouches.length === 0) {
+    return;
+  }
+
   // check if the event is a touch event
-  const { clientX, clientY } = ev.touches[0];
+  const { clientX, clientY } = ev.targetTouches[0];
 
   trapHandle({ x: clientX, y: clientY }, ev.currentTarget ?? window);
 }

@@ -1,11 +1,12 @@
 <template>
-  <div v-if="data" :class="`block ${$props.class ?? ''}`">
+  <div v-if="data && data.length > 0" :class="`block ${$props.class ?? ''}`">
     <Carousel :wrap-around="true" :items-to-show="itemsToShow" snap-align="start" :items-to-scroll="2" :autoplay="5000">
       <Slide v-for="item in data" :key="item.arcid">
         <ArchiveGridInfo :data="item" class="shadow-lg" compact />
       </Slide>
     </Carousel>
   </div>
+  <ListingLoadingIndicator v-else-if="data && data.length === 0" :pending="false" :class="$props.class" />
   <ListingLoadingIndicator v-else :pending="pending" :class="$props.class" />
 </template>
 
