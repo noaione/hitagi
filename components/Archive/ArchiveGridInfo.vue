@@ -90,6 +90,7 @@
 
 <script setup lang="ts">
 import { autoPlacement } from "@floating-ui/dom";
+import debounce from "lodash.debounce";
 
 const { data } = defineProps<{
   data: LRRArchiveMetadata;
@@ -124,13 +125,16 @@ const { floatingStyles } = useFloating(floatRef, floatEl, {
   ],
 });
 
-function setFloatActive() {
+function _setFloatActive() {
   activeFloat.value = true;
 }
 
-function setFloatInactive() {
+function _setFloatInactive() {
   activeFloat.value = false;
 }
+
+const setFloatActive = debounce(_setFloatActive, 250);
+const setFloatInactive = debounce(_setFloatInactive, 250);
 
 function setFloatingPosition({ clientX, clientY }: PointerEvent) {
   floatRef.value = {
