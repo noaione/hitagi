@@ -92,8 +92,6 @@ function trapHandlePaged(x: number, target: EventTarget) {
 function trapHandleVertical(y: number) {
   const baseH = window.innerHeight;
 
-  console.log("Trap handle vertical", y, baseH);
-
   const top = y < baseH * 0.35;
   const bottom = y > baseH * 0.65;
   const middle = !top && !bottom;

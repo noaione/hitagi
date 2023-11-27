@@ -4,7 +4,7 @@
     <div
       v-for="(item, index) in reader.pairedImages"
       :key="`parent-${item[0].url}`"
-      v-intersection-observer="[whenInView, { root, threshold: 0.5 }]"
+      v-in-view="[whenInView, { root, threshold: 0.5 }]"
       :class="`flex ${readerConf.flow === 'webtoon' ? 'flex-col' : 'flex-row'} justify-center`"
       :style="getPaddingForPage(index, reader.pairedImages.length)"
       :data-pair-index="index"
@@ -45,21 +45,17 @@ function getPaddingForPage(index: number, totalIndex: number): StyleValue | unde
   };
 }
 
-function whenInView(intersectors: IntersectionObserverEntry[]) {
-  for (const intersector of intersectors) {
-    if (intersector.isIntersecting) {
-      const pairIndex = Number((intersector.target as HTMLDivElement).dataset.pairIndex);
+function whenInView(el: HTMLElement) {
+  const pairIndex = Number(el.dataset.pairIndex);
 
-      if (Number.isNaN(pairIndex)) {
-        return;
-      }
+  if (Number.isNaN(pairIndex)) {
+    return;
+  }
 
-      const pairData = reader.pairedImages[pairIndex];
+  const pairData = reader.pairedImages[pairIndex];
 
-      if (pairData && reader.currentPage !== pairData[0].page) {
-        reader.currentPage = pairData[0].page;
-      }
-    }
+  if (pairData && pairData[0].page !== reader.currentPage) {
+    reader.updatePage(pairData[0].page);
   }
 }
 

@@ -192,6 +192,8 @@ export const useLRRReader = defineStore("lrr.readerDataV2", () => {
 
       canvas.width = imgElement.width;
       canvas.height = imgElement.height;
+      images.value[imgIndex].height = imgElement.height;
+      images.value[imgIndex].width = imgElement.width;
 
       ctx.drawImage(imgElement, 0, 0);
 

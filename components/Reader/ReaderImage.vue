@@ -9,9 +9,9 @@
     :data-page="$props.image.page"
     :data-original="$props.image.url"
   />
-  <div v-else class="h-screen w-screen object-contain">
+  <div v-else class="min-h-[50vh] w-screen object-contain">
     <!-- Position center vertical/horizontal for spinner -->
-    <div class="relative flex h-screen w-screen items-center justify-center">
+    <div class="relative flex h-full w-full items-center justify-center">
       <Icon name="quill:loading-spin" class="h-10 w-10 animate-spin" />
     </div>
   </div>
