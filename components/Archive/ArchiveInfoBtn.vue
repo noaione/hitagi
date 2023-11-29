@@ -9,6 +9,7 @@
     <NuxtLink
       :href="archiveDown"
       class="rounded-md bg-gray-600 px-2 py-1 text-sm text-white transition-opacity hover:opacity-80"
+      @click="dispatchPlausible"
     >
       Download
     </NuxtLink>
@@ -26,4 +27,13 @@ const settings = useServerMeta();
 const archiveDown = computed(() => {
   return settings.hostURL.origin + "/api/archives/" + arcId + "/download";
 });
+
+function dispatchPlausible() {
+  useTrackEvent("Archive Download", {
+    props: {
+      method: "HTTP",
+      archiveId: arcId,
+    },
+  });
+}
 </script>

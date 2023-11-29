@@ -6,7 +6,15 @@ import { fileURLToPath } from "node:url";
 import { readFileSync } from "node:fs";
 
 function getEnv(key: string): string | undefined {
-  return import.meta.env[key] ?? process.env[key];
+  const metaKey = import.meta.env[key];
+  const processKey = process.env[key];
+
+  // Ensure empty strings are treated as undefined
+  if (metaKey) return metaKey;
+
+  if (processKey) return processKey;
+
+  return;
 }
 
 function removePagesMatching(pattern: RegExp, pages: NuxtPage[] = []) {
@@ -76,6 +84,9 @@ function readFromScript(filename: string): string {
   return minified;
 }
 
+const plausibleApiHost = getEnv("NUXT_PUBLIC_PLAUSIBLE_API_HOST") ?? getEnv("PLAUSIBLE_API_HOST");
+const plausibleDomain = getEnv("NUXT_PUBLIC_PLAUSIBLE_DOMAIN") ?? getEnv("PLAUSIBLE_DOMAIN");
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -94,6 +105,7 @@ export default defineNuxtConfig({
     "@nuxtjs/eslint-module",
     "@vueuse/nuxt",
     "vue3-carousel-nuxt",
+    "@nuxtjs/plausible",
   ],
   colorMode: {
     classSuffix: "",
@@ -206,5 +218,11 @@ export default defineNuxtConfig({
         removePagesMatching(/\/_testground/, pages);
       }
     },
+  },
+  plausible: {
+    apiHost: plausibleApiHost,
+    domain: plausibleDomain,
+    // enable auto page views if api host and domain are set
+    autoPageviews: Boolean(plausibleApiHost && plausibleDomain),
   },
 });
