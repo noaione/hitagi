@@ -14,10 +14,7 @@ A "modern" Vue 3 client for LANraragi
 
 ### Replacing built-in web UI
 
-You can also replace the built-in WebUI of LRR by replacing every routing in LANraragi with single index route
-and make a new Perl Modules that will render the index.html provided.
-
-Instead of running `npm run build` you should run `npm run generate` for this.
+Sadly, you can't. Since the Web UI is tied to whatever templating engine and some path aren't even possible (mostly admin related stuff).
 
 ## Acknowledgments
 
