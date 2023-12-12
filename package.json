@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxt/kit": "^3.8.2",
     "@nuxtjs/color-mode": "^3.3.2",
     "@nuxtjs/eslint-module": "^4.1.0",
     "@nuxtjs/google-fonts": "^3.1.0",
