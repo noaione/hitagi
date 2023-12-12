@@ -17,14 +17,14 @@
       class="mx-auto max-h-[60vh] w-full basis-full flex-row flex-wrap justify-start gap-4 overflow-x-hidden overflow-y-scroll"
     >
       <HitagiRadioBlock
-        v-for="pageData in pagedData"
-        :key="`page-nav-${pageData}`"
+        v-for="(imgPair, idx) in reader.pairedImages"
+        :key="`page-nav-pair-${idx}`"
         v-model="pageNumber"
-        :value="pageData"
+        :value="idx"
         filled
       >
         <div class="block h-10 w-10 p-2 text-center">
-          {{ pageData + 1 }}
+          {{ renderPair(imgPair) }}
         </div>
       </HitagiRadioBlock>
     </HitagiRadioContainer>
@@ -34,29 +34,30 @@
 <script setup lang="ts">
 const props = defineProps<{
   open: boolean;
-  page: number;
-  maxPage: number;
+  pair: number;
 }>();
 
 const emit = defineEmits<{
   (e: "update:open", value: boolean): void;
-  (e: "update:page", value: number): void;
+  (e: "update:pair", value: number): void;
 }>();
+
+const reader = useLRRReader();
 
 const modalOpen = computed({
   get: () => props.open,
   set: (value) => emit("update:open", value),
 });
 
-const pagedData = computed(() => {
-  return Array.from({ length: props.maxPage }).map((_, index) => index);
-});
-
 const pageNumber = computed({
-  get: () => props.page,
-  set: (pageValue) => {
-    emit("update:page", pageValue);
+  get: () => props.pair,
+  set: (pairValue) => {
+    emit("update:pair", pairValue);
     emit("update:open", false);
   },
 });
+
+function renderPair(loadedPages: LoadedImage[]): string {
+  return loadedPages.map((page) => page.page.toString()).join("-");
+}
 </script>

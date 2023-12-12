@@ -10,11 +10,7 @@
       @open-pages="modalPage = true"
     />
   </div>
-  <ModalArchivePageSelector
-    v-model:page="reader.pageSelectorIndex"
-    v-model:open="modalPage"
-    :max-page="reader.maxPage"
-  />
+  <ModalArchivePageSelector v-model:pair="reader.currentPairIndex" v-model:open="modalPage" />
   <ReaderHint />
 </template>
 
