@@ -19,27 +19,6 @@
         </NuxtLink>
       </div>
       <div v-if="compact" class="mt-2 flex flex-col gap-2 md:ml-2 md:mt-0 md:flex-row">
-        <LinkablePill
-          v-for="(artist, idx) in artistsTags"
-          :key="idx"
-          :color="LRRTagColor['artist']"
-          :href="`/search?q=${encodeURIComponent(`artist:${artist}$`)}`"
-          class="px-1.5 lowercase"
-          outlined
-        >
-          {{ `artist:${artist}` }}
-        </LinkablePill>
-        <LinkablePill
-          v-for="(group, idx) in groupsTags"
-          :key="idx"
-          :color="LRRTagColor['group']"
-          :href="`/search?q=${encodeURIComponent(`group:${group}$`)}`"
-          class="px-1.5 lowercase"
-          outlined
-        >
-          {{ `group:${group}` }}
-        </LinkablePill>
-        <span v-if="dateAdded" class="my-1 hidden text-sm text-themed-700 dark:text-themed-300 md:inline-block">|</span>
         <ArchiveUnix
           v-if="dateAdded"
           :unix="dateAdded"
@@ -73,8 +52,6 @@ const { data } = defineProps<{
 
 const splitTags = computed(() => mapTagsToKeyValues(data.tags));
 
-const artistsTags = computed(() => splitTags.value.artist ?? []);
-const groupsTags = computed(() => splitTags.value.group ?? []);
 const dateAdded = computed(() => {
   const date = splitTags.value?.date_added?.[0];
 
