@@ -5,8 +5,8 @@
       v-for="(item, index) in reader.pairedImages"
       :key="`parent-${item[0].url}`"
       v-in-view="[whenInView, { root, threshold: 0.5 }]"
-      :class="`flex ${readerConf.flow === 'webtoon' ? 'flex-col' : 'flex-row'} justify-center`"
-      :style="getPaddingForPage(index, reader.pairedImages.length)"
+      class="grid grid-rows-1 justify-center gap-0 object-contain"
+      :style="getVerticalStyles(index, reader.pairedImages.length)"
       :data-pair-index="index"
     >
       <ReaderImage v-for="img in item" :id="`page-${img.page}`" :key="img.url" :image="img" />
@@ -22,7 +22,7 @@ const root = ref();
 const reader = useLRRReader();
 const readerConf = useLRRReaderConfig();
 
-function getPaddingForPage(index: number, totalIndex: number): StyleValue | undefined {
+function getPaddingForPage(index: number, totalIndex: number): Record<string, any> | undefined {
   if (readerConf.flow !== "vertical") {
     return;
   }
@@ -42,6 +42,15 @@ function getPaddingForPage(index: number, totalIndex: number): StyleValue | unde
   return {
     paddingTop: index === 0 ? undefined : `${readerConf.padding}%`,
     paddingBottom: index === totalIndex - 1 ? undefined : `${readerConf.padding}%`,
+  };
+}
+
+function getVerticalStyles(index: number, totalIndex: number): StyleValue {
+  const styles = getPaddingForPage(index, totalIndex) ?? {};
+
+  return {
+    ...styles,
+    gridTemplateColumns: `repeat(${totalIndex}, minmax(0, 1fr))`,
   };
 }
 

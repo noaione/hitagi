@@ -10,7 +10,12 @@
     :mouse-drag="false"
     snap-align="center"
   >
-    <Slide v-for="item in reader.pairedImages" :key="'parent-' + item[0].url">
+    <Slide
+      v-for="item in reader.pairedImages"
+      :key="'parent-' + item[0].url"
+      class="grid grid-rows-1 justify-center gap-0 object-contain"
+      :style="gridStyles(item.length)"
+    >
       <ReaderImage v-for="img in item" :key="img.url" :image="img" />
     </Slide>
   </Carousel>
@@ -20,4 +25,10 @@
 <script setup lang="ts">
 const reader = useLRRReader();
 const readerConf = useLRRReaderConfig();
+
+function gridStyles(indexLength: number) {
+  return {
+    gridTemplateColumns: `repeat(${indexLength}, minmax(0, 1fr))`,
+  };
+}
 </script>
