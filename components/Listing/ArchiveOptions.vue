@@ -53,8 +53,6 @@ function toggleOrder() {
 
   const pageIndex = toRaw(search.currentPageIndex);
 
-  console.info(`Order changed to ${target}, navigating to ${pageIndex} later...`);
-
   search.searchDebounced(pageIndex, true, true);
 }
 </script>

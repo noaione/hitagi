@@ -83,8 +83,6 @@ onMounted(() => {
     const targetEl = document.querySelector(`#page-${targetPage}`);
 
     if (targetEl) {
-      console.log("Scrolling to", targetPage);
-
       targetEl.scrollIntoView({
         behavior: "smooth",
         block: "center",

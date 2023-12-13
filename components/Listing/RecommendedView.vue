@@ -76,13 +76,11 @@ const itemsToShow = computed(() => {
   };
 
   // find active computed breakpoint, (should be only one)
-  const activeBreakpoint = Object.keys(computeBreakpoints.value).filter(
+  const activeBreakpoint = Object.keys(computeBreakpoints.value).find(
     (key) => computeBreakpoints.value[key as keyof BreakpointReturn]
   );
 
-  console.log(activeBreakpoint);
-
-  return mappings[activeBreakpoint[0] as keyof typeof mappings] ?? 2;
+  return mappings[activeBreakpoint as keyof typeof mappings] ?? 2;
 });
 
 const { data, pending, execute, refresh } = await useAsyncData(

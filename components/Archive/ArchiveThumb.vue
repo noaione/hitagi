@@ -119,8 +119,6 @@ function processJob(resp: Response) {
 
 onMounted(() => {
   if (props.autoRefresh) {
-    console.info("Using autoRefresh for thumbnail", props.arcId, props.page);
-
     // do fetch!
     const fetchUrl = new URL(makeThumbnailUrl(props.arcId, props.page));
 
@@ -134,8 +132,6 @@ onMounted(() => {
         if (response.status === 200) {
           thumbnailUrl.value = makeThumbnailUrl(props.arcId, props.page);
         } else if (response.status === 202) {
-          console.info("Thumbnail job started", props.arcId, props.page);
-
           if (props.page !== undefined) {
             // stagger the job request by 100ms
             setTimeout(() => {

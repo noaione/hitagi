@@ -68,8 +68,6 @@ function trapHandlePaged(x: number, target: EventTarget) {
   const right = x > baseW * 0.65;
   const middle = !left && !right;
 
-  console.log(left, right, middle, baseW, x, target);
-
   if (left) {
     // go to previous page
     if (readerConf.flow === "ltr") {
@@ -136,7 +134,6 @@ function handleTouchTrapArea(ev: TouchEvent) {
 }
 
 function addTrapListener(reference: HTMLDivElement | Window) {
-  console.log("Adding trap listener", reference, touchTrap, mouseTrap);
   touchTrap.value?.();
   mouseTrap.value?.();
 

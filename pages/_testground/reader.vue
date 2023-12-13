@@ -76,7 +76,6 @@ onMounted(() => {
 
       return;
     } else {
-      console.info("Updating page to", queryPage);
       reader.updatePage(queryPage);
     }
   }
