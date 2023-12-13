@@ -27,15 +27,7 @@ const search = useLRRSearch();
 const pageModal = ref(false);
 
 onMounted(() => {
-  search
-    .getAvailableTags()
-    .then(() => {
-      search.search(0);
-    })
-    .catch((error) => {
-      console.error(error);
-      search.search(0);
-    });
+  search.search(0);
 
   useSeoMeta({
     title: "Home :: Hitagi",

@@ -135,7 +135,13 @@ onMounted(() => {
           thumbnailUrl.value = makeThumbnailUrl(props.arcId, props.page);
         } else if (response.status === 202) {
           console.info("Thumbnail job started", props.arcId, props.page);
-          processJob(response);
+
+          if (props.page !== undefined) {
+            // stagger the job request by 100ms
+            setTimeout(() => {
+              processJob(response);
+            }, 100 * props.page);
+          }
         } else {
           thumbnailUrl.value = fallbackUrl;
         }
