@@ -1,7 +1,9 @@
 <template>
   <div
     ref="readerContainerRef"
-    :class="`block ${readerConf.fitMode === 'screen-height' ? 'min-h-screen w-auto' : 'h-auto min-w-[100vw]'}`"
+    :class="`block ${
+      readerConf.fitMode === 'screen-height' ? 'max-h-screen min-h-screen w-auto' : 'h-auto min-w-[100vw]'
+    }`"
   >
     <ReaderPaged v-if="readerDirection === 'paged'" />
     <ReaderVertical v-else-if="readerDirection === 'vertical'" />

@@ -1,22 +1,19 @@
 <template>
-  <Carousel
-    v-if="reader.pairedImages.length > 0"
-    ref="carouselRef"
-    v-model="reader.currentPairIndex"
-    :wrap-around="false"
-    :items-to-show="1"
-    :dir="readerConf.isPaged ? (readerConf.flow as 'ltr' | 'rtl') : 'ltr'"
-    :touch-drag="false"
-    :mouse-drag="false"
-    snap-align="center"
+  <div
+    v-if="item"
+    class="grid h-full w-full grid-rows-1 justify-center gap-0 object-contain"
+    :style="gridStyles(item.length)"
+    :class="{
+      'max-h-screen': readerConf.fitMode === 'screen-height',
+    }"
   >
-    <Slide v-for="item in reader.pairedImages" :key="'parent-' + item[0].url">
-      <div class="grid h-full w-full grid-rows-1 justify-center gap-0 object-contain" :style="gridStyles(item.length)">
-        <ReaderImage v-for="img in item" :key="img.url" :image="img" />
-      </div>
-    </Slide>
-  </Carousel>
-  <div v-else class="h-full w-full object-contain" />
+    <ReaderImage
+      v-for="(img, idx) in item"
+      :key="img.url"
+      :image="img"
+      :class="`mx-auto ${item.length > 1 ? (idx === 0 ? 'mr-0' : 'ml-0') : ''}`"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -28,4 +25,12 @@ function gridStyles(indexLength: number) {
     gridTemplateColumns: `repeat(${indexLength}, minmax(0, 1fr))`,
   };
 }
+
+const item = computed(() => {
+  const current = reader.pairedImages[reader.currentPairIndex];
+
+  if (!current) return;
+
+  return readerConf.flow === "rtl" ? current.reverse() : current;
+});
 </script>
