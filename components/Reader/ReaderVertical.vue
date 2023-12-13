@@ -9,7 +9,13 @@
       :style="getVerticalStyles(item, index, reader.pairedImages.length)"
       :data-pair-index="index"
     >
-      <ReaderImage v-for="img in item" :id="`page-${img.page}`" :key="img.url" :image="img" />
+      <ReaderImage
+        v-for="img in item"
+        :id="`page-${img.page}`"
+        :key="img.url"
+        :image="img"
+        :class="`${item.length === 1 ? 'mx-auto' : ''} ${readerConf.fitMode === 'screen-height' ? 'max-h-screen' : ''}`"
+      />
     </div>
   </div>
   <div v-else class="h-full w-full object-contain" />
