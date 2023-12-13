@@ -10,13 +10,10 @@
     :mouse-drag="false"
     snap-align="center"
   >
-    <Slide
-      v-for="item in reader.pairedImages"
-      :key="'parent-' + item[0].url"
-      class="grid grid-rows-1 justify-center gap-0 object-contain"
-      :style="gridStyles(item.length)"
-    >
-      <ReaderImage v-for="img in item" :key="img.url" :image="img" />
+    <Slide v-for="item in reader.pairedImages" :key="'parent-' + item[0].url">
+      <div class="grid h-full w-full grid-rows-1 justify-center gap-0 object-contain" :style="gridStyles(item.length)">
+        <ReaderImage v-for="img in item" :key="img.url" :image="img" />
+      </div>
     </Slide>
   </Carousel>
   <div v-else class="h-full w-full object-contain" />

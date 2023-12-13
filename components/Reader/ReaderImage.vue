@@ -3,6 +3,7 @@
     v-if="blobURL"
     :src="blobURL"
     loading="lazy"
+    class="object-contain"
     :width="$props.image.width"
     :height="$props.image.height"
     :data-page="$props.image.page"
