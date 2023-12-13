@@ -1,6 +1,6 @@
 <template>
   <div ref="loginForm" class="font-incosolata flex h-screen flex-col items-center justify-center">
-    <CrabIcon class="text-themed-600" />
+    <HitagiIconHeader class="text-themed-600" />
     <h1 class="mt-2 font-bold text-themed-700 dark:text-themed-400">Hitagi</h1>
     <hr class="server-width my-4 border-themed-500" />
     <HitagiInput
@@ -48,7 +48,10 @@
         Connect
       </HitagiButton>
     </div>
-    <DarkToggle class="mt-4 h-10 w-10 text-themed-600 dark:text-themed-400" />
+    <div class="mt-4 flex flex-row gap-2">
+      <DarkToggle class="h-10 w-10 text-themed-600 dark:text-themed-400" />
+      <ThemeToggle class="h-10 w-10" />
+    </div>
   </div>
 </template>
 

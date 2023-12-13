@@ -3,7 +3,7 @@
     <div class="mx-2 flex flex-row justify-between md:mx-4 lg:mx-8">
       <div class="flex flex-row items-center">
         <NuxtLink to="/">
-          <CrabIcon class="transform-gpu text-themed-600 transition hover:scale-110 dark:text-themed-300" />
+          <HitagiIconHeader class="transform-gpu text-themed-600 transition hover:scale-110 dark:text-themed-300" />
         </NuxtLink>
         <h1 class="ml-2 select-none text-2xl font-bold text-themed-600 dark:text-themed-300">Hitagi</h1>
       </div>

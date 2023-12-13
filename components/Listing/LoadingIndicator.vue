@@ -4,7 +4,7 @@
       $props.class ?? ''
     }`"
   >
-    <CrabIcon
+    <HitagiIconHeader
       class="text-themed-700 dark:text-themed-300"
       :class="{
         'animate-bounce': pending,

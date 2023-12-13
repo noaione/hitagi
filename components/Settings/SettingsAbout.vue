@@ -2,7 +2,7 @@
   <div class="flex w-full flex-col flex-wrap justify-center">
     <div class="flex flex-row items-center justify-center gap-4">
       <div class="font-incosolata flex flex-col items-center">
-        <CrabIcon class="mx-auto h-16 w-16 text-themed-700 dark:text-themed-300" />
+        <HitagiIconHeader class="mx-auto h-16 w-16 text-themed-700 dark:text-themed-300" />
         <span class="text-themed-600 dark:text-themed-400">Hitagi</span>
       </div>
       <div class="flex flex-col items-center">
@@ -19,7 +19,7 @@
         Server:
         <NuxtLink
           :to="serverMeta.hostURL.origin"
-          class="glow-text text-themed-700 shadow-themed-300 hover:underline dark:text-themed-300 dark:shadow-themed-500"
+          class="text-themed-700 shadow-themed-300 glow-text hover:underline dark:text-themed-300 dark:shadow-themed-500"
           target="_blank"
           rel="noopener noreferrer"
           external
