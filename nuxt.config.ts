@@ -143,6 +143,10 @@ export default defineNuxtConfig({
           content: "IE=edge",
         },
         {
+          name: "apple-mobile-web-app-title",
+          content: "Hitagi",
+        },
+        {
           name: "apple-mobile-web-app-capable",
           content: "yes",
         },
@@ -151,39 +155,48 @@ export default defineNuxtConfig({
           content: "yes",
         },
         {
+          name: "application-name",
+          content: "Hitagi",
+        },
+        {
           name: "msapplication-TileColor",
-          content: "#a6539a",
+          content: "#77236b",
         },
         {
           name: "msapplication-TileImage",
-          content: "/mstile-144x144.png",
+          content: "/icon/hitagi/mstile-144x144.png",
         },
       ],
       link: [
         {
-          rel: "icon",
-          href: "/favicon.ico",
+          rel: "shortcut icon",
+          href: "/icon/hitagi/favicon.ico",
         },
         {
           rel: "apple-touch-icon",
           sizes: "180x180",
-          href: "/apple-touch-icon.png",
+          href: "/icon/hitagi/apple-touch-icon.png",
         },
         {
           rel: "icon",
           type: "image/png",
           sizes: "32x32",
-          href: "/favicon-32x32.png",
+          href: "/icon/hitagi/favicon-32x32.png",
         },
         {
           rel: "icon",
           type: "image/png",
           sizes: "16x16",
-          href: "/favicon-16x16.png",
+          href: "/icon/hitagi/favicon-16x16.png",
         },
         {
           rel: "manifest",
           href: "/site.webmanifest",
+        },
+        {
+          rel: "mask-icon",
+          href: "/icon/hitagi/safari-pinned-tab.svg",
+          color: "#77236b",
         },
       ],
       script: [
