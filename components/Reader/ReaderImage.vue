@@ -9,7 +9,7 @@
     :data-page="$props.image.page"
     :data-original="$props.image.url"
   />
-  <div v-else :class="`mw-auto h-full min-h-screen w-full object-contain ${$props.class ?? ''}`">Loading</div>
+  <div v-else :class="`m-auto h-full min-h-screen w-full object-contain ${$props.class ?? ''}`">Loading</div>
 </template>
 
 <script setup lang="ts">
