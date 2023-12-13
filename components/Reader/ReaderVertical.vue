@@ -6,7 +6,7 @@
       :key="`parent-${item[0].url}`"
       v-in-view="[whenInView, { root, threshold: 0.5 }]"
       class="grid grid-rows-1 justify-center gap-0 object-contain"
-      :style="getVerticalStyles(index, reader.pairedImages.length)"
+      :style="getVerticalStyles(item, index, reader.pairedImages.length)"
       :data-pair-index="index"
     >
       <ReaderImage v-for="img in item" :id="`page-${img.page}`" :key="img.url" :image="img" />
@@ -45,12 +45,12 @@ function getPaddingForPage(index: number, totalIndex: number): Record<string, an
   };
 }
 
-function getVerticalStyles(index: number, totalIndex: number): StyleValue {
+function getVerticalStyles(items: LoadedImage[], index: number, totalIndex: number): StyleValue {
   const styles = getPaddingForPage(index, totalIndex) ?? {};
 
   return {
     ...styles,
-    gridTemplateColumns: `repeat(${totalIndex}, minmax(0, 1fr))`,
+    gridTemplateColumns: `repeat(${items.length}, minmax(0, 1fr))`,
   };
 }
 
