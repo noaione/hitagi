@@ -1,6 +1,7 @@
 <template>
   <NuxtLink v-slot="{ href }" :to="`/archive/${data.arcid}`" custom>
     <div
+      ref="rectArea"
       :class="`relative flex max-w-[9rem] cursor-pointer flex-col rounded-md bg-themed-300 bg-opacity-40 align-middle dark:bg-themed-950 dark:bg-opacity-60 md:max-w-[11rem] ${
         $props.class ?? ''
       }`"
@@ -10,12 +11,6 @@
         :arc-id="data.arcid"
         class="mx-0 h-48 w-[9rem] md:h-64 md:w-44"
         inner-class="rounded-b-none"
-        @pointermove="setFloatingPosition"
-        @pointerenter="setFloatActive"
-        @pointerleave="setFloatInactive"
-        @touchmove="setFloatingPositionTouch"
-        @touchstart="setFloatActiveTouch"
-        @touchend="setFloatInactive"
       />
       <a
         :href="href"
@@ -90,7 +85,11 @@
 
 <script setup lang="ts">
 import { autoPlacement } from "@floating-ui/dom";
-import debounce from "lodash.debounce";
+
+interface SimpleXY {
+  clientX: number;
+  clientY: number;
+}
 
 const { data } = defineProps<{
   data: LRRArchiveMetadata;
@@ -98,6 +97,7 @@ const { data } = defineProps<{
   compact?: boolean;
 }>();
 
+const rectArea = ref<HTMLDivElement>();
 const floatRef = ref();
 const floatEl = ref<HTMLDivElement>();
 
@@ -125,18 +125,9 @@ const { floatingStyles } = useFloating(floatRef, floatEl, {
   ],
 });
 
-function _setFloatActive() {
-  activeFloat.value = true;
-}
+const { x, y } = useMouse();
 
-function _setFloatInactive() {
-  activeFloat.value = false;
-}
-
-const setFloatActive = debounce(_setFloatActive, 250);
-const setFloatInactive = debounce(_setFloatInactive, 250);
-
-function setFloatingPosition({ clientX, clientY }: PointerEvent) {
+function setFloatingPosition({ clientX, clientY }: SimpleXY) {
   floatRef.value = {
     getBoundingClientRect() {
       return {
@@ -153,30 +144,19 @@ function setFloatingPosition({ clientX, clientY }: PointerEvent) {
   };
 }
 
-function setFloatingPositionTouch({ targetTouches }: TouchEvent) {
-  // get latest
-  const { clientX, clientY } = targetTouches[targetTouches.length - 1];
+watch(
+  () => [x.value, y.value],
+  ([newX, newY]) => {
+    if (rectArea.value) {
+      setFloatingPosition({ clientX: newX, clientY: newY });
 
-  floatRef.value = {
-    getBoundingClientRect() {
-      return {
-        width: 0,
-        height: 0,
-        x: clientX,
-        y: clientY,
-        left: clientX,
-        top: clientY,
-        right: clientX,
-        bottom: clientY,
-      };
-    },
-  };
-}
+      const rect = rectArea.value.getBoundingClientRect();
 
-function setFloatActiveTouch(ev: TouchEvent) {
-  setFloatActive();
-  setFloatingPositionTouch(ev);
-}
+      activeFloat.value =
+        newX >= rect.left && newX <= rect.right && newY >= rect.top && newY <= rect.bottom ? true : false;
+    }
+  }
+);
 </script>
 
 <style scoped lang="postcss">
