@@ -37,9 +37,9 @@ export const useLRRSearch = defineStore("lrrsearchV2", () => {
   });
   const hasMore = computed(() => {
     if (searchResults.value) {
-      for (const item of searchResults.value) {
-        if (item.data === SearchResultStub) return true;
-      }
+      const hasStub = searchResults.value.findIndex((item) => item.data === SearchResultStub);
+
+      return hasStub === -1;
     }
 
     return false;
