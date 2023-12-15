@@ -96,12 +96,13 @@
       <LinkablePill color="cyan" outlined>Cyan</LinkablePill>
       <LinkablePill color="emerald" outlined>Emerald</LinkablePill>
     </div>
-    <ArchiveListInfo :data="testData" />
-    <ArchiveListInfo :data="testData" compact />
-    <div class="flex flex-row gap-2">
+    <!-- <ArchiveListInfo :data="testData" />
+    <ArchiveListInfo :data="testData" compact /> -->
+    <!-- <div class="flex flex-row gap-2">
       <ArchiveGridInfo :data="testData" />
-      <ArchiveGridInfo :data="testData" />
-    </div>
+      <ArchiveGridInfo :data="testData" compact />
+    </div> -->
+    <ArchiveTagsEditor v-model:tags="tagsData" container-class="bg-gray-800" />
   </div>
 </template>
 
@@ -117,6 +118,8 @@ const testData: LRRArchiveMetadata = {
 };
 
 const settings = useLRRConfig();
+
+const tagsData = ref<string[]>([]);
 
 const disabledForm = ref(false);
 
@@ -140,4 +143,8 @@ const hitagiTheme = useLRRTheme();
 function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+onMounted(() => {
+  tagsData.value = testData.tags.split(",");
+});
 </script>
