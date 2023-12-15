@@ -22,6 +22,8 @@ const props = defineProps<{
 
 const validColors = [
   "themed",
+  "hachikuji",
+  "shinobu",
   "gray",
   "red",
   "yellow",
@@ -41,6 +43,8 @@ type ValidColor = (typeof validColors)[number];
 const outlinedColorMaps: Record<ValidColor, string> = {
   themed: "border-themed-500 text-themed-600 dark:text-themed-400 bg-themed-100 dark:bg-themed-950",
   hitagi: "border-hitagi-500 text-hitagi-600 dark:text-hitagi-400 bg-hitagi-100 dark:bg-hitagi-950",
+  hachikuji: "border-hachikuji-500 text-hachikuji-600 dark:text-hachikuji-400 bg-hachikuji-100 dark:bg-hachikuji-950",
+  shinobu: "border-shinobu-500 text-shinobu-600 dark:text-shinobu-400 bg-shinobu-100 dark:bg-shinobu-950",
   gray: "border-gray-500 text-gray-600 dark:text-gray-400 bg-gray-200 dark:bg-gray-800",
   red: "border-red-500 text-red-600 dark:text-red-400 bg-red-100 dark:bg-red-950",
   yellow: "border-yellow-500 text-yellow-600 dark:text-yellow-400 bg-yellow-100 dark:bg-yellow-950",
@@ -57,6 +61,8 @@ const outlinedColorMaps: Record<ValidColor, string> = {
 const filledColorMaps: Record<ValidColor, string> = {
   themed: "border-themed-700 bg-themed-700 text-white",
   hitagi: "border-hitagi-700 bg-hitagi-700 text-white",
+  hachikuji: "border-hachikuji-700 bg-hachikuji-700 text-white",
+  shinobu: "border-shinobu-700 bg-shinobu-700 text-white",
   gray: "border-gray-700 bg-gray-700 text-white",
   red: "border-red-700 bg-red-700 text-white",
   yellow: "border-yellow-700 bg-yellow-700 text-white",

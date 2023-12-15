@@ -31,6 +31,9 @@ const inputModel = computed({
 });
 
 const validColors = [
+  "hitagi",
+  "hachikuji",
+  "shinobu",
   "gray",
   "red",
   "yellow",
@@ -39,7 +42,6 @@ const validColors = [
   "indigo",
   "purple",
   "pink",
-  "hitagi",
   "orange",
   "cyan",
   "emerald",
@@ -69,6 +71,14 @@ const inputFormClass = clsx(
 
 .input-hb-hitagi {
   @apply border-hitagi-600 focus:border-hitagi-400 focus:ring-hitagi-500 disabled:border-hitagi-700;
+}
+
+.input-hb-hachikuji {
+  @apply border-hachikuji-600 focus:border-hachikuji-400 focus:ring-hachikuji-500 disabled:border-hachikuji-700;
+}
+
+.input-hb-shinobu {
+  @apply border-shinobu-600 focus:border-shinobu-400 focus:ring-shinobu-500 disabled:border-shinobu-700;
 }
 
 .input-hb-gray {

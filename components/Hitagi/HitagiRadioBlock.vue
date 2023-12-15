@@ -39,6 +39,9 @@ function setClickdiv() {
 }
 
 const validColors = [
+  "hitagi",
+  "hachikuji",
+  "shinobu",
   "gray",
   "red",
   "yellow",
@@ -47,7 +50,6 @@ const validColors = [
   "indigo",
   "purple",
   "pink",
-  "hitagi",
   "orange",
   "cyan",
   "emerald",
@@ -80,6 +82,14 @@ const inputFormClass = clsx(
 
 .radio-hb-hitagi {
   @apply border-gray-100 disabled:border-gray-200 peer-checked:!border-hitagi-600 peer-checked:peer-disabled:!border-hitagi-700 dark:border-gray-700 peer-disabled:dark:border-gray-800;
+}
+
+.radio-hb-hachikuji {
+  @apply border-gray-100 disabled:border-gray-200 peer-checked:!border-hachikuji-600 peer-checked:peer-disabled:!border-hachikuji-700 dark:border-gray-700 peer-disabled:dark:border-gray-800;
+}
+
+.radio-hb-shinobu {
+  @apply border-gray-100 disabled:border-gray-200 peer-checked:!border-shinobu-600 peer-checked:peer-disabled:!border-shinobu-700 dark:border-gray-700 peer-disabled:dark:border-gray-800;
 }
 
 .radio-hb-gray {
@@ -137,6 +147,14 @@ const inputFormClass = clsx(
 
 .radio-hf-hitagi {
   @apply peer-checked:bg-hitagi-600 peer-checked:peer-disabled:!bg-hitagi-700;
+}
+
+.radio-hf-hachikuji {
+  @apply peer-checked:bg-hachikuji-600 peer-checked:peer-disabled:!bg-hachikuji-700;
+}
+
+.radio-hf-shinobu {
+  @apply peer-checked:bg-shinobu-600 peer-checked:peer-disabled:!bg-shinobu-700;
 }
 
 .radio-hf-gray {

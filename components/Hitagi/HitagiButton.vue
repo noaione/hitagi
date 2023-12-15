@@ -28,6 +28,9 @@ const sizeMetadata = {
 } as const;
 
 const validColors = [
+  "hitagi",
+  "hachikuji",
+  "shinobu",
   "gray",
   "red",
   "yellow",
@@ -36,7 +39,6 @@ const validColors = [
   "indigo",
   "purple",
   "pink",
-  "hitagi",
   "orange",
   "cyan",
   "emerald",
@@ -65,6 +67,14 @@ const buttonClass = clsx(
 
 .btn-hb-hitagi {
   @apply border-hitagi-500 hover:border-hitagi-700 hover:bg-hitagi-700 disabled:border-hitagi-700 disabled:bg-hitagi-700;
+}
+
+.btn-hb-hachikuji {
+  @apply border-hachikuji-500 hover:border-hachikuji-700 hover:bg-hachikuji-700 disabled:border-hachikuji-700 disabled:bg-hachikuji-700;
+}
+
+.btn-hb-shinobu {
+  @apply border-shinobu-500 hover:border-shinobu-700 hover:bg-shinobu-700 disabled:border-shinobu-700 disabled:bg-shinobu-700;
 }
 
 .btn-hb-gray {
@@ -117,6 +127,14 @@ const buttonClass = clsx(
 
 .btn-hb-hitagi-text {
   @apply text-hitagi-700 group-hover:text-white group-disabled:text-white dark:text-hitagi-300;
+}
+
+.btn-hb-hachikuji-text {
+  @apply text-hachikuji-700 group-hover:text-white group-disabled:text-white dark:text-hachikuji-300;
+}
+
+.btn-hb-shinobu-text {
+  @apply text-shinobu-700 group-hover:text-white group-disabled:text-white dark:text-shinobu-300;
 }
 
 .btn-hb-gray-text {
