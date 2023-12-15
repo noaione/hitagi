@@ -7,6 +7,13 @@
       Read
     </NuxtLink>
     <NuxtLink
+      v-if="settings.apiKey64"
+      :href="`/archive/${arcId}/edit`"
+      class="rounded-md bg-cyan-600 px-2 py-1 text-sm text-white transition-opacity hover:opacity-80"
+    >
+      Edit
+    </NuxtLink>
+    <NuxtLink
       :href="archiveDown"
       class="rounded-md bg-gray-600 px-2 py-1 text-sm text-white transition-opacity hover:opacity-80"
       @click="dispatchPlausible"
