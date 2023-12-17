@@ -83,6 +83,21 @@ export interface LRRMinionJob {
   error: string | null;
 }
 
+export interface LRRPluginsData {
+  author: string;
+  description: string;
+  icon: string;
+  name: string;
+  namespace: string;
+  oneshot_arg?: string;
+  parameters: {
+    desc: string;
+    type: "bool" | "int" | "string";
+  }[];
+  type: "metadata" | "login" | "script";
+  version: string;
+}
+
 /**
  * Convert a number string to number
  * @param str A number string
