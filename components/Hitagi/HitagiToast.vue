@@ -13,7 +13,7 @@
     <div
       v-if="!persist"
       ref="timerRef"
-      class="absolute h-1 rounded-b-md bg-themed-500"
+      :class="`absolute h-1 rounded-b-md toast-loader-${selectedColor}`"
       :style="{
         width: `${maxRef?.offsetWidth !== undefined ? (maxRef.offsetWidth * currentFrame) / 100 : 0}px`,
         maxWidth: `${maxRef?.offsetWidth}px`,
@@ -111,69 +111,3 @@ onMounted(() => {
   }, props.duration + 100);
 });
 </script>
-
-<style scoped lang="postcss">
-.toast-hitagi {
-  @apply border-2 bg-white px-2 py-2 dark:bg-black;
-}
-
-.toast-bord-themed {
-  @apply border-themed-500;
-}
-
-.toast-bord-hitagi {
-  @apply border-hitagi-500;
-}
-
-.toast-bord-hachikuji {
-  @apply border-hachikuji-500;
-}
-
-.toast-bord-shinobu {
-  @apply border-shinobu-500;
-}
-
-.toast-bord-gray {
-  @apply border-gray-500;
-}
-
-.toast-bord-red {
-  @apply border-red-500;
-}
-
-.toast-bord-yellow {
-  @apply border-yellow-500;
-}
-
-.toast-bord-green {
-  @apply border-green-500;
-}
-
-.toast-bord-blue {
-  @apply border-blue-500;
-}
-
-.toast-bord-indigo {
-  @apply border-indigo-500;
-}
-
-.toast-bord-purple {
-  @apply border-purple-500;
-}
-
-.toast-bord-pink {
-  @apply border-pink-500;
-}
-
-.toast-bord-orange {
-  @apply border-orange-500;
-}
-
-.toast-bord-cyan {
-  @apply border-cyan-500;
-}
-
-.toast-bord-emerald {
-  @apply border-emerald-500;
-}
-</style>

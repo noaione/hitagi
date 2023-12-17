@@ -123,6 +123,7 @@ export default <Partial<Config>>{
     cssImportPlugin("./assets/css/components/archives.css"),
     cssImportPlugin("./assets/css/components/font.css"),
     cssImportPlugin("./assets/css/components/shadowy-text.css"),
+    cssImportPlugin("./assets/css/components/toast.css"),
   ],
   safelist: [
     "object-right",
@@ -133,6 +134,9 @@ export default <Partial<Config>>{
     },
     {
       pattern: /border-(hitagi|hachikuji|shinobu)-500/,
+    },
+    {
+      pattern: /toast-(bord|loader)-(.*)/,
     },
   ],
 };
