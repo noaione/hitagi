@@ -1,5 +1,10 @@
 <template>
-  <button :disabled="disabled" :class="buttonClass" @click="$emit('click')">
+  <NuxtLink v-if="href" :to="href" :disabled="disabled" :class="buttonClass">
+    <span :class="`transition btn-hb-${selectedColor}-text`">
+      <slot />
+    </span>
+  </NuxtLink>
+  <button v-else :disabled="disabled" :class="buttonClass" @click="$emit('click')">
     <span :class="`transition btn-hb-${selectedColor}-text`">
       <slot />
     </span>
@@ -14,6 +19,7 @@ const props = defineProps<{
   color?: string;
   class?: string;
   size?: string;
+  href?: string;
 }>();
 
 defineEmits<{
