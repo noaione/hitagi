@@ -18,7 +18,7 @@ function useLRRInternal<T>(path: string, options?: NitroFetchOptions<string, HTT
   const headers = new Headers(optHeader);
 
   if (settings.apiKey64) {
-    headers.set("Authorization", `Basic ${settings.apiKey64}`);
+    headers.set("Authorization", `Bearer ${settings.apiKey64}`);
   }
 
   const mergedOptions: NitroFetchOptions<string, HTTPMethod> = {
