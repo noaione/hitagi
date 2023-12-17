@@ -2,7 +2,7 @@
   <div :class="`flex flex-col gap-2 ${$props.class ?? ''}`">
     <div v-for="[key, tagList] in Object.entries(tagsKV)" :key="key" class="flex flex-row">
       <div class="inline-block">
-        <LinkablePill :color="LRRTagColor[key]" class="lowercase">
+        <LinkablePill :color="LRRTagColor[key]" class="px-1.5 pb-1 pt-0 font-semibold lowercase">
           {{ key.replaceAll("_", " ") }}
         </LinkablePill>
       </div>
