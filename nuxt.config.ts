@@ -126,6 +126,7 @@ export default defineNuxtConfig({
       Inter: true,
       Raleway: true,
       Incosolata: true,
+      "DM Sans": true,
     },
   },
   eslint: {

@@ -1,5 +1,5 @@
 <template>
-  <div class="font-inter mx-auto my-auto">
+  <div class="font-dm-sans mx-auto my-auto">
     <slot />
   </div>
 </template>
