@@ -103,6 +103,9 @@
       <ArchiveGridInfo :data="testData" compact />
     </div> -->
     <ArchiveTagsEditor v-model:tags="tagsData" container-class="bg-gray-800" />
+    <HitagiToastContainer location="top-right" />
+    <HitagiButton @click="makeToast">Make Toast</HitagiButton>
+    <HitagiButton @click="makeToastWithTitle">Make Toast w/ Title</HitagiButton>
   </div>
 </template>
 
@@ -117,6 +120,7 @@ const testData: LRRArchiveMetadata = {
   title: "Kairakuten Cover Girl 2021-09: Michiking",
 };
 
+const toaser = useHitagiToast();
 const settings = useLRRConfig();
 
 const tagsData = ref<string[]>([]);
@@ -144,7 +148,33 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function makeToast() {
+  toaser.toast({
+    message: "Hello world!",
+    duration: 2500,
+  });
+}
+
+function makeToastWithTitle() {
+  toaser.toast({
+    title: "Hello world!",
+    message: "This is a toast with a title!",
+    duration: 4500,
+  });
+}
+
 onMounted(() => {
   tagsData.value = testData.tags.split(",");
+  toaser.toast({
+    message: "Hello world!",
+    type: "success",
+    persist: true,
+  });
+  toaser.toast({
+    title: "Hello world!",
+    message: "This is a toast with a title!",
+    type: "success",
+    persist: true,
+  });
 });
 </script>

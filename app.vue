@@ -3,6 +3,7 @@
   <NuxtLayout v-else>
     <NuxtPage />
   </NuxtLayout>
+  <HitagiToastContainer location="top-right" />
 </template>
 
 <script setup lang="ts">
