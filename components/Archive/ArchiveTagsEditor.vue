@@ -1,5 +1,9 @@
 <template>
-  <div :class="`flex flex-row flex-wrap gap-2 rounded-md px-2 py-1 ${containerClass ?? ''}`">
+  <div
+    :class="`flex flex-row flex-wrap gap-2 rounded-md px-2 py-1 ${containerClass ?? ''} ${
+      disabled ? 'opacity-80' : 'opacity-100'
+    } transition`"
+  >
     <div v-for="tag in tags" :key="tag" class="flex flex-row items-center gap-0">
       <LinkablePill
         size="md"
@@ -8,7 +12,11 @@
         outlined
       >
         {{ tag }}
-        <button class="ml-1 transition hover:opacity-70" @click="removeTag(tag)">
+        <button
+          class="ml-1 transition hover:opacity-70 disabled:opacity-70"
+          :disabled="disabled"
+          @click="removeTag(tag)"
+        >
           <Icon name="mdi:close" class="mb-1" />
         </button>
       </LinkablePill>
@@ -18,6 +26,7 @@
       <input
         v-model="newTag"
         class="w-full border-none bg-transparent px-2 py-1 text-base outline-none"
+        :disabled="disabled"
         @keydown="addTag"
       />
     </div>
@@ -28,6 +37,7 @@
 const props = defineProps<{
   tags: string[];
   containerClass?: string;
+  disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
