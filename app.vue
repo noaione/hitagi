@@ -1,6 +1,7 @@
 <template>
   <SplashScreen v-if="splash" />
   <NuxtLayout v-else>
+    <NuxtLoadingIndicator :color="themedColor" />
     <NuxtPage />
   </NuxtLayout>
   <HitagiToastContainer location="top-right" />
@@ -12,9 +13,24 @@ const router = useRouter();
 const serverMeta = useServerMeta();
 const runtimeConfig = useRuntimeConfig();
 const serverSetting = useLRRSettings();
+const theme = useLRRTheme();
 
 const isMounted = ref(false);
 const splash = ref(true);
+
+const themedColor = computed(() => {
+  switch (theme.value) {
+    case "hachikuji": {
+      return "#759042";
+    }
+    case "shinobu": {
+      return "#e2aa10";
+    }
+    default: {
+      return "#c372b9";
+    }
+  }
+});
 
 function shutOffSplash() {
   splash.value = false;
