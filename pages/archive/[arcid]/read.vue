@@ -12,6 +12,7 @@ const route = useRoute();
 const reader = useLRRReader();
 const readerConf = useLRRReaderConfig();
 const serverMeta = useServerMeta();
+const toaster = useHitagiToast();
 const modalReader = ref(false);
 
 function setSEO(metadata: LRRArchiveMetadata) {
@@ -102,8 +103,37 @@ onMounted(() => {
       reader.loadCurrent();
       reader.preloadImagesFromConfig();
     })
-    .catch((error_) => {
-      console.error(error_);
+    .catch((error) => {
+      if (error.value instanceof Error) {
+        if (error.value.cause instanceof FetchError) {
+          const errorMsg: string = error.value.cause.response?._data?.error ?? error.value.message;
+
+          if (errorMsg.toLowerCase().includes("this id doesn't")) {
+            throw createError({
+              statusCode: 404,
+              statusMessage: `Archive ${route.params.arcid} not found`,
+              data: {
+                arcid: String(route.params.arcid),
+                from: "archive-read",
+                layout: "clean",
+              },
+            });
+          } else {
+            toaster.toast({
+              title: "Failed to load archive",
+              message: errorMsg,
+              type: "error",
+            });
+          }
+        } else {
+          toaster.toast({
+            title: "Unknown error",
+            message: "Please see the console for more information.",
+            type: "error",
+          });
+          console.error(error.value);
+        }
+      }
     });
 });
 

@@ -156,6 +156,7 @@ const { data, error } = await useAsyncData(
     const arcId = route.params.arcid;
     const metadataLRR = useLRR<LRRArchiveMetadata>(`/archives/${arcId}/metadata`);
     const categoriesLRR = useLRR<LRRArchiveCategories>(`/archives/${arcId}/categories`);
+
     const [metadata, categories] = await Promise.all([metadataLRR, categoriesLRR]);
 
     setSEO(metadata);
@@ -173,12 +174,65 @@ const { data, error } = await useAsyncData(
   }
 );
 
-const { data: pluginsData, pending: loadingPlugins } = await useAsyncData(`lrr-plugins-metadata`, async () => {
+if (error.value instanceof Error) {
+  // check caused by
+  // - FetchError
+  if (error.value.cause instanceof FetchError) {
+    const errorMsg: string = error.value.cause.response?._data?.error ?? error.value.message;
+
+    if (errorMsg.toLowerCase().includes("this id doesn't")) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: `Archive ${route.params.arcid} not found`,
+        data: {
+          arcid: String(route.params.arcid),
+          from: "archive-edit",
+        },
+        fatal: true,
+      });
+    } else {
+      toaster.toast({
+        title: "Failed to load archive",
+        message: errorMsg,
+        type: "error",
+      });
+    }
+  } else {
+    toaster.toast({
+      title: "Unknown error",
+      message: "Please see the console for more information.",
+      type: "error",
+    });
+    console.error(error.value);
+  }
+}
+
+const {
+  data: pluginsData,
+  pending: loadingPlugins,
+  error: errorPlugins,
+} = await useAsyncData(`lrr-plugins-metadata`, async () => {
   const pluginsLRR = useLRR<LRRPluginsData[]>(`/plugins/metadata`);
   const plugins = await pluginsLRR;
 
   return plugins;
 });
+
+if (errorPlugins.value instanceof Error) {
+  if (errorPlugins.value.cause instanceof FetchError) {
+    toaster.toast({
+      title: "Failed to load plugins",
+      message: errorPlugins.value.cause.response?._data?.error ?? errorPlugins.value.message,
+      type: "error",
+    });
+  } else {
+    toaster.toast({
+      title: "Unknown error when loading plugins",
+      message: errorPlugins.value.message,
+      type: "error",
+    });
+  }
+}
 
 async function saveCurrent() {
   if (!data.value) {
@@ -294,22 +348,6 @@ async function doPluginUse() {
     pluginUseLoad.value = false;
   }
 }
-
-watch(
-  () => error.value,
-  (newError) => {
-    if (newError instanceof FetchError && newError.status === 404) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: `Archive ${route.params.arcid} not found`,
-        data: {
-          arcid: String(route.params.arcid),
-          from: "archive-edit",
-        },
-      });
-    }
-  }
-);
 
 definePageMeta({
   middleware: "auth",

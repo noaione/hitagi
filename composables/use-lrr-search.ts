@@ -10,6 +10,7 @@ interface SearchResultMetadata {
 export const useLRRSearch = defineStore("lrrsearchV2", () => {
   const serverMeta = useServerMeta();
   const config = useLRRConfig();
+  const toaster = useHitagiToast();
 
   // State
   const filter = ref<string>("");
@@ -139,6 +140,22 @@ export const useLRRSearch = defineStore("lrrsearchV2", () => {
       }
     } catch (error_) {
       error.value = error_ instanceof Error ? error_ : new Error("Unknown error");
+
+      if (error_ instanceof FetchError) {
+        toaster.toast({
+          title: "Error while searching",
+          message: error_.message,
+          type: "error",
+        });
+      } else if (error_ instanceof Error) {
+        toaster.toast({
+          title: "An unknown error occured",
+          message: error_.message,
+          type: "error",
+        });
+
+        console.error(error_);
+      }
     } finally {
       loading.value = false;
     }
@@ -163,7 +180,19 @@ export const useLRRSearch = defineStore("lrrsearchV2", () => {
       sortNamespaces.value = [...namespaces];
       statsInformations.value = req;
     } catch (error_) {
-      if (error_ instanceof Error) {
+      if (error_ instanceof FetchError) {
+        toaster.toast({
+          title: "Error while searching",
+          message: error_.message,
+          type: "error",
+        });
+      } else if (error_ instanceof Error) {
+        toaster.toast({
+          title: "An unknown error occured",
+          message: error_.message,
+          type: "error",
+        });
+
         console.error(error_);
       }
     }

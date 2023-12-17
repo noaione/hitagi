@@ -32,6 +32,7 @@ const props = defineProps<{
 
 const settings = useLRRConfig();
 const searchQuery = useLRRSearch();
+const toaster = useHitagiToast();
 
 const breakspointsTwCustom = {
   ...breakpointsTailwind,
@@ -83,7 +84,7 @@ const itemsToShow = computed(() => {
   return mappings[activeBreakpoint as keyof typeof mappings] ?? 2;
 });
 
-const { data, pending, execute, refresh } = await useAsyncData(
+const { data, pending, error, execute, refresh } = await useAsyncData(
   `recommended-${settings.recommended}-${searchQuery.filter}`,
   async () => {
     if (settings.recommended === "random") {
@@ -134,6 +135,25 @@ watch(
   () => searchQuery.filter,
   () => {
     refresh({ dedupe: true });
+  }
+);
+
+watch(
+  () => error.value,
+  (newError) => {
+    if (newError instanceof FetchError && newError.response?.status !== 404) {
+      toaster.toast({
+        title: "Failed to load recommended",
+        message: newError.message,
+        type: "error",
+      });
+    } else if (newError instanceof Error) {
+      toaster.toast({
+        title: "Unknown error when loading recommended",
+        message: newError.message,
+        type: "error",
+      });
+    }
   }
 );
 </script>

@@ -57,6 +57,7 @@ export default <Partial<Config>>{
     "./pages/**/*.{js,ts,vue}",
     "./utils/**/*.{js,ts,vue}",
     "./app.vue",
+    "./error.vue",
   ],
   darkMode: "class",
   theme: {

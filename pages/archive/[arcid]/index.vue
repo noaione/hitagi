@@ -22,7 +22,7 @@
     </div>
   </div>
   <div v-if="data && data.metadata.pagecount > 1" class="mt-4 flex w-full flex-col">
-    <h2 class="glow-text-lg mb-6 text-2xl font-bold text-themed-700 shadow-themed-400 dark:text-themed-200">Pages</h2>
+    <h2 class="mb-6 text-2xl font-bold text-themed-700 shadow-themed-400 glow-text-lg dark:text-themed-200">Pages</h2>
     <ArchivePages :arc-id="data.metadata.arcid" :total-pages="data.metadata.pagecount" />
   </div>
 </template>
@@ -30,6 +30,7 @@
 <script setup lang="ts">
 const route = useRoute();
 
+const toaster = useHitagiToast();
 const serverMeta = useServerMeta();
 
 function setSEO(metadata: LRRArchiveMetadata) {
@@ -44,7 +45,7 @@ function setSEO(metadata: LRRArchiveMetadata) {
   });
 }
 
-const { data } = await useAsyncData(
+const { data, error } = await useAsyncData(
   `archive-info-${route.params.arcid}`,
   async () => {
     const arcId = route.params.arcid;
@@ -63,6 +64,39 @@ const { data } = await useAsyncData(
     watch: [() => route.params.arcid],
   }
 );
+
+if (error.value instanceof Error) {
+  // check caused by
+  // - FetchError
+  if (error.value.cause instanceof FetchError) {
+    const errorMsg: string = error.value.cause.response?._data?.error ?? error.value.message;
+
+    if (errorMsg.toLowerCase().includes("this id doesn't")) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: `Archive ${route.params.arcid} not found`,
+        data: {
+          arcid: String(route.params.arcid),
+          from: "archive-edit",
+        },
+        fatal: true,
+      });
+    } else {
+      toaster.toast({
+        title: "Failed to load archive",
+        message: errorMsg,
+        type: "error",
+      });
+    }
+  } else {
+    toaster.toast({
+      title: "Unknown error",
+      message: "Please see the console for more information.",
+      type: "error",
+    });
+    console.error(error.value);
+  }
+}
 
 const dateAdded = computed(() => {
   const tagsData = data?.value?.metadata?.tags;
