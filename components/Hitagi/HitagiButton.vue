@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink v-if="href" :to="href" :disabled="disabled" :class="buttonClass">
+  <NuxtLink v-if="href" :to="href" :disabled="disabled" :class="buttonClass + ' text-center'">
     <span :class="`transition btn-hb-${selectedColor}-text`">
       <slot />
     </span>
