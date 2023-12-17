@@ -53,11 +53,13 @@ const selectedColor = computed(() => {
   return validColors.includes(col as ValidColor) ? col : "themed";
 });
 
-const buttonClass = clsx(
-  `group w-full bg-transparent transition disabled:cursor-not-allowed btn-hb-${selectedColor.value}`,
-  sizeMetadata[(props.size ?? "md") as keyof typeof sizeMetadata] ?? sizeMetadata.md,
-  props.class
-);
+const buttonClass = computed(() => {
+  return clsx(
+    `group w-full bg-transparent transition disabled:cursor-not-allowed btn-hb-${selectedColor.value}`,
+    sizeMetadata[(props.size ?? "md") as keyof typeof sizeMetadata] ?? sizeMetadata.md,
+    props.class
+  );
+});
 </script>
 
 <style scoped lang="postcss">

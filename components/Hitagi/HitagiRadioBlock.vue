@@ -64,11 +64,13 @@ const selectedColor = computed(() => {
   return validColors.includes(col as ValidColor) ? col : "themed";
 });
 
-const inputFormClass = clsx(
-  "radio-hb inline-flex w-full cursor-pointer items-center justify-between rounded-md transition disabled:cursor-not-allowed peer-disabled:cursor-not-allowed",
-  props.filled ? `radio-hf radio-hf-${selectedColor.value}` : `radio-hb-${selectedColor.value}`,
-  props.class
-);
+const inputFormClass = computed(() => {
+  return clsx(
+    "radio-hb inline-flex w-full cursor-pointer items-center justify-between rounded-md transition disabled:cursor-not-allowed peer-disabled:cursor-not-allowed",
+    props.filled ? `radio-hf radio-hf-${selectedColor.value}` : `radio-hb-${selectedColor.value}`,
+    props.class
+  );
+});
 </script>
 
 <style scoped lang="postcss">

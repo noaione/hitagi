@@ -40,11 +40,13 @@ const inputModel = computed({
   set: (value) => emit("update:modelValue", value),
 });
 
-const inputFormClass = clsx(
-  props.type === "checkbox" ? "form-checkbox" : "form-input",
-  "rounded-md bg-white transition disabled:cursor-not-allowed disabled:bg-gray-100 dark:bg-gray-800 disabled:dark:bg-gray-900",
-  "border-themed-600 checked:!bg-themed-600 focus:border-themed-400 focus:ring-themed-500 disabled:border-themed-700 disabled:checked:bg-themed-700",
-  slots.label ? "mt-1" : "mt-0",
-  props.class
-);
+const inputFormClass = computed(() => {
+  return clsx(
+    props.type === "checkbox" ? "form-checkbox" : "form-input",
+    "rounded-md bg-white transition disabled:cursor-not-allowed disabled:bg-gray-100 dark:bg-gray-800 disabled:dark:bg-gray-900",
+    "border-themed-600 checked:!bg-themed-600 focus:border-themed-400 focus:ring-themed-500 disabled:border-themed-700 disabled:checked:bg-themed-700",
+    slots.label ? "mt-1" : "mt-0",
+    props.class
+  );
+});
 </script>

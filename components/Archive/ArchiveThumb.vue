@@ -71,9 +71,9 @@ function makeThumbnailUrl(arcId: string, page?: number) {
   return thumb;
 }
 
-const thumbFitClass = clsx(
-  settings.thumbFit === "contain" ? "object-contain object-center" : `object-cover ${objectSide.value}`
-);
+const thumbFitClass = computed(() => {
+  return clsx(settings.thumbFit === "contain" ? "object-contain object-center" : `object-cover ${objectSide.value}`);
+});
 
 const fallbackUrl = `${serverMeta.hostURL.origin}/img/noThumb.png`;
 const thumbnailUrl = ref<string | undefined>(props.autoRefresh ? undefined : makeThumbnailUrl(props.arcId, props.page));

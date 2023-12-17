@@ -56,12 +56,14 @@ const selectedColor = computed(() => {
   return validColors.includes(col as ValidColor) ? col : "themed";
 });
 
-const inputFormClass = clsx(
-  "form-select rounded-md bg-white transition disabled:cursor-not-allowed disabled:bg-gray-100 dark:bg-gray-800 disabled:dark:bg-gray-900",
-  `input-hb-${selectedColor.value}`,
-  slots.label ? "mt-1" : "mt-0",
-  props.class
-);
+const inputFormClass = computed(() => {
+  return clsx(
+    "form-select rounded-md bg-white transition disabled:cursor-not-allowed disabled:bg-gray-100 dark:bg-gray-800 disabled:dark:bg-gray-900",
+    `input-hb-${selectedColor.value}`,
+    slots.label ? "mt-1" : "mt-0",
+    props.class
+  );
+});
 </script>
 
 <style scoped lang="postcss">

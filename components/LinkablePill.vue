@@ -93,12 +93,14 @@ function makePillSize() {
   return sizeMaps[props.size ?? "sm"] ?? sizeMaps.sm;
 }
 
-const tagStyle = clsx(
-  "select-none rounded-md align-middle",
-  props.outlined ? "border-2" : undefined,
-  makePillSize(),
-  makePillColor(),
-  isNone(props.href) ? undefined : "transition-opacity hover:border-opacity-75 hover:opacity-75",
-  props.class
-);
+const tagStyle = computed(() => {
+  return clsx(
+    "select-none rounded-md align-middle",
+    props.outlined ? "border-2" : undefined,
+    makePillSize(),
+    makePillColor(),
+    isNone(props.href) ? undefined : "transition-opacity hover:border-opacity-75 hover:opacity-75",
+    props.class
+  );
+});
 </script>
