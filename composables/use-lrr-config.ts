@@ -1,4 +1,4 @@
-type RecommendedConfig = "random" | "new" | "untagged";
+type RecommendedConfig = "random" | "new" | "untagged" | "latest";
 type OrderByConfig = "asc" | "desc";
 type ThumbnailFitConfig = "contain" | "cover";
 type ThumbnailCoverFitSideConfig = "left" | "right" | "center";

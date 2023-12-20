@@ -139,6 +139,15 @@ watch(
 );
 
 watch(
+  () => settings.recommended,
+  () => {
+    nextTick(() => {
+      refresh({ dedupe: true });
+    });
+  }
+);
+
+watch(
   () => error.value,
   (newError) => {
     if (newError instanceof FetchError && newError.response?.status !== 404) {

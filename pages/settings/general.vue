@@ -131,6 +131,7 @@ const ListModeViewTextInfo = {
 
 const RecommendTextInfo = {
   random: "Random",
+  latest: "Latest",
   new: "Newly Added",
   untagged: "Untagged",
 };
