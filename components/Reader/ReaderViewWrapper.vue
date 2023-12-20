@@ -42,27 +42,36 @@ const bgColor = computed(() => {
   }
 });
 
+function wrapMovePage(movement: number[]) {
+  reader.updatePage(movement);
+
+  if (readerConfig.isPaged) {
+    // move to top of the page since we're in paged mode
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }
+}
+
 function kbdMoveLeft(ctrlKey?: boolean) {
   if (ctrlKey) {
-    reader.updatePage(reader.firstPages);
+    return wrapMovePage(reader.firstPages);
   }
 
   const movement = reader.previousPage;
 
   if (movement.length > 0) {
-    reader.updatePage(movement);
+    wrapMovePage(movement);
   }
 }
 
 function kbdMoveRight(ctrlKey?: boolean) {
   if (ctrlKey) {
-    reader.updatePage(reader.lastPages);
+    return wrapMovePage(reader.lastPages);
   }
 
   const movement = reader.nextPage;
 
   if (movement.length > 0) {
-    reader.updatePage(movement);
+    wrapMovePage(movement);
   }
 }
 
