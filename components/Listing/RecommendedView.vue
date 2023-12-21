@@ -33,6 +33,7 @@ const props = defineProps<{
 const settings = useLRRConfig();
 const searchQuery = useLRRSearch();
 const toaster = useHitagiToast();
+const refreshState = inject(HitagiRefresher) as Ref<boolean>;
 
 const breakspointsTwCustom = {
   ...breakpointsTailwind,
@@ -141,9 +142,7 @@ watch(
 watch(
   () => settings.recommended,
   () => {
-    nextTick(() => {
-      refresh({ dedupe: true });
-    });
+    refresh({ dedupe: true });
   }
 );
 
@@ -162,6 +161,21 @@ watch(
         message: newError.message,
         type: "error",
       });
+    }
+  }
+);
+
+watch(
+  () => refreshState.value,
+  (newRefreshState) => {
+    if (newRefreshState) {
+      refresh({ dedupe: true })
+        .then(() => {
+          refreshState.value = false;
+        })
+        .catch(() => {
+          refreshState.value = false;
+        });
     }
   }
 );

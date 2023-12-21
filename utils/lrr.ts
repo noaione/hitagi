@@ -3,6 +3,7 @@ import type { InjectionKey, Ref } from "vue";
 export type NumberStr = string;
 export type BooleanStr = "true" | "false" | "none";
 
+export const HitagiRefresher = Symbol("Hitagi Refresher") as InjectionKey<Ref<boolean>>;
 export const LRRReaderPage = Symbol("Hitagi Reader Page") as InjectionKey<Ref<number>>;
 
 export interface LoadedImage {

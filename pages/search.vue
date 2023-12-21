@@ -1,9 +1,21 @@
 <template>
   <div class="flex flex-col gap-2">
     <SearchBar class="mt-2" :initial-query="initialSearch" />
-    <h1 class="mb-2 text-2xl font-bold text-themed-700 shadow-themed-400 glow-text-lg dark:text-themed-200">
-      Recommended
-    </h1>
+    <div class="flex flex-row items-center justify-between">
+      <h1 class="mb-2 text-2xl font-bold text-themed-700 shadow-themed-400 glow-text-lg dark:text-themed-200">
+        Recommended
+      </h1>
+      <div class="flex flex-row items-center">
+        <button
+          class="text-themed-700 shadow-themed-400 glow-text-lg dark:text-themed-300"
+          :disabled="refreshState"
+          @click="refreshState = true"
+        >
+          <Icon name="mdi:refresh" :class="`h-8 w-8 ${refreshState ? 'animate-spin' : ''}`" />
+        </button>
+        <ListingRecommendedMode />
+      </div>
+    </div>
     <ListingRecommendedView class="mb-4" search-mode />
     <div class="mb-2 flex flex-row justify-between">
       <h1 class="text-2xl font-bold text-themed-700 shadow-themed-400 glow-text-lg dark:text-themed-200">Listing</h1>
@@ -28,23 +40,12 @@ const search = useLRRSearch();
 
 const initialSearch = ref("");
 const pageModal = ref(false);
+const refreshState = ref(false);
 
-onMounted(() => {
-  search.getAvailableTags();
+// provide the refresh function to the search component
+provide(HitagiRefresher, refreshState);
 
-  const querySearch = route.query.q;
-
-  const initSearch = (Array.isArray(querySearch) ? querySearch.join(", ") : querySearch?.toString()) ?? "";
-
-  if (initSearch) {
-    initialSearch.value = initSearch;
-
-    nextTick(() => {
-      search.filter = initSearch;
-      search.search(0);
-    });
-  }
-
+onMounted(async () => {
   useSeoMeta({
     title: "Search :: Hitagi",
     ogTitle: "Hitagi",
@@ -53,5 +54,21 @@ onMounted(() => {
     ogImage: "/hitagi-hero.png",
     twitterCard: "summary_large_image",
   });
+
+  const querySearch = route.query.q;
+  const initSearch = (Array.isArray(querySearch) ? querySearch.join(", ") : querySearch?.toString()) ?? "";
+  const promises = [search.getAvailableTags()];
+
+  if (initSearch) {
+    initialSearch.value = initSearch;
+
+    promises.push(search.search(0));
+  }
+
+  await nextTick();
+  search.filter = initSearch;
+  await nextTick();
+
+  await Promise.all(promises);
 });
 </script>

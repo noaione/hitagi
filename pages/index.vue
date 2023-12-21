@@ -1,8 +1,20 @@
 <template>
   <div class="flex flex-col gap-2">
-    <h1 class="mb-2 text-2xl font-bold text-themed-700 shadow-themed-400 glow-text-lg dark:text-themed-200">
-      Recommended
-    </h1>
+    <div class="flex flex-row items-center justify-between">
+      <h1 class="mb-2 text-2xl font-bold text-themed-700 shadow-themed-400 glow-text-lg dark:text-themed-200">
+        Recommended
+      </h1>
+      <div class="flex flex-row items-center">
+        <button
+          class="text-themed-700 shadow-themed-400 transition glow-text-lg hover:opacity-80 dark:text-themed-300"
+          :disabled="refreshState"
+          @click="refreshState = true"
+        >
+          <Icon name="mdi:refresh" :class="`h-8 w-8 ${refreshState ? 'animate-spin' : ''}`" />
+        </button>
+        <ListingRecommendedMode />
+      </div>
+    </div>
     <ListingRecommendedView class="mb-4" />
     <div class="mb-2 flex flex-row justify-between">
       <h1 class="text-2xl font-bold text-themed-700 shadow-themed-400 glow-text-lg dark:text-themed-200">Listing</h1>
@@ -25,10 +37,12 @@
 const search = useLRRSearch();
 
 const pageModal = ref(false);
+const refreshState = ref(false);
 
-onMounted(() => {
-  search.search(0);
+// provide the refresh function to the search component
+provide(HitagiRefresher, refreshState);
 
+onMounted(async () => {
   useSeoMeta({
     title: "Home :: Hitagi",
     ogTitle: "Hitagi",
@@ -37,5 +51,7 @@ onMounted(() => {
     ogImage: "/hitagi-hero.png",
     twitterCard: "summary_large_image",
   });
+
+  await Promise.all([search.search(0), search.getAvailableTags()]);
 });
 </script>

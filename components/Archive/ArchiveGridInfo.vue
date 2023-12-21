@@ -152,8 +152,23 @@ watch(
 
       const rect = rectArea.value.getBoundingClientRect();
 
-      activeFloat.value =
+      const isInside =
         newX >= rect.left && newX <= rect.right && newY >= rect.top && newY <= rect.bottom ? true : false;
+
+      // check if overlap with menu dropdown button
+      const menuFloating = document.querySelector<HTMLDivElement>("div[data-id='recommended-mode']");
+      const menuRect = menuFloating?.getBoundingClientRect();
+
+      if (menuRect) {
+        const isOverlap =
+          newX >= menuRect.left && newX <= menuRect.right && newY >= menuRect.top && newY <= menuRect.bottom
+            ? true
+            : false;
+
+        activeFloat.value = isInside && !isOverlap;
+      } else {
+        activeFloat.value = isInside;
+      }
     }
   }
 );
