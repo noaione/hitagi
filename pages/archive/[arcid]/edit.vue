@@ -1,11 +1,11 @@
 <template>
   <div v-if="data" class="mt-2 flex w-full flex-col gap-4 md:flex-row">
     <ArchiveThumb :arc-id="String($route.params.arcid)" class="mx-auto h-96 w-64 md:mx-0 md:h-[34rem] md:w-96" />
-    <div class="flex flex-col">
+    <div class="flex w-full flex-col">
       <HitagiInput
         v-model="titleEdit"
         input-id="title"
-        container-class="server-width"
+        container-class="w-full"
         type="text"
         :minlength="1"
         :required="true"
@@ -47,7 +47,7 @@
       <HitagiInput
         v-if="selectedPlugin?.oneshot_arg"
         v-model="pluginOneshot"
-        container-class="mt-2"
+        container-class="mt-2 w-full"
         :disabled="pluginUseLoad || submitting"
       >
         <template #label>
