@@ -100,7 +100,6 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
-    "@nuxt/image",
     "@nuxtjs/google-fonts",
     "@nuxtjs/eslint-module",
     "@vueuse/nuxt",
