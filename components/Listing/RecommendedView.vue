@@ -1,13 +1,17 @@
 <template>
-  <div v-if="data && data.length > 0" :class="`block ${$props.class ?? ''}`">
+  <div v-if="recommended.data && recommended.data.length > 0" :class="`block ${$props.class ?? ''}`">
     <Carousel :wrap-around="true" :items-to-show="itemsToShow" snap-align="start" :items-to-scroll="2" :autoplay="5000">
-      <Slide v-for="item in data" :key="item.arcid">
+      <Slide v-for="item in recommended.data" :key="item.arcid">
         <ArchiveGridInfo :data="item" class="shadow-lg" compact />
       </Slide>
     </Carousel>
   </div>
-  <ListingLoadingIndicator v-else-if="data && data.length === 0" :pending="false" :class="$props.class" />
-  <ListingLoadingIndicator v-else :pending="pending" :class="$props.class" />
+  <ListingLoadingIndicator
+    v-else-if="recommended.data && recommended.data.length === 0"
+    :pending="false"
+    :class="$props.class"
+  />
+  <ListingLoadingIndicator v-else :pending="recommended.loading" :class="$props.class" />
 </template>
 
 <script setup lang="ts">
@@ -31,9 +35,8 @@ const props = defineProps<{
 }>();
 
 const settings = useLRRConfig();
+const recommended = useLRRRecommended();
 const searchQuery = useLRRSearch();
-const toaster = useHitagiToast();
-const refreshState = inject(HitagiRefresher) as Ref<boolean>;
 
 const breakspointsTwCustom = {
   ...breakpointsTailwind,
@@ -85,98 +88,23 @@ const itemsToShow = computed(() => {
   return mappings[activeBreakpoint as keyof typeof mappings] ?? 2;
 });
 
-const { data, pending, error, execute, refresh } = await useAsyncData(
-  `recommended-${settings.recommended}-${searchQuery.filter}`,
-  async () => {
-    if (settings.recommended === "random") {
-      const randomLRR = await useLRR<LRRSearchBase>(`/search/random`, {
-        params: {
-          filter: searchQuery.filter,
-          category: searchQuery.category,
-          count: 25,
-        },
-      });
-
-      return randomLRR.data;
-    } else {
-      const params: Record<string, string | number> = {
-        filter: searchQuery.filter,
-        category: searchQuery.category ?? "",
-        start: -1,
-        order: "desc",
-        sortby: "date_added",
-      };
-
-      if (settings.recommended === "untagged") {
-        params.untaggedonly = "true";
-      } else if (settings.recommended === "new") {
-        params.newonly = "true";
-      }
-
-      const searchLRR = await useLRR<LRRSearchArchive>(`/search`, {
-        params,
-      });
-
-      return searchLRR.data;
-    }
-  },
-  {
-    watch: [() => settings.recommended, () => searchQuery.filter, () => searchQuery.category],
-    immediate: false,
-  }
-);
-
 onMounted(() => {
   if (!props.searchMode) {
-    execute({ dedupe: true });
+    recommended.fetchRandom();
   }
 });
 
 watch(
   () => searchQuery.filter,
   () => {
-    refresh({ dedupe: true });
+    recommended.reload();
   }
 );
 
 watch(
   () => settings.recommended,
   () => {
-    refresh({ dedupe: true });
-  }
-);
-
-watch(
-  () => error.value,
-  (newError) => {
-    if (newError instanceof FetchError && newError.response?.status !== 404) {
-      toaster.toast({
-        title: "Failed to load recommended",
-        message: newError.message,
-        type: "error",
-      });
-    } else if (newError instanceof Error) {
-      toaster.toast({
-        title: "Unknown error when loading recommended",
-        message: newError.message,
-        type: "error",
-      });
-    }
-  }
-);
-
-watch(
-  () => refreshState.value,
-  (newRefreshState) => {
-    if (newRefreshState) {
-      refresh({ dedupe: true })
-        .then(() => {
-          refreshState.value = false;
-        })
-        .catch(() => {
-          refreshState.value = false;
-        });
-    }
+    recommended.reload();
   }
 );
 </script>

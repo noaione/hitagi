@@ -43,6 +43,7 @@ const reference = ref<HTMLButtonElement>();
 const floating = ref<HTMLDivElement>();
 
 const config = useLRRConfig();
+const recommended = useLRRRecommended();
 
 const { floatingStyles } = useFloating(reference, floating, {
   placement: "bottom-end",
@@ -68,6 +69,11 @@ const RecommendTextInfo: Record<RecommendedConfig, string> = {
 function assignConfig(key: RecommendedConfig | string) {
   if (Object.keys(RecommendTextInfo).includes(key)) {
     config.recommended = key as RecommendedConfig;
+    buttonActive.value = false;
+
+    nextTick(() => {
+      recommended.reload();
+    });
   }
 }
 </script>

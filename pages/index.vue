@@ -8,7 +8,7 @@
         <button
           class="text-themed-700 shadow-themed-400 transition glow-text-lg hover:opacity-80 dark:text-themed-300"
           :disabled="refreshState"
-          @click="refreshState = true"
+          @click="doReload"
         >
           <Icon name="mdi:refresh" :class="`h-8 w-8 ${refreshState ? 'animate-spin' : ''}`" />
         </button>
@@ -35,12 +35,18 @@
 
 <script setup lang="ts">
 const search = useLRRSearch();
+const recommend = useLRRRecommended();
 
 const pageModal = ref(false);
 const refreshState = ref(false);
 
-// provide the refresh function to the search component
-provide(HitagiRefresher, refreshState);
+async function doReload() {
+  refreshState.value = true;
+
+  await recommend.reload();
+
+  refreshState.value = false;
+}
 
 onMounted(async () => {
   useSeoMeta({
@@ -52,6 +58,6 @@ onMounted(async () => {
     twitterCard: "summary_large_image",
   });
 
-  await Promise.all([search.search(0), search.getAvailableTags()]);
+  await search.search(0);
 });
 </script>
