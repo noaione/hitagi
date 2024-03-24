@@ -105,6 +105,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "vue3-carousel-nuxt",
     "@nuxtjs/plausible",
+    "@nuxt/image"
   ],
   colorMode: {
     classSuffix: "",
