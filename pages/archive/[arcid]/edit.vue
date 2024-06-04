@@ -15,9 +15,19 @@
           <label for="title" class="font-semibold text-themed-700 dark:text-themed-300">Title</label>
         </template>
       </HitagiInput>
+      <span v-if="data.metadata.filename" class="font-sm mt-1 font-light text-gray-700 dark:text-gray-400">
+        {{ data.metadata.filename }}
+      </span>
       <span class="font-sm mt-1 font-light uppercase text-gray-700 dark:text-gray-400">
         <span class="font-bold text-gray-600 dark:text-gray-300">ID</span>:
         <span class="select-all">{{ data.metadata.arcid }}</span>
+      </span>
+      <span
+        v-if="typeof data.metadata.size === 'number'"
+        class="font-sm mt-1 font-light text-gray-700 dark:text-gray-400"
+      >
+        <span class="font-bold text-gray-600 dark:text-gray-300">Size</span>:
+        <span>{{ formatHumanFileSize(data.metadata.size) }}</span>
       </span>
       <div class="mt-2 flex flex-col gap-1">
         <label class="font-semibold text-themed-700 dark:text-themed-300">Tags</label>
